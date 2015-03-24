@@ -1,0 +1,327 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x64c55acc, pid=6348, tid=4640
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_31-b13) (build 1.8.0_31-b13)
+# Java VM: Java HotSpot(TM) Client VM (25.31-b07 mixed mode windows-x86 )
+# Problematic frame:
+# V  [jvm.dll+0xc5acc]
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x03abcc00):  VMThread [stack: 0x08a30000,0x08c30000] [id=4640]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x00000002
+
+Registers:
+EAX=0x00000002, EBX=0x00800004, ECX=0x00000000, EDX=0x2ac80044
+ESP=0x08c2f670, EBP=0x08c2f67c, ESI=0x2a2c4fb0, EDI=0x08c2f780
+EIP=0x64c55acc, EFLAGS=0x00010283
+
+Top of Stack: (sp=0x08c2f670)
+0x08c2f670:   2ad911d0 28c80038 08c2f780 08c2f69c
+0x08c2f680:   64c2981f 2ac80044 08c2f780 0399e148
+0x08c2f690:   08c2f780 039c3b90 039c7318 08c2f6b0
+0x08c2f6a0:   64c1f311 08c2f780 039c3be8 00000001
+0x08c2f6b0:   08c2f6c8 64c1cf67 08c2f780 039c3b90
+0x08c2f6c0:   08c2f7ac 00000000 08c2f8d0 64c191f7
+0x08c2f6d0:   00000000 08c2f7c4 08c2f780 039c2b58
+0x08c2f6e0:   64c1a252 039c3be4 039c3b90 03a9f188 
+
+Instructions: (pc=0x64c55acc)
+0x64c55aac:   14 be 89 55 08 8d 5c 01 02 49 f7 d1 23 d9 3b f2
+0x64c55abc:   73 75 8b 7d 0c 8b 06 85 c0 74 65 3b 47 24 73 60
+0x64c55acc:   8b 08 83 e1 03 80 f9 03 75 1e 8b 00 80 3d 98 80
+0x64c55adc:   ec 64 00 74 0e 8b c8 83 e1 07 80 f9 05 75 04 33 
+
+
+Register to memory mapping:
+
+EAX=0x00000002 is an unknown value
+EBX=0x00800004 is an unknown value
+ECX=0x00000000 is an unknown value
+EDX=0x2ac80044 is pointing into object: 0x28c80038
+[Ljava.util.HashMap$Node; 
+ - klass: 'java/util/HashMap$Node'[]
+ - length: 8388608
+ESP=0x08c2f670 is an unknown value
+EBP=0x08c2f67c is an unknown value
+ESI=0x2a2c4fb0 is pointing into object: 0x28c80038
+[Ljava.util.HashMap$Node; 
+ - klass: 'java/util/HashMap$Node'[]
+ - length: 8388608
+EDI=0x08c2f780 is an unknown value
+
+
+Stack: [0x08a30000,0x08c30000],  sp=0x08c2f670,  free space=2045k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0xc5acc]
+V  [jvm.dll+0x9981f]
+V  [jvm.dll+0x8f311]
+V  [jvm.dll+0x8cf67]
+V  [jvm.dll+0x891f7]
+V  [jvm.dll+0x8db73]
+V  [jvm.dll+0x87f85]
+V  [jvm.dll+0x1a66e6]
+V  [jvm.dll+0x16f53b]
+V  [jvm.dll+0x16e901]
+V  [jvm.dll+0x16ed17]
+V  [jvm.dll+0x16ef12]
+V  [jvm.dll+0x1af0a6]
+C  [MSVCR100.dll+0x5c556]
+C  [MSVCR100.dll+0x5c600]
+C  [KERNEL32.DLL+0x17c04]
+C  [ntdll.dll+0x5b90f]
+C  [ntdll.dll+0x5b8da]
+
+VM_Operation (0x0356a2f0): GenCollectForAllocation, mode: safepoint, requested by thread 0x0399d400
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x08f8f400 JavaThread "Service Thread" daemon [_thread_blocked, id=7612, stack(0x4d660000,0x4d860000)]
+  0x08f70000 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=4220, stack(0x4d460000,0x4d660000)]
+  0x08f6f000 JavaThread "Attach Listener" daemon [_thread_blocked, id=6288, stack(0x0acc0000,0x0aec0000)]
+  0x08f6d400 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=1656, stack(0x0a9f0000,0x0abf0000)]
+  0x08f46400 JavaThread "Finalizer" daemon [_thread_blocked, id=1820, stack(0x0a720000,0x0a920000)]
+  0x08f41400 JavaThread "Reference Handler" daemon [_thread_blocked, id=5712, stack(0x0a450000,0x0a650000)]
+  0x0399d400 JavaThread "main" [_thread_blocked, id=752, stack(0x03370000,0x03570000)]
+
+Other Threads:
+=>0x03abcc00 VMThread [stack: 0x08a30000,0x08c30000] [id=4640]
+  0x08f93800 WatcherThread [stack: 0x4d860000,0x4da60000] [id=4972]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0399b7e0] Threads_lock - owner thread: 0x03abcc00
+[0x0399c468] Heap_lock - owner thread: 0x0399d400
+
+Heap:
+ def new generation   total 314560K, used 314560K [0x0d000000, 0x22550000, 0x22550000)
+  eden space 279616K, 100% used [0x0d000000, 0x1e110000, 0x1e110000)
+  from space 34944K, 100% used [0x20330000, 0x22550000, 0x22550000)
+  to   space 34944K, 100% used [0x1e110000, 0x20330000, 0x20330000)
+ tenured generation   total 699072K, used 155113K [0x22550000, 0x4d000000, 0x4d000000)
+   the space 699072K,  22% used [0x22550000, 0x2bcca6f8, 0x2bcca800, 0x4d000000)
+ Metaspace       used 3475K, capacity 3591K, committed 3648K, reserved 4480K
+
+Card table byte_map: [0x085a0000,0x087b0000] byte_map_base: 0x08538000
+
+Polling page: 0x03980000
+
+CodeCache: size=32768Kb used=918Kb max_used=918Kb free=31850Kb
+ bounds [0x0afa0000, 0x0b088000, 0x0cfa0000]
+ total_blobs=348 nmethods=202 adapters=78
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 1.470 Thread 0x08f70000  198             java.util.zip.CRC32::update (51 bytes)
+Event: 1.471 Thread 0x08f70000 nmethod 198 0x0b0845c8 code [0x0b0846e0, 0x0b084898]
+Event: 1.471 Thread 0x08f70000  199             java.util.zip.GZIPInputStream::read (65 bytes)
+Event: 1.471 Thread 0x08f70000 nmethod 199 0x0b0849c8 code [0x0b084b00, 0x0b084cec]
+Event: 1.471 Thread 0x08f70000  200             java.util.zip.GZIPInputStream::ensureOpen (18 bytes)
+Event: 1.471 Thread 0x08f70000 nmethod 200 0x0b084e48 code [0x0b084f50, 0x0b08504c]
+Event: 1.471 Thread 0x08f70000  201             java.util.zip.InflaterInputStream::fill (60 bytes)
+Event: 1.471 Thread 0x08f70000 nmethod 201 0x0b0850c8 code [0x0b085200, 0x0b0853c0]
+Event: 1.512 Thread 0x08f70000  202             java.util.zip.InflaterInputStream::available (15 bytes)
+Event: 1.512 Thread 0x08f70000 nmethod 202 0x0b085548 code [0x0b085650, 0x0b08576c]
+
+GC Heap History (3 events):
+Event: 2.634 GC heap before
+{Heap before GC invocations=0 (full 0):
+ def new generation   total 314560K, used 279616K [0x0d000000, 0x22550000, 0x22550000)
+  eden space 279616K, 100% used [0x0d000000, 0x1e110000, 0x1e110000)
+  from space 34944K,   0% used [0x1e110000, 0x1e110000, 0x20330000)
+  to   space 34944K,   0% used [0x20330000, 0x20330000, 0x22550000)
+ tenured generation   total 699072K, used 0K [0x22550000, 0x4d000000, 0x4d000000)
+   the space 699072K,   0% used [0x22550000, 0x22550000, 0x22550200, 0x4d000000)
+ Metaspace       used 3475K, capacity 3591K, committed 3648K, reserved 4480K
+Event: 3.174 GC heap after
+Heap after GC invocations=1 (full 0):
+ def new generation   total 314560K, used 34944K [0x0d000000, 0x22550000, 0x22550000)
+  eden space 279616K,   0% used [0x0d000000, 0x0d000000, 0x1e110000)
+  from space 34944K, 100% used [0x20330000, 0x22550000, 0x22550000)
+  to   space 34944K,   0% used [0x1e110000, 0x1e110000, 0x20330000)
+ tenured generation   total 699072K, used 103838K [0x22550000, 0x4d000000, 0x4d000000)
+   the space 699072K,  14% used [0x22550000, 0x28ab7b38, 0x28ab7c00, 0x4d000000)
+ Metaspace       used 3475K, capacity 3591K, committed 3648K, reserved 4480K
+}
+Event: 4.579 GC heap before
+{Heap before GC invocations=1 (full 0):
+ def new generation   total 314560K, used 314560K [0x0d000000, 0x22550000, 0x22550000)
+  eden space 279616K, 100% used [0x0d000000, 0x1e110000, 0x1e110000)
+  from space 34944K, 100% used [0x20330000, 0x22550000, 0x22550000)
+  to   space 34944K,   0% used [0x1e110000, 0x1e110000, 0x20330000)
+ tenured generation   total 699072K, used 103838K [0x22550000, 0x4d000000, 0x4d000000)
+   the space 699072K,  14% used [0x22550000, 0x28ab7b38, 0x28ab7c00, 0x4d000000)
+ Metaspace       used 3475K, capacity 3591K, committed 3648K, reserved 4480K
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 1.148 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d3e8370) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.148 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d3ec330) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.148 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d3ec4e0) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.149 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d3ece38) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.236 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d40b6a8) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.236 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d40bf48) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.269 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d41c468) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.270 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d426f80) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.271 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d42a828) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 1.275 Thread 0x0399d400 Exception <a 'java/security/PrivilegedActionException'> (0x0d43efb8) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u31\2394\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+
+Events (10 events):
+Event: 1.280 loading class java/util/concurrent/Semaphore$NonfairSync done
+Event: 1.281 loading class java/util/concurrent/locks/AbstractQueuedSynchronizer$Node
+Event: 1.281 loading class java/util/concurrent/locks/AbstractQueuedSynchronizer$Node done
+Event: 1.282 loading class java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject
+Event: 1.282 loading class java/util/concurrent/locks/Condition
+Event: 1.282 loading class java/util/concurrent/locks/Condition done
+Event: 1.282 loading class java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject done
+Event: 2.633 Executing VM operation: GenCollectForAllocation
+Event: 3.174 Executing VM operation: GenCollectForAllocation done
+Event: 4.579 Executing VM operation: GenCollectForAllocation
+
+
+Dynamic libraries:
+0x00400000 - 0x00422000 	C:\ruby21\bin\ruby.exe
+0x77780000 - 0x778ee000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x77080000 - 0x771c0000 	C:\WINDOWS\SYSTEM32\KERNEL32.DLL
+0x76fa0000 - 0x77077000 	C:\WINDOWS\SYSTEM32\KERNELBASE.dll
+0x6d200000 - 0x6d487000 	C:\ruby21\bin\msvcrt-ruby210.dll
+0x76ba0000 - 0x76c63000 	C:\WINDOWS\SYSTEM32\msvcrt.dll
+0x76ed0000 - 0x76f4c000 	C:\WINDOWS\SYSTEM32\ADVAPI32.dll
+0x77600000 - 0x77614000 	C:\WINDOWS\SYSTEM32\IMAGEHLP.DLL
+0x6fd40000 - 0x6fd60000 	C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL
+0x75750000 - 0x769fc000 	C:\WINDOWS\SYSTEM32\SHELL32.DLL
+0x76de0000 - 0x76e25000 	C:\WINDOWS\SYSTEM32\SHLWAPI.DLL
+0x75270000 - 0x753c3000 	C:\WINDOWS\SYSTEM32\USER32.dll
+0x74fa0000 - 0x74ff0000 	C:\WINDOWS\SYSTEM32\WS2_32.dll
+0x774a0000 - 0x774e1000 	C:\WINDOWS\SYSTEM32\sechost.dll
+0x76d00000 - 0x76dba000 	C:\WINDOWS\SYSTEM32\RPCRT4.dll
+0x76dd0000 - 0x76dd7000 	C:\WINDOWS\SYSTEM32\NSI.dll
+0x6fb30000 - 0x6fb38000 	C:\WINDOWS\SYSTEM32\WINNSI.DLL
+0x75590000 - 0x7570d000 	C:\WINDOWS\SYSTEM32\combase.dll
+0x774f0000 - 0x775fe000 	C:\WINDOWS\SYSTEM32\GDI32.dll
+0x74f80000 - 0x74f9e000 	C:\WINDOWS\SYSTEM32\SspiCli.dll
+0x74f70000 - 0x74f7a000 	C:\WINDOWS\SYSTEM32\CRYPTBASE.dll
+0x74f10000 - 0x74f64000 	C:\WINDOWS\SYSTEM32\bcryptPrimitives.dll
+0x77350000 - 0x77377000 	C:\WINDOWS\system32\IMM32.DLL
+0x77380000 - 0x77493000 	C:\WINDOWS\SYSTEM32\MSCTF.dll
+0x70ab0000 - 0x70ac9000 	C:\WINDOWS\SYSTEM32\CRYPTSP.dll
+0x70af0000 - 0x70b20000 	C:\WINDOWS\system32\rsaenh.dll
+0x70810000 - 0x7082e000 	C:\WINDOWS\SYSTEM32\bcrypt.dll
+0x71280000 - 0x7128c000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\encdb.so
+0x70600000 - 0x7060b000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\iso_8859_1.so
+0x6dd40000 - 0x6dd4c000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\trans\transdb.so
+0x70b40000 - 0x70b4c000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\thread.so
+0x64440000 - 0x6444f000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\pathname.so
+0x67780000 - 0x6778c000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\io\console.so
+0x65000000 - 0x6500b000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\etc.so
+0x70060000 - 0x700eb000 	C:\WINDOWS\SYSTEM32\SHCORE.dll
+0x70bc0000 - 0x70bcf000 	C:\WINDOWS\SYSTEM32\profapi.dll
+0x70ae0000 - 0x70ae9000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x6d830000 - 0x6d91d000 	C:\WINDOWS\system32\uxtheme.dll
+0x76a70000 - 0x76b98000 	C:\WINDOWS\SYSTEM32\ole32.dll
+0x751d0000 - 0x75265000 	C:\WINDOWS\SYSTEM32\OLEAUT32.dll
+0x753d0000 - 0x75581000 	C:\WINDOWS\SYSTEM32\SETUPAPI.dll
+0x76f60000 - 0x76f9c000 	C:\WINDOWS\SYSTEM32\CFGMGR32.dll
+0x652c0000 - 0x652cb000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\digest\sha1.so
+0x63000000 - 0x63175000 	C:\ruby21\bin\LIBEAY32.dll
+0x68000000 - 0x6800c000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\digest.so
+0x6e600000 - 0x6e624000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\socket.so
+0x6a400000 - 0x6a414000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\zlib.so
+0x62e80000 - 0x62e9e000 	C:\ruby21\bin\zlib1.dll
+0x65080000 - 0x6508f000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\stringio.so
+0x687c0000 - 0x687f7000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\date_core.so
+0x6a1c0000 - 0x6a1cb000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\fcntl.so
+0x671c0000 - 0x67209000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\openssl.so
+0x658c0000 - 0x658c8000 	C:\WINDOWS\SYSTEM32\WSOCK32.DLL
+0x6e400000 - 0x6e45b000 	C:\ruby21\bin\SSLEAY32.dll
+0x70a40000 - 0x70a50000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\fiddle.so
+0x6b740000 - 0x6b76a000 	C:\ruby21\bin\libffi-6.dll
+0x65480000 - 0x6548b000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\utf_16le.so
+0x003f0000 - 0x003fc000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\trans\utf_16_32.so
+0x65600000 - 0x6560d000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\strscan.so
+0x77620000 - 0x776ad000 	C:\WINDOWS\SYSTEM32\clbcatq.dll
+0x68250000 - 0x6838a000 	C:\WINDOWS\system32\propsys.dll
+0x6a640000 - 0x6a65e000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\bigdecimal.so
+0x628c0000 - 0x628ce000 	C:\ruby21\lib\ruby\gems\2.1.0\extensions\x86-mingw32\2.1.0\json-1.8.2\json\ext\parser.so
+0x70f40000 - 0x70f4b000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\utf_16be.so
+0x6ffc0000 - 0x6ffcb000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\utf_32be.so
+0x6d100000 - 0x6d10b000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\utf_32le.so
+0x67840000 - 0x67851000 	C:\ruby21\lib\ruby\gems\2.1.0\extensions\x86-mingw32\2.1.0\json-1.8.2\json\ext\generator.so
+0x6e9c0000 - 0x6e9cf000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\psych.so
+0x6d180000 - 0x6d1ed000 	C:\ruby21\bin\libyaml-0-2.dll
+0x69c80000 - 0x69f05000 	C:\ruby21\lib\ruby\gems\2.1.0\gems\nokogiri-1.6.6.2-x86-mingw32\lib\nokogiri\2.1\nokogiri.so
+0x69840000 - 0x6984d000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\racc\cparse.so
+0x6c000000 - 0x6c0a4000 	C:\ruby21\lib\ruby\gems\2.1.0\gems\sqlite3-1.3.10-x86-mingw32\lib\sqlite3\2.1\sqlite3_native.so
+0x63200000 - 0x6320f000 	C:\ruby21\lib\ruby\gems\2.1.0\extensions\x86-mingw32\2.1.0\byebug-3.5.1\byebug\byebug.so
+0x64800000 - 0x6480c000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\euc_jp.so
+0x632c0000 - 0x632cb000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\windows_31j.so
+0x6c280000 - 0x6c297000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\dl.so
+0x62c40000 - 0x62c4b000 	C:\ruby21\lib\ruby\gems\2.1.0\extensions\x86-mingw32\2.1.0\debug_inspector-0.0.2\debug_inspector.so
+0x6a280000 - 0x6a297000 	C:\ruby21\lib\ruby\gems\2.1.0\extensions\x86-mingw32\2.1.0\rjb-1.5.3\rjbcore.so
+0x63b40000 - 0x63b57000 	C:\ruby21\lib\ruby\gems\2.1.0\extensions\x86-mingw32\2.1.0\mysql2-0.3.17\mysql2\mysql2.so
+0x61710000 - 0x61c1c000 	C:\ruby21\bin\libmysql.dll
+0x70c60000 - 0x70c6a000 	C:\WINDOWS\SYSTEM32\Secur32.dll
+0x06370000 - 0x06381000 	C:\WINDOWS\system32\napinsp.dll
+0x06390000 - 0x063a6000 	C:\WINDOWS\system32\pnrpnsp.dll
+0x063b0000 - 0x063c4000 	C:\WINDOWS\system32\NLAapi.dll
+0x6fcf0000 - 0x6fd3b000 	C:\WINDOWS\System32\mswsock.dll
+0x063d0000 - 0x0644e000 	C:\WINDOWS\SYSTEM32\DNSAPI.dll
+0x00480000 - 0x0048a000 	C:\WINDOWS\System32\winrnr.dll
+0x6d500000 - 0x6d508000 	C:\Windows\System32\rasadhlp.dll
+0x6d560000 - 0x6d5a6000 	C:\WINDOWS\System32\fwpuclnt.dll
+0x69800000 - 0x6980b000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\digest\md5.so
+0x6f100000 - 0x6f110000 	C:\ruby21\lib\ruby\gems\2.1.0\gems\bcrypt-3.1.10-x86-mingw32\lib\2.1\bcrypt_ext.so
+0x06450000 - 0x06470000 	C:\ruby21\lib\ruby\2.1.0\i386-mingw32\enc\trans\single_byte.so
+0x64b90000 - 0x64f34000 	C:\Program Files (x86)\Java\jdk1.8.0_31\jre\bin\client\jvm.dll
+0x70bd0000 - 0x70bf3000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x74ff0000 - 0x74ff6000 	C:\WINDOWS\SYSTEM32\PSAPI.DLL
+0x74ca0000 - 0x74d5f000 	C:\WINDOWS\SYSTEM32\MSVCR100.dll
+0x70b90000 - 0x70bb3000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x74e60000 - 0x74e81000 	C:\WINDOWS\SYSTEM32\DEVOBJ.dll
+0x67210000 - 0x6721c000 	C:\Program Files (x86)\Java\jdk1.8.0_31\jre\bin\verify.dll
+0x67160000 - 0x67181000 	C:\Program Files (x86)\Java\jdk1.8.0_31\jre\bin\java.dll
+0x67140000 - 0x67153000 	C:\Program Files (x86)\Java\jdk1.8.0_31\jre\bin\zip.dll
+0x6cf70000 - 0x6d0b1000 	C:\WINDOWS\SYSTEM32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -server -Xmx1G -Xms1G 
+java_command: <unknown>
+java_class_path (initial): D:\stanford-segmenter\stanford-segmenter-3.5.1.jar
+Launcher Type: generic
+
+Environment Variables:
+JAVA_HOME=C:\Program Files (x86)\Java\jdk1.8.0_31
+PATH=C:/ruby21/lib/ruby/gems/2.1.0/bin;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft SDKs\F#\3.0\Framework\v4.0\;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\BIN;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;C:\WINDOWS\Microsoft.NET\Framework\v3.5;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\VCPackages;C:\Program Files (x86)\HTML Help Workshop;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Team Tools\Performance Tools;C:\Program Files (x86)\Windows Kits\8.0\bin\x86;C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Python27\Scripts;C:\Python27;C:\ruby21\bin;C:\Program Files\Perforce;C:\Program Files (x86)\Git\cmd;C:\Program Files\TortoiseHg\;C:\Program Files (x86)\Java\jdk1.8.0_31\bin;C:\curl;C:\Program Files (x86)\cURL\bin
+USERNAME=Seth
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 21 Model 2 Stepping 0, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8 , 64 bit Build 9200 
+
+CPU:total 6 (6 cores per cpu, 1 threads per core) family 21 model 2 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, mmxext, 3dnowpref, lzcnt, sse4a, tsc, tscinvbit, tscinv, bmi1
+
+Memory: 4k page, physical 25146600k(21402236k free), swap 50312724k(42384252k free)
+
+vm_info: Java HotSpot(TM) Client VM (25.31-b07) for windows-x86 JRE (1.8.0_31-b13), built on Dec 17 2014 20:46:12 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Mon Feb 16 15:22:34 2015
+elapsed time: 4 seconds (0d 0h 0m 4s)
+

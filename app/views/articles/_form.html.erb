@@ -1,0 +1,49 @@
+
+<%= form_for @article do |f| %>
+
+  <% if @article.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <%= f.label :source %><br>
+  <%= collection_select(:article, :source_id, @sources, :id, :name) %><br/><br/>
+
+  <%= f.label :link %><br>
+  <%= f.text_field :link %><br><br/>
+
+  <%= f.label :title %><br>
+  <%= f.text_field :title %><br><br/>
+
+  <%= f.label :description %><br>
+  <%= f.text_field :description %><br><br/>
+
+  <h2>Sentences</h2>
+  <%= f.fields_for :sentences do |sentences| %>
+    <div class="sentence_fields">
+      <div class="sentence">
+        <%= sentences.label :value %><br>
+        <%= sentences.text_field :value %>
+        <%= sentences.check_box :_destroy %>
+        <%= sentences.label :_destroy, 'remove' %>
+      </div>
+    </div>
+  <% end %>
+
+
+  <p>
+    <%= f.submit 'Save', :disable_with => 'Please wait ...' %>
+  </p>
+<% end %>
+
+

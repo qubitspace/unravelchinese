@@ -1,0 +1,67 @@
+// Place all the styles related to the tokens controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.token {
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+}
+
+.word_value {
+  font-size: 34px;
+}
+
+.word_value {
+  font-size: 34px;
+}
+
+.word_pinyin {
+  font-size: 20px;
+}
+
+
+.known .word_value { color: #000; }
+.known .word_pinyin { color: #000; display: none; }
+.known .mark_word_known { display: none; }
+.known .mark_word_unknown { display: block; }
+
+.unknown .word_value { color: #aaa; }
+.unknown .word_pinyin { color: #000; display: block; }
+.unknown .mark_word_known { display: block; }
+.unknown .mark_word_unknown { display: none; }
+
+.tooltip {
+  display: none;
+  font-size: 14px;
+}
+
+.tooltip .word {
+  font-size: 24px;
+}
+
+.tooltip .stats {
+}
+
+.tooltip .definitions {
+}
+
+.section_label {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: bold;  
+}
+
+a:link { color: #d75813; }
+a:visited { color: #d75813; }
+a:hover { color: #d75813; }
+a:active { color: #d75813; }
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }
+
+.qtip-bootstrap {
+  background-color: #dcdcdc;
+}

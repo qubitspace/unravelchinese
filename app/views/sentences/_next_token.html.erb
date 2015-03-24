@@ -1,0 +1,13 @@
+<div id="next_token">
+  <div id="add-next-token-form" style="display:none;"></div>
+  <% @candidate_tokens.each do |word| %>
+    <h2>
+      <%= link_to "'#{word.simplified}'", add_token_path(sentence_id: @sentence.id, word_id: word.id), remote: true %>
+      <%= word.pinyin %>
+    </h2>
+    <% word.definitions.each do |definition| %>
+      • <%= definition.value %><br/>
+    <% end %>
+
+  <% end %>
+</div>

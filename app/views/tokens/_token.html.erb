@@ -1,0 +1,53 @@
+
+<% status = (@word_statuses.has_key?(token.word_id) ? @word_statuses[token.word_id].status : 'unknown') %>
+<% show_pinyin = ['unknown'].include? status %>
+<% show_mark_unknown = ['known'].include? status %>
+<% show_mark_known = ['unknown'].include? status %>
+<div class='token <%= token.word.category %> <%= status %>' wordid="<%= token.word.id %>">
+
+  <span class='word_value'>
+    <%= token.word.simplified %><br/>
+  </span>
+
+  <span class='word_pinyin'>
+    <%= token.word.pinyin %>  
+  </span>
+
+  <span class='token_notes'>
+    <%= token.notes %>
+  </span>
+
+  <div class="tooltip <%= token.word.category %> <%= status %>" wordId="<%= token.word.id %>">
+
+    <span class='word_value'>
+      <%= link_to token.word.simplified, word_path(token.word) %><br/>
+    </span>
+
+    <span class='word_pinyin'>
+      <%= token.word.pinyin %>
+    </span>
+
+    <div class="definitions">
+      <% token.word.definitions.each do |definition| %>
+        • <%= definition.value %><br/>
+      <% end %>
+    </div>
+
+    <span class="stats">
+      <div class="section_label">Statistics:</div>
+        <% if token.word.hsk_character_level != nil %>• HSK Character Level: <%= token.word.hsk_character_level %><br/><% end %>
+        <% if token.word.hsk_word_level != nil %>• HSK Word Level: <%= token.word.hsk_word_level %><br/><% end %>
+        <% if token.word.character_frequency != nil %>• Character Frequency Rank: #<%= token.word.character_frequency %><br/><% end %>
+        <% if token.word.word_frequency != nil %>• Word Frequency Rank: #<%= token.word.word_frequency %><br/><% end %>
+        <% if token.word.strokes != nil %>• Strokes: <%= token.word.strokes %><br/><% end %>
+    </span>
+
+    <span class='mark_word_unknown'>
+      <%= link_to "Mark as Unknown", update_learned_word_status_path(word_id: token.word.id, status: :unknown), remote: true %>
+    </span>
+    <span class='mark_word_known'>
+      <%= link_to "Mark as Known", update_learned_word_status_path(word_id: token.word.id, status: :known), remote: true %>
+    </span>
+
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<h3><%= @tag.name %></h3>
+<% @tag.definitions.each do |definition| %>
+  <%= link_to definition.word.simplified, definition.word %> - <%= definition.value %><br/>
+
+  <%= link_to 'Delete', @tag, method: :delete, data: { confirm: 'Are you sure?' } %></br>
+<% end %>

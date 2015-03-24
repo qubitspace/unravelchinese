@@ -1,0 +1,9 @@
+<h1>Dictionary</h1>
+
+<%= form_tag words_path, :method => 'get', :id => "dictionary_search" do %>
+  <p>
+    <%= text_field_tag :term, params[:term] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <div id="results"><%= render 'results' %></div>
+<% end %>

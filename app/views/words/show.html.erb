@@ -1,0 +1,16 @@
+<h1>Show</h1>
+
+Simplified: <%= @word.simplified %><br/>
+Traditional: <%= @word.traditional %><br/>
+Pinyin: <%= @word.pinyin %><br/>
+HSK Char Level: <%= @word.hsk_character_level %><br/>
+HSK Word Level: <%= @word.hsk_word_level %><br/>
+Character Frequency: <%= @word.character_frequency %><br/>
+Word Frequency: <%= @word.word_frequency %><br/>
+Radical Number: <%= @word.radical_number %><br/>
+Strokes: <%= @word.strokes %><br/><br/>
+
+Definitions: <br/>
+<% @word.definitions.each do |definition| %>
+  • <%= definition.value %> <% definition.tags.each do |tag| %>[<%= link_to tag.name, tag %>] <% end %> <br/>
+<% end %>

@@ -1,0 +1,4 @@
+$("#tokenized").html("<%= escape_javascript( render partial: 'tokenized', locals: { sentence: @sentence, learned_words: @learned_words }) %>");
+$("#next_token").html("<%= escape_javascript( render partial: 'next_token', locals: { sentence: @sentence, candidate_tokens: @candidate_tokens }) %>");
+addTooltip($('div.token.word:last'))
+//ready();

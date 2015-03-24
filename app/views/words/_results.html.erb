@@ -1,0 +1,5 @@
+<% @term = params[:term] %>
+<% @results.each do |word| %>
+  <%= highlight(word.simplified, @term) %>|<%=  highlight(word.traditional, @term) %>|<%=  Word.highlight(word.pinyin, @term) %> - 
+  <%= Word.highlight(word.definitions.map(&:value).join(' / '), @term) %><br/>
+<% end %>
