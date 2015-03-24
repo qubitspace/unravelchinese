@@ -14,13 +14,27 @@ class Sentence < ActiveRecord::Base
 
   protected
 
+  # Put each translation in a try block so it will ignore failed translations (with retries)
   def translate
     self.translations.destroy
     google_translate
     bing_translate
+    dictionary_translate
+  end
+
+  def dictionary_translate
+    source = Source.find_or_create_by name: "Dictionary.com", link: "http://translate.reference.com/"
+
+    url = "http://translate.reference.com/chinese-simplified/english/#{self.value}"
+    response = Typhoeus.get(url, followlocation: true)
+    doc = Nokogiri::HTML(response.body)
+    translation = doc.css('#clipboard-text').first.text
+    self.translations.build value: translation, source: source
   end
 
   def google_translate
+    source = Source.find_or_create_by name: "Google Translate", link: "www.google.com"
+
     config = {
       :method => :get,
       :ssl_verifypeer => false,
@@ -36,7 +50,6 @@ class Sentence < ActiveRecord::Base
     request.run
 
     response_body = JSON.parse(request.response.body)
-    source = Source.find_or_create_by name: "Google Translate", link: "www.google.com"
 
     response_body['data']['translations'].each do |translation|
       self.translations.build value: translation['translatedText'], source: source

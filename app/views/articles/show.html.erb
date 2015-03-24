@@ -9,7 +9,14 @@
     <% if sentence.untokenized != '' %>
       <%= sentence.untokenized %>
     <% end %>
-    <hr/>
+    <br>
+    <% sentence.translations.each do |translation| %>
+      <% if translation.source != nil %>
+       [<%= translation.source.name %>] -
+      <% end %>
+      <%= translation.value %><br/>
+    <% end %>
+    <hr>
   <% end %>
 </div>
 
