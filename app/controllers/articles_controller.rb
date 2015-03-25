@@ -91,8 +91,7 @@ class ArticlesController < ApplicationController
       :description,
       :body,
       :commentable,
-      :publishable,
-      sentences_attributes: [:id, :_destroy, :value, :rank ]
+      :publishable
     )
   end
 end

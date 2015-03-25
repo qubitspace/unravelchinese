@@ -9,4 +9,3 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w( jquery-2.1.3.js )
-Rails.application.config.assets.precompile += %w( cocoon.js )

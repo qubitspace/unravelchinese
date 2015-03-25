@@ -1,0 +1,6 @@
+var new_sentence = $("<%= escape_javascript(render(:partial => @sentence))%>")
+$('#sentences').prepend(new_sentence);
+alert('done');
+//$('#sentence_<%= @sentence.id %>').fadeIn('slow');
+//$('#new_sentence')[0].reset();
+// update rank (from @next_rank)

@@ -1,5 +1,17 @@
 class SentencesController < ApplicationController
 
+  def create
+    @article = Article.find(params[:article_id])
+    @sentence = @article.sentences.create(sentence_params)
+    respond_to do |format|
+      if @sentence.save
+        format.js
+      else
+        format.html { redirect_to :back, notice: @sentence.errors }
+      end
+    end
+  end
+
   def tokenize
     @learned_words = current_user.words
     @word_statuses = current_user.word_statuses
@@ -69,5 +81,9 @@ class SentencesController < ApplicationController
     return matches.sort_by { |y| -y.simplified.length} # TODO: add sort by how often it's used in the site.
   end
 
+  private
 
+  def sentence_params
+    params.require(:sentence).permit(:rank, :value, :end, translations_attributes: [:id, :_destroy, :value ])
+  end
 end

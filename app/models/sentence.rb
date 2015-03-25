@@ -4,10 +4,10 @@ class Sentence < ActiveRecord::Base
   has_many :translations, dependent: :destroy
   has_many :words, through: :tokens
 
-  accepts_nested_attributes_for :translations, :reject_if => lambda { |a| a[:value].blank? }
+  accepts_nested_attributes_for :translations, :reject_if => lambda { |t| t[:value].blank? }
 
-  before_save :translate, on: :update
-  before_save :set_rank
+  before_create :set_rank
+  before_create :translate, on: :create
 
   attr_accessor :untokenized
   attr_accessor :tokenized
@@ -17,9 +17,9 @@ class Sentence < ActiveRecord::Base
   # Put each translation in a try block so it will ignore failed translations (with retries)
   def translate
     self.translations.destroy
-    google_translate
+    google_translate # free trial expire on 4/4
     bing_translate
-    dictionary_translate
+    #dictionary_translate # this is just bing
   end
 
   def dictionary_translate
@@ -111,7 +111,10 @@ class Sentence < ActiveRecord::Base
   end
 
   def set_rank
-    self.rank ||= 0 + Sentence.maximum(:rank).to_i
+    self.rank = if Sentence.where(article_id: self.article_id).count > 0
+                then Sentence.where(article_id: self.article_id).maximum(:rank) + 1
+                else 0
+                end
   end
 end
 

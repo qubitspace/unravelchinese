@@ -4,6 +4,7 @@ class CreateSentences < ActiveRecord::Migration
       t.references :article, null: false, index: true
       t.integer :rank, null: false
       t.text :value, null: false
+      t.boolean :end
 
       t.timestamps null: false
     end

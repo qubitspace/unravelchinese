@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 14) do
     t.integer  "article_id", limit: 4,     null: false
     t.integer  "rank",       limit: 4,     null: false
     t.text     "value",      limit: 65535, null: false
+    t.boolean  "end",        limit: 1
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
@@ -121,12 +122,12 @@ ActiveRecord::Schema.define(version: 14) do
   add_index "tokens", ["word_id"], name: "index_tokens_on_word_id", using: :btree
 
   create_table "translations", force: :cascade do |t|
-    t.string   "value",       limit: 255, null: false
+    t.text     "value",       limit: 65535, null: false
     t.integer  "source_id",   limit: 4
     t.integer  "user_id",     limit: 4
     t.integer  "sentence_id", limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "translations", ["sentence_id"], name: "index_translations_on_sentence_id", using: :btree

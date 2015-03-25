@@ -1,7 +1,7 @@
 class CreateTranslations < ActiveRecord::Migration
   def change
     create_table :translations do |t|
-      t.string :value, :null => false
+      t.text :value, :null => false
       t.references :source, index: true
       t.references :user, index: true
       t.references :sentence, index: true

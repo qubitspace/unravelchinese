@@ -1,0 +1,13 @@
+<% sentence.translations.each do |translation| %>
+  <strong><%= translation.source.name if translation.source %>:</strong> <%= raw translation.value %><br/>
+<% end %>
+
+<% sentence.tokens.each do |token| %>
+  <%= render partial: 'tokens/token', locals: { token: token, learned_words: @learned_words } %>
+<% end %>
+<% if sentence.untokenized != '' %>
+  <%= sentence.untokenized %>
+  <%= link_to 'Tokenize', tokenize_sentence_path(sentence) %> |
+<% end %>
+<%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %>
+<br/><br/>

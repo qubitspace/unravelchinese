@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   resources :articles do
-    resources :comments
+    resources :comments, only: [:create, :destroy]
+    resources :sentences, only: [:create, :destroy]
 
     get 'tokenize', on: :member
 

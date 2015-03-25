@@ -2,32 +2,11 @@
 <% unless @article.description.nil? %><h4><%= @article.description %></h4><% end %>
 <!-- TODO: Create views for different types of words to not have conditional logic. -->
 <!-- either need aditional padding around literals, or need to get spacing in there somehow, only some literals need spaces -->
-<div>
 
-  <% @article.sentences.each do |sentence| %>
+<%= render @article.sentences %>
 
-    <% sentence.translations.each do |translation| %>
-      [<%= translation.source.name if translation.source %>] <%= translation.value %><br/>
-    <% end %>
-    
-    <% sentence.tokens.each do |token| %>
-      <%= render partial: 'tokens/token', locals: { token: token, learned_words: @learned_words } %>
-    <% end %>
-    <% if sentence.untokenized != '' %>
-      <%= sentence.untokenized %>
-      <%= link_to 'Tokenize', tokenize_sentence_path(sentence) %> | 
-    <% end %>
-    <%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %>
-    <br/><br/>
-  <% end %>
-
-</div>
-
-<h2>Comments</h2>
-<%= render @article.comments %>
-
-<h2>Add a comment:</h2>
-<%= render 'comments/form' %>
+<h2>Add a Sentence:</h2>
+<%= render 'sentences/form' %>
 
 <%= link_to 'Articles', articles_path %> |
 <%= link_to 'Show', article_path(@article) %> |
