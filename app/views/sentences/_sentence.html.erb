@@ -1,13 +1,30 @@
-<% sentence.translations.each do |translation| %>
-  <strong><%= translation.source.name if translation.source %>:</strong> <%= raw translation.value %><br/>
-<% end %>
-
 <% sentence.tokens.each do |token| %>
-  <%= render partial: 'tokens/token', locals: { token: token, learned_words: @learned_words } %>
+  <%= render partial: 'tokens/token', locals: { token: token } %>
 <% end %>
 <% if sentence.untokenized != '' %>
   <%= sentence.untokenized %>
-  <%= link_to 'Tokenize', tokenize_sentence_path(sentence) %> |
+  <%= link_to 'Tokenize', manage_sentence_path(sentence) %> |
 <% end %>
-<%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %>
-<br/><br/>
+
+<br><br>
+
+<input type='button' class='toggle_translation' value='Show Translations'>
+<div class="translations">
+  <% sentence.translations.each do |translation| %>
+    <% if translation.source != nil %>
+     [<%= translation.source.name %>] -
+    <% end %>
+    <%= translation.value %><br/>
+  <% end %>
+</div>
+
+<br><br>
+
+<!--%= link_to 'Delete Sentence', sentence, method: :delete %--> |
+<!--%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %-->
+
+
+<br><br>
+
+<hr>
+<br>

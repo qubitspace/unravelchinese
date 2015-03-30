@@ -2,13 +2,28 @@ function addTooltip(token)
 {
     token.qtip({
         content: token.find('.tooltip'),
-        hide: {
-            fixed: true,
-            delay: 200
-        },
         show: {
-            delay: 200,
+            //event: 'click',
+            solo: true,
+            delay: 300,
+            effect: function() {
+                $(this).fadeTo(200, 1);
+            }
         },
+        hide: {
+            when: {
+                event:'mouseout unfocus'
+            },
+            fixed: true,
+            delay: 500,
+            effect: function() {
+                $(this).fadeTo(200, 0);
+            }
+        },
+        //hide: {
+        //    fixed: true,
+        //    delay: 100,
+        //},
         style: {
             classes: "qtip-bootstrap"
         },
@@ -24,11 +39,16 @@ function addTooltip(token)
 
 }
 
-var ready;
-ready = function() {
+function addTooltips()
+{
     $('div.token.word').each(function () {
         addTooltip($(this));
     });
+}
+
+var ready;
+ready = function() {
+    addTooltips();
 };
 
 $(document).ready(ready);

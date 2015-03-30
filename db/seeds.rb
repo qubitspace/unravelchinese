@@ -16,6 +16,7 @@ connection = ActiveRecord::Base.connection()
 connection.execute("ALTER TABLE words MODIFY `pinyin_cs` varchar(255) COLLATE utf8_bin;")
 
 user1 = User.create email: 'sethwilberger@gmail.com', password: 'password', confirmed_at: DateTime.now, role: :admin
+user1 = User.create email: 'sethwilberger2@gmail.com', password: 'password', confirmed_at: DateTime.now, role: :user
 
 google = Source.create name: "Google", link: "https://translate.google.com"
 bing = Source.create name: "Bing", link: "http://www.bing.com/translator"
@@ -32,7 +33,7 @@ File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).each_wit
     ActiveRecord::Base.transaction do
       batch.each do |batch_line|
         simplified, traditional, pinyin, hsk_char_level, hsk_word_level, char_freq, word_freq, strokes, radical_number, definitions = batch_line.strip.split "\t"
-        
+
         word = Word.create  simplified: simplified,
                           traditional: traditional,
                           pinyin: pinyin,
@@ -54,7 +55,7 @@ File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).each_wit
 							definition.tag tag_name
 						}
         end
-        
+
       end
     end
     batch = []

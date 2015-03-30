@@ -22,24 +22,24 @@
 }
 
 
-.known .word_value { color: #000; }
-.known .word_pinyin { color: #000; display: none; }
+.known .word_value.learnable { color: #000; }
+.known .word_pinyin.learnable { color: #000; display: none; }
 .known .mark_word_known { display: none; }
 .known .mark_word_unknown { display: block; }
 
-.unknown .word_value { color: #aaa; }
-.unknown .word_pinyin { color: #000; display: block; }
+.unknown .word_value.learnable { color: #aaa; }
+.unknown .word_pinyin.learnable { color: #000; display: block; }
 .unknown .mark_word_known { display: block; }
 .unknown .mark_word_unknown { display: none; }
 
 .tooltip {
   display: none;
   font-size: 14px;
+  padding: 20px 5px 5px 5px;
 }
 
-.tooltip .word {
-  font-size: 24px;
-}
+.tooltip .word_value { font-size: 34px; text-align: center; margin-bottom: 10px; }
+.tooltip .word_pinyin { font-size: 24px; text-align: center; margin-bottom: 10px; }
 
 .tooltip .stats {
 }
@@ -50,7 +50,7 @@
 .section_label {
   margin-top: 20px;
   font-size: 14px;
-  font-weight: bold;  
+  font-weight: bold;
 }
 
 a:link { color: #d75813; }

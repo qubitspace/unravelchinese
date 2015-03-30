@@ -1,61 +1,140 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
- *= require_tree .
- *= require_self
- */
-
-#header {
-  height: 100px;
-  margin: 0 auto;
-  position: relative;
-  width: 100%;
-  min-width: 800px;
-}
-
-#title-bar {
-  margin-left: 50px;
-  min-height: 100px;
-  overflow: hidden
-}
-
-#page-options {
-  float: right;
-  margin-right: 50px;
-  min-height: 100px;
-}
-
-
-#menu {
-  min-width: 800px;
-  margin-left: 50px;
-  margin-right: 50px;
-}
-
-#body {
-  min-width: 800px;
-  margin-left: 50px;
-  margin-right: 50px;
-}
-
-h2 {
-  padding: 0px;
+body {
   margin: 0px;
+  padding: 0px;
 }
 
-#alerts {
+body {
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+
+.wrapper {
+  // display: -webkit-box;
+  // display: -moz-box;
+  // display: -ms-flexbox;
+  // display: -webkit-flex;
+  //-webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  display: flex;
+  max-width: 1500px;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.header {
+  flex-flow: row wrap;
+  display: flex;
+  max-width: 1500px;
+  margin: 0px auto;
+  background-color: #000000;
+  color: #ffffff;
+
+  .user-menu { text-align: right; }
+  .logo {}
 }
 
 
+.main {
+  flex-flow: row wrap;
+  display: flex;
+  max-width: 1500px;
+  margin: 0px auto;
 
-@media screen and (max-width: 800px) {
+  .menu {}
+  .content {}
+  .meta {}
+
 }
+
+.footer { flex: initial; width: 100%; order: 3; height: 100px; border-top: 1px solid #000000; }
+
+
+/* 0 to 500px */
+@media all and (min-width: 0px) and (max-width: 500px) {
+
+  .header {
+    flex: initial;
+    width: 100%;
+    height: 100px;
+
+    .user-menu { flex: initial; width: 100%; order: 1; }
+    .logo { flex: initial; width: 100%; order: 2; }
+  }
+
+  .main {
+    order: 2;
+    width: 100%;
+    .menu { flex: initial; width: 100%; order: 1; border-bottom: 1px solid #000000; }
+    .content { flex: initial; width: 100%; order: 2; }
+    .meta { flex: initial; width: 100%; order: 3; border-top: 1px solid #000000; }
+  }
+
+}
+
+/* 501 to 1000px */
+@media all and (min-width: 501px) and (max-width: 1000px) {
+
+  .header {
+    flex: initial;
+    width: 100%;
+    height: 50px;
+
+    .logo { flex: initial; width: 50%; order: 1; }
+    .user-menu { flex: initial; width: 50%; order: 2; }
+  }
+
+  .main {
+    order: 2;
+    width: 100%;
+    .menu { flex: initial; width: 100%; order: 1; border-bottom: 1px solid #000000; }
+    .content { flex: auto; width: 200px; order: 2; }
+    .meta { flex: initial; width: 200px; order: 3; border-left: 1px solid #000000; }
+  }
+
+}
+
+
+/* 1001px and more */
+@media all and (min-width: 1001px) {
+
+  .header {
+    flex: initial;
+    width: 100%;
+    height: 50px;
+
+    .logo { flex: initial; width: 50%; order: 1; }
+    .user-menu { flex: initial; width: 50%; order: 2; }
+  }
+
+  .main {
+    order: 2;
+    width: 100%;
+    .menu { flex: initial; width: 200px; order: 1; border-right: 1px solid #000000; }
+    .content { flex: auto; width: 200px; order: 2; }
+    .meta { flex: initial; width: 300px; order: 3; border-left: 1px solid #000000; }
+  }
+
+}
+
+
+// flex-grow  flex-shrink   flex-basis
+
+// initial          0 1 auto
+  //  Sizes the item based on the width/height properties. (If the item’s main size property computes to auto,
+  //  this will size the flex item based on its contents.) Makes the flex item inflexible when there is positive
+  //  free space, but allows it to shrink to its minimum size when there is insufficient space. The alignment
+  //  abilities or auto margins can be used to align flex items along the main axis.
+
+// auto             1 1 auto
+  //  Sizes the item based on the width/height properties, but makes them fully flexible, so that they absorb any
+  //  free space along the main axis. If all items are either flex: auto, flex: initial, or flex: none, any positive
+  //  free space after the items have been sized will be distributed evenly to the items with flex: auto.
+
+// none             0 0 auto
+  //  This value sizes the item according to the width/height properties, but makes the flex item fully inflexible.
+  //  This is similar to initial, except that flex items are not allowed to shrink, even in overflow situations.
+
+// positive-number  x 1 0%
+  //  Makes the flex item flexible and sets the flex basis to zero, resulting in an item that receives the specified
+  //  proportion of the free space in the flex container. If all items in the flex container use this pattern, their
+  //  sizes will be proportional to the specified flex factor.
+

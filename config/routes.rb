@@ -1,39 +1,39 @@
 Rails.application.routes.draw do
 
-  get 'home/index'
+  namespace :admin do
+
+    resources :articles do
+      get 'manage', on: :member
+      post 'add_sentence', on: :member
+    end
+
+    resources :sentences, only: [:create, :destroy] do
+      get 'manage', on: :member
+      post 'untokenize', on: :member
+      post 'add_token', on: :member
+    end
+
+
+    resources :comments, only: [:destroy]
+    resources :words, only: [:index]
+    resources :tags, only: [:index]
+
+    get 'watch_word', to: 'users#watch_word', as: :watch_word
+    get 'learn_word', to: 'users#learn_word', as: :learn_word
+    get 'update_status', to: 'learned_words#update_status', as: :update_learned_word_status
+
+  end
 
   devise_for :users
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  resources :articles do
-    resources :comments, only: [:create, :destroy]
-    resources :sentences, only: [:create, :destroy]
-
-    get 'tokenize', on: :member
-
+  resources :articles, only: [:index, :show] do
+    resources :comments, only: [:create]
   end
 
-  resources :sentences do
-    member do
-      get 'tokenize'
-      get 'untokenize'
-    end
-  end
 
-  resources :words
-  resources :tags
+  resources :words, only: [:index, :show]
+  resources :tags, only: [:index, :show]
 
-  get 'add_sentence', to: 'articles#add_sentence', as: :add_sentence
-
-  get 'add_token', to: 'sentences#add_token', as: :add_token
-
-  get 'watch_word', to: 'users#watch_word', as: :watch_word
-  get 'learn_word', to: 'users#learn_word', as: :learn_word
-
-  get 'update_status', to: 'learned_words#update_status', as: :update_learned_word_status
-
-  # You can have the root of your site routed with "root"
   root 'home#index'
 
   # Example of regular route:

@@ -1,22 +1,9 @@
 <h1><%= @article.title %></h1>
-<% unless @article.description.nil? %><h4><%= @article.description %></h4><% end %>
+<% unless @article.description.nil? %><%= @article.description %><% end %>
 <div>
 
   <% @article.sentences.each do |sentence| %>
-    <% sentence.tokens.each do |token| %>
-      <%= render partial: 'tokens/token', locals: { token: token } %>
-    <% end %>
-    <% if sentence.untokenized != '' %>
-      <%= sentence.untokenized %>
-    <% end %>
-    <br>
-    <% sentence.translations.each do |translation| %>
-      <% if translation.source != nil %>
-       [<%= translation.source.name %>] -
-      <% end %>
-      <%= translation.value %><br/>
-    <% end %>
-    <hr>
+    <%= render partial: 'sentences/sentence', locals: { sentence: sentence } %>
   <% end %>
 </div>
 
@@ -26,6 +13,6 @@
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>
 
-<%= link_to 'Articles', articles_path %> |
-<%= link_to 'Edit', edit_article_path(@article) %> |
-<%= link_to 'Tokenize', tokenize_article_path(@article) %>
+<!--%= link_to 'Articles', articles_path %--> |
+<!--%= link_to 'Edit', edit_article_path(@article) %--> |
+<!--%= link_to 'Tokenize', manage_article_path(@article) %-->

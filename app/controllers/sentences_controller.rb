@@ -12,7 +12,14 @@ class SentencesController < ApplicationController
     end
   end
 
-  def tokenize
+  def destroy
+    @sentence = Sentence.find params[:id]
+    @sentence.destroy
+
+    redirect_to manage_article_path @sentence.article
+  end
+
+  def manage
     @learned_words = current_user.words
     @word_statuses = current_user.word_statuses
     @sentence = Sentence.find params[:id]
@@ -29,7 +36,7 @@ class SentencesController < ApplicationController
   def untokenize
     @sentence = Sentence.find params[:id]
     @sentence.tokens.delete_all
-    redirect_to tokenize_sentence_path(@sentence)
+    redirect_to manage_sentence_path(@sentence)
   end
 
   def add_token
