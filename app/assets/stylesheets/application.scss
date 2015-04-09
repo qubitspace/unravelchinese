@@ -17,9 +17,6 @@ html, body {
 }
 
 body {
-  margin: 0px;
-  padding: 0px;
-  font-family: Helvetica, Arial, sans-serif;
   background-color: #191919;
 }
 
@@ -30,7 +27,7 @@ body {
 }
 
 
-.header, .menu, .content, .footer {
+.header, .menu, .title, .body, .footer {
   .left {
     flex: 1 1 auto;
     min-width: 50px;
@@ -38,8 +35,6 @@ body {
   .main {
     flex: 0 1 auto;
     width: 1000px;
-    padding-left: 25px;
-    padding-right: 25px;
   }
   .meta {
     flex: 0 1 auto;
@@ -53,7 +48,15 @@ body {
     flex: 1 1 auto;
     min-width: 50px;
   }
+
+  .content-wrapper {
+    margin: 25px;
+  }
+  .menu-wrapper {
+    margin-left: 25px;
+  }
 }
+
 
 // -------
 // Header
@@ -62,10 +65,9 @@ body {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
-  margin: 0px;
   width: 100%;
 
-  color: #EA5166;
+  color: #FFFFFF;
 
   .main { font-size: 40px; }
 
@@ -78,61 +80,68 @@ body {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
-  margin: 0px;
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #484848;
-  border-top: #000000;
-  border-bottom: #000000;
-  margin-bottom: 20px;
-  margin-top: 20px;
 
+  .main-meta {
+    background-color: #333333;
+    border-top: 2px solid #555555;
+  }
 
   .link {
     display: inline;
     a {
       float: left;
       text-decoration: none;
-      padding: 4px 10px;
-      margin-right: 25px;
-      border: 1px solid #4C4B48;
-      -moz-border-radius: 5px;
-      -webkit-border-radius: 5px;
-      border-radius: 5px;
-      color: #333532;
-      background-color: #E5C453;
+      color: #FFFFFF;
+      padding: 10px;
     }
     a:hover, a:active {
-      color: #191919;
-      border: 1px solid #191919;
-      background-color: #F40000;
+      background-color: #BE4C39;
     }
 
-    font-family: TiemposText-Regular, 'Tiempos Text Regular', Georgia, 'Times New Roman', Times, serif;
     font-size: 21px;
-    margin-right: 20px;
   }
+}
+
+// -------
+// Title
+// -------
+.title {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  width: 100%;
+
+  .main-meta {
+    background-color: #EEEEEE;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #222222;
+  }
+
 }
 
 // -------
 // Body
 // -------
-.content {
+.body {
   display: flex;
   flex-direction: row;
   flex: 1 0 auto;
-  font-family: TiemposText-Regular, 'Tiempos Text Regular', Georgia, 'Times New Roman', Times, serif;
-  background-color: #ffffff;
-  .main {
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #ffffff;
-    color: #000000;
-    padding-top: 25px;
-    padding-bottom: 25px;
+
+  .main, .meta {
+    background-color: #EEEEEE;
   }
+}
+
+.content {
+  background-color: #FFFFFF;
+  border: 2px solid #E0E0E0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 30px;
 }
 
 // -------
@@ -147,106 +156,3 @@ body {
   color: #F0F0F0;
 
 }
-
-
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-
-/*
-@media all and (min-width: 0px) and (max-width: 500px) {
-
-  .header {
-    flex: initial;
-    width: 100%;
-    height: 100px;
-
-    .user-menu { flex: initial; width: 100%; order: 1; }
-    .logo { flex: initial; width: 100%; order: 2; }
-  }
-
-  .main {
-    order: 2;
-    width: 1100px;
-    .menu { flex: initial; width: 100%; order: 1; border-bottom: 1px solid #B6B6B6; }
-    .content { flex: initial; width: 100%; order: 2; }
-    .meta { flex: initial; width: 100%; order: 3; border-top: 1px solid #B6B6B6; }
-  }
-  .footer { flex: initial; width: 100%; order: 3; height: 100px; border-top: 1px solid #B6B6B6; }
-
-}
-
-@media all and (min-width: 500px) {
-
-  .header {
-    flex: initial;
-    width: 1000px;
-    height: 50px;
-
-    .logo { flex: initial; width: 400px; order: 1; }
-    .user-menu { flex: initial; width: 600px; order: 2; }
-  }
-
-  .main {
-    order: 2;
-    width:1000px;
-    .menu {
-      flex: initial; width: 1000px; order: 1; border-bottom: 1px solid #B6B6B6;
-      div { display: inline; }
-    }
-    .content { flex: auto; width: 400px; order: 2; }
-    .meta { flex: initial; width: 300px; order: 3; border-left: 1px solid #B6B6B6; }
-  }
-  .footer { flex: initial; width: 900px; order: 3; height: 100px; border-top: 1px solid #B6B6B6; }
-
-}
-
-@media all and (min-width: 1600px) {
-
-  .header {
-    flex: initial;
-    width: 1500px;
-    height: 50px;
-
-    .logo { flex: initial; width: 400px; order: 1; }
-    .user-menu { flex: initial; width: 1100px; order: 2; }
-  }
-
-  .main {
-    order: 2;
-    width:1500px;
-    .menu {
-      flex: initial; width: 1500px; order: 1; border-bottom: 1px solid #B6B6B6;
-      div { display: inline; }
-    }
-    .content { flex: auto; width: 800px; order: 2; }
-    .meta { flex: initial; width: 400px; order: 3; border-left: 1px solid #B6B6B6; }
-  }
-  .footer { flex: initial; width: 1500px; order: 3; height: 100px; border-top: 1px solid #B6B6B6; }
-
-}
-*/
-
-// flex-grow  flex-shrink   flex-basis
-
-// initial          0 1 auto
-  //  Sizes the item based on the width/height properties. (If the item’s main size property computes to auto,
-  //  this will size the flex item based on its contents.) Makes the flex item inflexible when there is positive
-  //  free space, but allows it to shrink to its minimum size when there is insufficient space. The alignment
-  //  abilities or auto margins can be used to align flex items along the main axis.
-
-// auto             1 1 auto
-  //  Sizes the item based on the width/height properties, but makes them fully flexible, so that they absorb any
-  //  free space along the main axis. If all items are either flex: auto, flex: initial, or flex: none, any positive
-  //  free space after the items have been sized will be distributed evenly to the items with flex: auto.
-
-// none             0 0 auto
-  //  This value sizes the item according to the width/height properties, but makes the flex item fully inflexible.
-  //  This is similar to initial, except that flex items are not allowed to shrink, even in overflow situations.
-
-// positive-number  x 1 0%
-  //  Makes the flex item flexible and sets the flex basis to zero, resulting in an item that receives the specified
-  //  proportion of the free space in the flex container. If all items in the flex container use this pattern, their
-  //  sizes will be proportional to the specified flex factor.
-

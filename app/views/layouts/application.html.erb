@@ -22,20 +22,24 @@
     <div class="left"></div>
 
     <div class="main">
-      绎中文<br/>
-      Unravel Chinese
+      <div class="content-wrapper">
+        绎中文<br/>
+        Unravel Chinese
+      </div>
     </div>
 
 
     <div class="meta">
-      <% if user_signed_in? %>
-        Logged in as <strong><%= current_user.email %></strong>.
-        <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-      <% else %>
-        <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-        <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-      <% end %>
+      <div class="content-wrapper">
+        <% if user_signed_in? %>
+          Logged in as <strong><%= current_user.email %></strong>.
+          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+          <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+        <% else %>
+          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+          <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+        <% end %>
+      </div>
     </div>
 
     <div class="right"></div>
@@ -45,17 +49,37 @@
   <section class="menu">
     <div class="left"></div>
     <div class="main-meta">
-      <div class="link"><%= link_to 'Read', articles_path %></div>
-      <div class="link"><%= link_to 'Dictionary', words_path %></div>
-      <div class="link"><%= link_to 'Tags', tags_path %></div>
+      <div class="menu-wrapper">
+        <div class="link"><%= link_to 'Read', articles_path %></div>
+        <div class="link"><%= link_to 'Dictionary', words_path %></div>
+        <div class="link"><%= link_to 'Tags', tags_path %></div>
+      </div>
     </div>
     <div class="right"></div>
   </section>
 
-  <section class="content">
+  <section class="title">
     <div class="left"></div>
-    <div class="main"><%= yield %></div>
-    <div class="meta"><%= yield :meta %></div>
+    <div class="main-meta">
+      <div class="content-wrapper">
+        <%= yield :title %>
+      </div>
+    </div>
+    <div class="right"></div>
+  </section>
+
+  <section class="body">
+    <div class="left"></div>
+    <div class="main">
+      <div class="content-wrapper">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="content-wrapper">
+        <%= yield :meta %>
+      </div>
+    </div>
     <div class="right"></div>
   </section>
 
