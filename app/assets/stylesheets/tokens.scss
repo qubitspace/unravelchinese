@@ -7,61 +7,60 @@
   display: inline-block;
   text-align: center;
   vertical-align: top;
-}
-
-.word_value {
-  font-size: 34px;
-}
-
-.word_value {
-  font-size: 34px;
-}
-
-.word_pinyin {
-  font-size: 20px;
-}
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-right: 5px;
 
 
-.known .word_value.learnable { color: #000; }
-.known .word_pinyin.learnable { color: #000; display: none; }
-.known .mark_word_known { display: none; }
-.known .mark_word_unknown { display: block; }
+  .top { line-height: 40px; }
 
-.unknown .word_value.learnable { color: #aaa; }
-.unknown .word_pinyin.learnable { color: #000; display: block; }
-.unknown .mark_word_known { display: block; }
-.unknown .mark_word_unknown { display: none; }
+  .known .top { font-size: 24px; }
+  .known .bottom { font-size: 20px; color: #aaa;  }
 
-.tooltip {
-  display: none;
-  font-size: 14px;
-  padding: 20px 5px 5px 5px;
-}
+  .unknown .top { font-size: 18px; }
+  .unknown .bottom { font-size: 20px; color: #666;  }
 
-.tooltip .word_value { font-size: 34px; text-align: center; margin-bottom: 10px; }
-.tooltip .word_pinyin { font-size: 24px; text-align: center; margin-bottom: 10px; }
+  .learning .top { font-size: 24px;  }
+  .learning .bottom { font-size: 20px;  color: #666; }
 
-.tooltip .stats {
-}
+  //.known .top.learnable { color: #000; }
+  .known .bottom.learnable { display: none; }
+  //.unknown .top.learnable { color: #aaa; }
+  .unknown .bottom.learnable { display: block; }
+  .learning .bottom.learnable { display: block; }
 
-.tooltip .definitions {
-}
 
-.section_label {
-  margin-top: 20px;
-  font-size: 14px;
-  font-weight: bold;
-}
+  .known .mark_word_known { display: none; }
+  .known .mark_word_unknown { display: block; }
 
-a:link { color: #d75813; }
-a:visited { color: #d75813; }
-a:hover { color: #d75813; }
-a:active { color: #d75813; }
-a:link { text-decoration: none; }
-a:visited { text-decoration: none; }
-a:hover { text-decoration: none; }
-a:active { text-decoration: none; }
+  .unknown .mark_word_known { display: block; }
+  .unknown .mark_word_unknown { display: none; }
 
-.qtip-bootstrap {
-  background-color: #dcdcdc;
+  .learning .mark_word_known { display: none; }
+  .learning .mark_word_unknown { display: block; }
+
+  .tooltip {
+    display: none;
+    padding: 5px 5px 5px 5px;
+  }
+
+  .tooltip .top { font-size: 30px; text-align: center; margin-bottom: 5px; }
+  .tooltip .bottom { font-size: 20px; text-align: center; margin-bottom: 5px; }
+
+  .tooltip .stats {
+  }
+
+  .tooltip .definitions {
+  }
+
+  .section_label {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+
+  .qtip-bootstrap {
+    background-color: #dcdcdc;
+  }
 }

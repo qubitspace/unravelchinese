@@ -1,0 +1,9 @@
+<%= form_for([@sentence, @sentence.translations.build]) do |f| %>
+  <p>
+    <%= f.label :value %><br>
+    <%= f.text_area :value %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

@@ -17,7 +17,7 @@ function addTooltip(token)
             fixed: true,
             delay: 500,
             effect: function() {
-                $(this).fadeTo(200, 0);
+                $(this).fadeTo(100, 0);
             }
         },
         //hide: {

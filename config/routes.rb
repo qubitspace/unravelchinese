@@ -31,8 +31,23 @@ Rails.application.routes.draw do
   end
 
 
+  resources :sentences, only: [:show] do
+    resources :translations, only: [:create]
+    get "copy_text", to: "sentences#copy_text", as: :copy_text
+  end
+
+
   resources :words, only: [:index, :show]
   resources :tags, only: [:index, :show]
+
+  resources :translations do
+    member do
+      put "upvote", to: "translations#upvote"
+      put "downvote", to: "translations#downvote"
+      put "unvote", to: "translations#unvote"
+    end
+  end
+
 
   root 'home#index'
 

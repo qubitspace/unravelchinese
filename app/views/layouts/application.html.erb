@@ -8,21 +8,26 @@
   <%= stylesheet_link_tag 'tokens', media: 'all', 'data-turbolinks-track' => true %>
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'tokens', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'sentences', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'learned_words', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'jquery.2.1.3', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'jquery.qtip', 'data-turbolinks-track' => true %>
 
   <%= csrf_meta_tags %>
 
 </head>
 <body>
 
+
+
 <div class="wrapper">
 
-  <header class="header">
-    <div class="user-menu">
+  <section class="header">
+    <div class="left"></div>
+
+    <div class="main">
+      绎中文<br/>
+      Unravel Chinese
+    </div>
+
+
+    <div class="meta">
       <% if user_signed_in? %>
         Logged in as <strong><%= current_user.email %></strong>.
         <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
@@ -33,30 +38,34 @@
       <% end %>
     </div>
 
-    <div class="logo">
-      <h2>UnravelChinese</h2>
-    </div>
-  </header>
+    <div class="right"></div>
+  </section>
 
-  <div class="main">
-    <aside class="menu">
+
+  <section class="menu">
+    <div class="left"></div>
+    <div class="main-meta">
       <div class="link"><%= link_to 'Read', articles_path %></div>
       <div class="link"><%= link_to 'Dictionary', words_path %></div>
       <div class="link"><%= link_to 'Tags', tags_path %></div>
-    </aside>
+    </div>
+    <div class="right"></div>
+  </section>
 
-    <article class="content">
-      <%= yield %>
-    </article>
+  <section class="content">
+    <div class="left"></div>
+    <div class="main"><%= yield %></div>
+    <div class="meta"><%= yield :meta %></div>
+    <div class="right"></div>
+  </section>
 
-    <aside class="meta">
-      <%= yield :meta %>
-    </aside>
-  </div>
+  <section class="footer">
+    <div class="left"></div>
+    <div class="main-meta"></div>
+    <div class="right"></div>
+  </section>
 
-  <footer class="footer">Footer</footer>
+
 </div>
-
-
 </body>
 </html>

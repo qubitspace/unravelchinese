@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 14) do
+ActiveRecord::Schema.define(version: 20150405021949) do
 
   create_table "articles", force: :cascade do |t|
     t.integer  "source_id",   limit: 4
@@ -122,14 +122,28 @@ ActiveRecord::Schema.define(version: 14) do
   add_index "tokens", ["word_id"], name: "index_tokens_on_word_id", using: :btree
 
   create_table "translations", force: :cascade do |t|
-    t.text     "value",       limit: 65535, null: false
-    t.integer  "source_id",   limit: 4
-    t.integer  "user_id",     limit: 4
-    t.integer  "sentence_id", limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.text     "value",                   limit: 65535,               null: false
+    t.integer  "source_id",               limit: 4
+    t.integer  "user_id",                 limit: 4
+    t.integer  "sentence_id",             limit: 4
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.integer  "cached_votes_total",      limit: 4,     default: 0
+    t.integer  "cached_votes_score",      limit: 4,     default: 0
+    t.integer  "cached_votes_up",         limit: 4,     default: 0
+    t.integer  "cached_votes_down",       limit: 4,     default: 0
+    t.integer  "cached_weighted_score",   limit: 4,     default: 0
+    t.integer  "cached_weighted_total",   limit: 4,     default: 0
+    t.float    "cached_weighted_average", limit: 24,    default: 0.0
   end
 
+  add_index "translations", ["cached_votes_down"], name: "index_translations_on_cached_votes_down", using: :btree
+  add_index "translations", ["cached_votes_score"], name: "index_translations_on_cached_votes_score", using: :btree
+  add_index "translations", ["cached_votes_total"], name: "index_translations_on_cached_votes_total", using: :btree
+  add_index "translations", ["cached_votes_up"], name: "index_translations_on_cached_votes_up", using: :btree
+  add_index "translations", ["cached_weighted_average"], name: "index_translations_on_cached_weighted_average", using: :btree
+  add_index "translations", ["cached_weighted_score"], name: "index_translations_on_cached_weighted_score", using: :btree
+  add_index "translations", ["cached_weighted_total"], name: "index_translations_on_cached_weighted_total", using: :btree
   add_index "translations", ["sentence_id"], name: "index_translations_on_sentence_id", using: :btree
   add_index "translations", ["source_id"], name: "index_translations_on_source_id", using: :btree
   add_index "translations", ["user_id"], name: "index_translations_on_user_id", using: :btree
@@ -161,6 +175,21 @@ ActiveRecord::Schema.define(version: 14) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
+
+  create_table "votes", force: :cascade do |t|
+    t.integer  "votable_id",   limit: 4
+    t.string   "votable_type", limit: 255
+    t.integer  "voter_id",     limit: 4
+    t.string   "voter_type",   limit: 255
+    t.boolean  "vote_flag",    limit: 1
+    t.string   "vote_scope",   limit: 255
+    t.integer  "vote_weight",  limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "votes", ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree
+  add_index "votes", ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
 
   create_table "words", force: :cascade do |t|
     t.integer  "category",            limit: 4,   null: false

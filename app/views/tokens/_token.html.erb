@@ -1,17 +1,36 @@
 
 <% status = (@word_statuses.has_key?(token.word_id) ? @word_statuses[token.word_id].status : 'unknown') %>
+<% status = 'known' if token.word.category == 'punctuation' %>
 <% show_pinyin = ['unknown'].include? status %>
 <% show_mark_unknown = ['known'].include? status %>
 <% show_mark_known = ['unknown'].include? status %>
 <div class='token <%= token.word.category %> <%= status %>' wordid="<%= token.word.id %>">
 
-  <span class='word_value learnable'>
-    <%= token.word.simplified %><br/>
-  </span>
+  <% if status == 'known' || token.word.category == 'punctuation' %>
+    <span class='top learnable'>
+      <%= token.word.simplified %><br/>
+    </span>
 
-  <span class='word_pinyin learnable'>
-    <%= token.word.pinyin %>
-  </span>
+    <span class='bottom learnable'>
+      <%= token.word.pinyin %>
+    </span>
+  <% elsif status == 'learning' %>
+    <span class='top learnable'>
+      <%= token.word.simplified %><br/>
+    </span>
+
+    <span class='bottom learnable'>
+      (<%= token.word.pinyin %>)
+    </span>
+  <% else %>
+    <span class='top learnable'>
+      <%= token.word.pinyin %><br/>
+    </span>
+
+    <span class='bottom learnable'>
+      (<%= token.word.simplified %>)
+    </span>
+  <% end %>
 
   <span class='token_notes'>
     <%= token.notes %>
@@ -19,11 +38,11 @@
 
   <div class="tooltip <%= token.word.category %> <%= status %>" wordId="<%= token.word.id %>">
 
-    <div class='word_value'>
+    <div class='top'>
       <%= link_to token.word.simplified, word_path(token.word) %>
     </div>
 
-    <div class='word_pinyin'>
+    <div class='bottom'>
       <%= token.word.pinyin %>
     </div>
 

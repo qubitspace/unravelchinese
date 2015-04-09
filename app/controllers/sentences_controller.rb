@@ -12,6 +12,20 @@ class SentencesController < ApplicationController
     end
   end
 
+  def show
+    @sentence = Sentence.find params[:id]
+    @word_statuses = current_user.word_statuses
+  end
+
+  def copy_text
+    sentence = Sentence.find params[:sentence_id]
+    @text = sentence.value
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def destroy
     @sentence = Sentence.find params[:id]
     @sentence.destroy

@@ -1,54 +1,160 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0px;
   padding: 0px;
-}
-
-body {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #191919;
 }
 
 .wrapper {
-  // display: -webkit-box;
-  // display: -moz-box;
-  // display: -ms-flexbox;
-  // display: -webkit-flex;
-  //-webkit-flex-flow: row wrap;
-  flex-flow: row wrap;
+  min-height: 100%;
   display: flex;
-  max-width: 1500px;
-  margin: 0px auto;
-  padding: 0px;
+  flex-direction: column;
 }
 
+
+.header, .menu, .content, .footer {
+  .left {
+    flex: 1 1 auto;
+    min-width: 50px;
+  }
+  .main {
+    flex: 0 1 auto;
+    width: 1000px;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .meta {
+    flex: 0 1 auto;
+    width: 400px;
+  }
+  .main-meta {
+    flex: 0 1 auto;
+    width: 1400px;
+  }
+  .right {
+    flex: 1 1 auto;
+    min-width: 50px;
+  }
+}
+
+// -------
+// Header
+// -------
 .header {
-  flex-flow: row wrap;
   display: flex;
-  max-width: 1500px;
-  margin: 0px auto;
-  background-color: #000000;
-  color: #ffffff;
+  flex-direction: row;
+  flex: 0 0 auto;
+  margin: 0px;
+  width: 100%;
 
-  .user-menu { text-align: right; }
-  .logo {}
-}
+  color: #EA5166;
 
-
-.main {
-  flex-flow: row wrap;
-  display: flex;
-  max-width: 1500px;
-  margin: 0px auto;
-
-  .menu {}
-  .content {}
-  .meta {}
+  .main { font-size: 40px; }
 
 }
 
-.footer { flex: initial; width: 100%; order: 3; height: 100px; border-top: 1px solid #000000; }
+// -------
+// Navigation
+// -------
+.menu {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  margin: 0px;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #484848;
+  border-top: #000000;
+  border-bottom: #000000;
+  margin-bottom: 20px;
+  margin-top: 20px;
 
 
-/* 0 to 500px */
+  .link {
+    display: inline;
+    a {
+      float: left;
+      text-decoration: none;
+      padding: 4px 10px;
+      margin-right: 25px;
+      border: 1px solid #4C4B48;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      color: #333532;
+      background-color: #E5C453;
+    }
+    a:hover, a:active {
+      color: #191919;
+      border: 1px solid #191919;
+      background-color: #F40000;
+    }
+
+    font-family: TiemposText-Regular, 'Tiempos Text Regular', Georgia, 'Times New Roman', Times, serif;
+    font-size: 21px;
+    margin-right: 20px;
+  }
+}
+
+// -------
+// Body
+// -------
+.content {
+  display: flex;
+  flex-direction: row;
+  flex: 1 0 auto;
+  font-family: TiemposText-Regular, 'Tiempos Text Regular', Georgia, 'Times New Roman', Times, serif;
+  background-color: #ffffff;
+  .main {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #000000;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
+
+// -------
+// Footer
+// -------
+.footer {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 initial;
+  min-height: 50px;
+
+  color: #F0F0F0;
+
+}
+
+
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+
+/*
 @media all and (min-width: 0px) and (max-width: 500px) {
 
   .header {
@@ -62,59 +168,65 @@ body {
 
   .main {
     order: 2;
-    width: 100%;
-    .menu { flex: initial; width: 100%; order: 1; border-bottom: 1px solid #000000; }
+    width: 1100px;
+    .menu { flex: initial; width: 100%; order: 1; border-bottom: 1px solid #B6B6B6; }
     .content { flex: initial; width: 100%; order: 2; }
-    .meta { flex: initial; width: 100%; order: 3; border-top: 1px solid #000000; }
+    .meta { flex: initial; width: 100%; order: 3; border-top: 1px solid #B6B6B6; }
   }
+  .footer { flex: initial; width: 100%; order: 3; height: 100px; border-top: 1px solid #B6B6B6; }
 
 }
 
-/* 501 to 1000px */
-@media all and (min-width: 501px) and (max-width: 1000px) {
+@media all and (min-width: 500px) {
 
   .header {
     flex: initial;
-    width: 100%;
+    width: 1000px;
     height: 50px;
 
-    .logo { flex: initial; width: 50%; order: 1; }
-    .user-menu { flex: initial; width: 50%; order: 2; }
+    .logo { flex: initial; width: 400px; order: 1; }
+    .user-menu { flex: initial; width: 600px; order: 2; }
   }
 
   .main {
     order: 2;
-    width: 100%;
-    .menu { flex: initial; width: 100%; order: 1; border-bottom: 1px solid #000000; }
-    .content { flex: auto; width: 200px; order: 2; }
-    .meta { flex: initial; width: 200px; order: 3; border-left: 1px solid #000000; }
+    width:1000px;
+    .menu {
+      flex: initial; width: 1000px; order: 1; border-bottom: 1px solid #B6B6B6;
+      div { display: inline; }
+    }
+    .content { flex: auto; width: 400px; order: 2; }
+    .meta { flex: initial; width: 300px; order: 3; border-left: 1px solid #B6B6B6; }
   }
+  .footer { flex: initial; width: 900px; order: 3; height: 100px; border-top: 1px solid #B6B6B6; }
 
 }
 
-
-/* 1001px and more */
-@media all and (min-width: 1001px) {
+@media all and (min-width: 1600px) {
 
   .header {
     flex: initial;
-    width: 100%;
+    width: 1500px;
     height: 50px;
 
-    .logo { flex: initial; width: 50%; order: 1; }
-    .user-menu { flex: initial; width: 50%; order: 2; }
+    .logo { flex: initial; width: 400px; order: 1; }
+    .user-menu { flex: initial; width: 1100px; order: 2; }
   }
 
   .main {
     order: 2;
-    width: 100%;
-    .menu { flex: initial; width: 200px; order: 1; border-right: 1px solid #000000; }
-    .content { flex: auto; width: 200px; order: 2; }
-    .meta { flex: initial; width: 300px; order: 3; border-left: 1px solid #000000; }
+    width:1500px;
+    .menu {
+      flex: initial; width: 1500px; order: 1; border-bottom: 1px solid #B6B6B6;
+      div { display: inline; }
+    }
+    .content { flex: auto; width: 800px; order: 2; }
+    .meta { flex: initial; width: 400px; order: 3; border-left: 1px solid #B6B6B6; }
   }
+  .footer { flex: initial; width: 1500px; order: 3; height: 100px; border-top: 1px solid #B6B6B6; }
 
 }
-
+*/
 
 // flex-grow  flex-shrink   flex-basis
 

@@ -1,6 +1,6 @@
 <h1><%= @article.title %></h1>
 <% unless @article.description.nil? %><%= @article.description %><% end %>
-<div>
+<div class="sentences">
 
   <% @article.sentences.each do |sentence| %>
     <%= render partial: 'sentences/sentence', locals: { sentence: sentence } %>
@@ -13,6 +13,6 @@
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>
 
-<!--%= link_to 'Articles', articles_path %--> |
-<!--%= link_to 'Edit', edit_article_path(@article) %--> |
+<!--%= link_to 'Articles', articles_path %-->
+<!--%= link_to 'Edit', edit_article_path(@article) %-->
 <!--%= link_to 'Tokenize', manage_article_path(@article) %-->

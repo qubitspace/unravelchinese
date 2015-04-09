@@ -1,7 +1,7 @@
 class Sentence < ActiveRecord::Base
   belongs_to :article
   has_many :tokens, dependent: :destroy
-  has_many :translations, dependent: :destroy
+  has_many :translations, -> { order('cached_votes_score desc') }, dependent: :destroy
   has_many :words, through: :tokens
 
   accepts_nested_attributes_for :translations, :reject_if => lambda { |t| t[:value].blank? }

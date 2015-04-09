@@ -1,3 +1,18 @@
+.sentence {
+  padding-top: 10px;
+  padding-bottom: 0px;
+  display: inline;
+}
+
+
+.highlighted_sentence {
+  border: 1px solid #333;
+  background-color: #fac;
+  border-radius: 10px;
+  padding: 15px;
+  display: block;
+}
+
 .untokenized {
   display: inline-block;
   text-align: center;
@@ -5,6 +20,64 @@
   vertical-align: text-top;
 }
 
-.translations {
-  display: none;
+.copy_text {
+  display: inline;
+  margin-top: 0px;
+  margin-right: 0px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.75;
+  &:hover {
+    opacity: 1;
+  }
 }
+
+.end_paragraph {
+  height: 50px;
+}
+
+.toggle_translations_button {
+  display: inline;
+  margin-top: 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.75;
+
+  &:hover{
+    opacity: 1;
+  }
+}
+
+.toggle_translations {
+  display: inline;
+  //margin-top: 20px;
+  margin-right: 30px;
+  &:hover{
+    .translations_wrapper {
+      display: block;
+      max-height: 1000px;
+    }
+  }
+}
+
+
+.translations_wrapper {
+  -webkit-transition: max-height 1s;
+  -moz-transition: max-height 1s;
+  -ms-transition: max-height 1s;
+  -o-transition: max-height 1s;
+  transition: max-height 1s;
+  //overflow: hidden;
+  display: none;
+  // "height: 0" not work with css transitions
+  max-height: 0;
+}
+
+.translations {
+  padding: 10px 10px;
+  background: #B4CCB1;
+  border: 1px solid #35702E;
+  border-radius: 5px;
+}
+
+
