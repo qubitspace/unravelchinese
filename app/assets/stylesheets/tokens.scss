@@ -10,48 +10,35 @@
   margin-top: 10px;
   margin-bottom: 0px;
   margin-right: 5px;
+  height: 60px;
 
+  &.punctuation { margin-right: 0px; }
+  .top { color: #A7171A; font-family: proxima-nova-soft, sans-serif; }
+  .top .punctuation { letter-spacing: 0px; padding-right: 0px; margin-right: 0px; }
+  &.known .top { font-size: 26px; }
+  &.known .bottom { font-size: 26px; color: #000;  }
 
-  .top { line-height: 40px; }
+  &.unknown .top { font-size: 22px; }
+  &.unknown .bottom { font-size: 26px; color: #000;  }
 
-  .known .top { font-size: 24px; }
-  .known .bottom { font-size: 20px; color: #aaa;  }
-
-  .unknown .top { font-size: 18px; }
-  .unknown .bottom { font-size: 20px; color: #666;  }
-
-  .learning .top { font-size: 24px;  }
-  .learning .bottom { font-size: 20px;  color: #666; }
+  &.learning .top { font-size: 26px;  }
+  &.learning .bottom { font-size: 26px;  color: #000; }
 
   //.known .top.learnable { color: #000; }
-  .known .bottom.learnable { display: none; }
+  &.known .bottom.learnable { display: none; }
   //.unknown .top.learnable { color: #aaa; }
-  .unknown .bottom.learnable { display: block; }
-  .learning .bottom.learnable { display: block; }
+  &.unknown .bottom.learnable { display: block; }
+  &.learning .bottom.learnable { display: block; }
 
 
-  .known .mark_word_known { display: none; }
-  .known .mark_word_unknown { display: block; }
+  &.known .mark_word_known { display: none; }
+  &.known .mark_word_unknown { display: block; }
 
-  .unknown .mark_word_known { display: block; }
-  .unknown .mark_word_unknown { display: none; }
+  &.unknown .mark_word_known { display: block; }
+  &.unknown .mark_word_unknown { display: none; }
 
-  .learning .mark_word_known { display: none; }
-  .learning .mark_word_unknown { display: block; }
-
-  .tooltip {
-    display: none;
-    padding: 5px 5px 5px 5px;
-  }
-
-  .tooltip .top { font-size: 30px; text-align: center; margin-bottom: 5px; }
-  .tooltip .bottom { font-size: 20px; text-align: center; margin-bottom: 5px; }
-
-  .tooltip .stats {
-  }
-
-  .tooltip .definitions {
-  }
+  &.learning .mark_word_known { display: none; }
+  &.learning .mark_word_unknown { display: block; }
 
   .section_label {
     margin-top: 20px;
@@ -60,7 +47,21 @@
   }
 
 
-  .qtip-bootstrap {
-    background-color: #dcdcdc;
-  }
+
 }
+
+
+
+.tooltip {
+  display: none;
+}
+
+.tooltip .top { font-size: 30px; text-align: center; margin-bottom: 5px; }
+.tooltip .bottom { font-size: 20px; text-align: center; margin-bottom: 5px; }
+
+.tooltip .stats {
+}
+
+.tooltip .definitions {
+}
+

@@ -18,17 +18,13 @@
     <span class='top learnable'>
       <%= token.word.simplified %><br/>
     </span>
-
-    <span class='bottom learnable'>
-      (<%= token.word.pinyin %>)
-    </span>
   <% else %>
     <span class='top learnable'>
       <%= token.word.pinyin %><br/>
     </span>
 
     <span class='bottom learnable'>
-      (<%= token.word.simplified %>)
+      <%= token.word.simplified %>
     </span>
   <% end %>
 
@@ -36,6 +32,7 @@
     <%= token.notes %>
   </span>
 
+<% unless token.word.punctuation? %>
   <div class="tooltip <%= token.word.category %> <%= status %>" wordId="<%= token.word.id %>">
 
     <div class='top'>
@@ -66,4 +63,5 @@
     </span>
 
   </div>
+<% end %>
 </div>

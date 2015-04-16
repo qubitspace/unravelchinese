@@ -2,7 +2,7 @@
  * qTip2 - Pretty powerful tooltips - v2.2.1
  * http://qtip2.com
  *
- * Copyright (c) 2014 
+ * Copyright (c) 2014
  * Released under the MIT licenses
  * http://jquery.org/license
  *
@@ -456,8 +456,8 @@
 
 	/** Taken from Bootstrap .popover */
 	padding: 1px;
-	background-color: #ffffff;
-	border: 1px solid #ccc;
+	background-color: #fcefe3;
+	border: 1px solid #DC602B;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;

@@ -1,4 +1,4 @@
-function addTooltip(token)
+function addTokenTooltip(token)
 {
     token.qtip({
         content: token.find('.tooltip'),
@@ -39,16 +39,16 @@ function addTooltip(token)
 
 }
 
-function addTooltips()
+function addTokenTooltips()
 {
     $('div.token.word').each(function () {
-        addTooltip($(this));
+        addTokenTooltip($(this));
     });
 }
 
 var ready;
 ready = function() {
-    addTooltips();
+    addTokenTooltips();
 };
 
 $(document).ready(ready);

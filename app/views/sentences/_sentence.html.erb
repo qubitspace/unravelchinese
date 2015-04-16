@@ -9,24 +9,24 @@
   <!--% end %-->
 
 
-  <%= link_to image_tag("copy.png", class: 'copy_text'), sentence_copy_text_path(sentence), remote: true %>
-  <div class="toggle_translations">
-    <%= link_to image_tag("translate.png", class: 'toggle_translations_button'), sentence_path(sentence) %>
-    <div class="translations_wrapper">
-      <div class="translations">
-         <% sentence.translations.each do |translation| %>
-          <% if translation.source != nil %>
-          <% end %>
-          <%= translation.value %>
-          <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
-          <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
-        <% end %>
-      </div>
+</div>
+
+<!--% link_to image_tag("copy.png", class: 'copy_text'), sentence_copy_text_path(sentence), remote: true %-->
+<div class="toggle_translations">
+  <%= link_to image_tag("translate2.jpg", class: 'toggle_translations_button'), sentence_path(sentence) %>
+  <div class="translations_wrapper">
+    <div class="translations">
+      <% if sentence.translations.size > 0 %>
+        <% translation = sentence.translations[0] %>
+        <%= raw translation.value %>
+        <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
+        <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
+      <% end %>
     </div>
   </div>
-
-
 </div>
+
+
 <% if sentence.end %>
 <div class="end_paragraph"></div>
 <% end %>

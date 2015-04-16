@@ -1,12 +1,16 @@
 
 <% content_for :title do %>
-  <%= @article.title %>
+  <h1><%= @article.title %></h1>
+  Source: <%= link_to @article.source.name, @article.source.link %>
 <% end %>
+
 
 <div class="content">
 
   <% unless @article.description.nil? %><%= @article.description %><% end %>
-
+  <br><br>
+  <hr>
+  <br>
   <div class="sentences">
 
     <% @article.sentences.each do |sentence| %>
@@ -14,9 +18,8 @@
     <% end %>
   </div>
 </div>
-<div class="content-header">
-  Comments
-</div>
+
+<div class="content-header">Comments</div>
 <div class="content">
   <%= render @article.comments %>
 
@@ -24,9 +27,21 @@
   <%= render 'comments/form' %>
 </div>
 
+
+
 <% content_for :meta do %>
   <div class="content">
-    <%= link_to @article.source.name, @article.source.link %>
+    Known Words:<br>
+    Percent Known:<br>
+    <b>Stats:</b><br>
+    Words: <%= @stats[:total_words] %><br>
+    Distinct Words: <%= @stats[:distinct_words] %><br><br>
+
+    <b>Most Frequent Words:</b><br>
+    <% @words[0..10].each do |word, count| %>
+      <%= word %> - <%= count %> (<%= number_to_percentage( ((count.to_f / @stats[:total_words].to_f) * 100), precision: 2) %>)
+      <br>
+    <% end %>
   </div>
 <% end %>
 <!--%= link_to 'Articles', articles_path %-->

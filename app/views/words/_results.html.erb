@@ -1,5 +1,7 @@
 <% @term = params[:term] %>
 <% @results.each do |word| %>
-  <%= highlight(word.simplified, @term) %>|<%=  highlight(word.traditional, @term) %>|<%=  Word.highlight(word.pinyin, @term) %> - 
+  <%= link_to highlight(word.simplified, @term), word_url(word) %>|
+  <%= link_to highlight(word.traditional, @term), word_url(word) %>|
+  <%= link_to Word.highlight(word.pinyin, @term), word_url(word) %> -
   <%= Word.highlight(word.definitions.map(&:value).join(' / '), @term) %><br/>
 <% end %>

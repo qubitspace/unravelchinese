@@ -1,7 +1,3 @@
-# Add java to path
-
-# Finish setting up stanford parser
-
 class ArticlesController < ApplicationController
   #after_action :verify_authorized, :except => :index, :show
 
@@ -13,12 +9,25 @@ class ArticlesController < ApplicationController
   def show
     @article = tokenized_article params[:id]
 
+    @words = {}
+    @stats = {}
+    @stats[:total_words] = 0
+    @stats[:distinct_words] = 0
+
     @article.sentences.each do |sentence|
-      sentence.untokenized = sentence.value.dup
       sentence.tokens.each do |token|
-        sentence.untokenized.slice! token.word.simplified
+        if !token.word.punctuation?
+          @stats[:total_words] += 1
+          if @words.has_key? token.simplified
+            @words[token.simplified] += 1
+          else
+            @words[token.simplified] = 1
+            @stats[:distinct_words] += 1
+          end
+        end
       end
     end
+    @words = @words.sort_by {|k,v| v}.reverse
 
     @word_statuses = current_user.word_statuses
   end

@@ -38,10 +38,12 @@
 
 .toggle_translations_button {
   display: inline;
-  margin-top: 20px;
+  margin-top: 14px;
+  margin-left: 0px;
+  padding-left: 0px;
   width: 20px;
   height: 20px;
-  opacity: 0.75;
+  opacity: 0.4;
 
   &:hover{
     opacity: 1;
@@ -50,8 +52,7 @@
 
 .toggle_translations {
   display: inline;
-  //margin-top: 20px;
-  margin-right: 30px;
+  margin-right: 10px;
   &:hover{
     .translations_wrapper {
       display: block;
@@ -62,22 +63,22 @@
 
 
 .translations_wrapper {
-  -webkit-transition: max-height 1s;
-  -moz-transition: max-height 1s;
-  -ms-transition: max-height 1s;
-  -o-transition: max-height 1s;
-  transition: max-height 1s;
-  //overflow: hidden;
   display: none;
-  // "height: 0" not work with css transitions
   max-height: 0;
 }
 
 .translations {
-  padding: 10px 10px;
-  background: #B4CCB1;
-  border: 1px solid #35702E;
-  border-radius: 5px;
+  font-weight: bold;
+  margin: 10px 0 0 0;
+  padding: 10px;
+  background: #fcefe3;
+  border: 1px solid #DC602B;
+  border-radius: 3px;
 }
 
-
+.translations-header {
+  font-size: 16px;
+  font-weight: bold;
+  font: monospace;
+  color: #DC602B;
+}

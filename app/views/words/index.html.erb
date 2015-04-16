@@ -3,7 +3,10 @@
 <%= form_tag words_path, :method => 'get', :id => "dictionary_search" do %>
   <p>
     <%= text_field_tag :term, params[:term] %>
-    <%= submit_tag "Search", :name => nil %>
+    <%= submit_tag "Search", :name => nil %><br>
+    <%= check_box_tag :exact_match %>
+    <%= label_tag :exact_match, "Exact Match" %><br>
+    <strong>Add a number to the end of a pinyin word to add an accent, hao3 for </strong>
   </p>
   <div id="results"><%= render 'results' %></div>
 <% end %>
