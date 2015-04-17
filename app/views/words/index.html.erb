@@ -1,12 +1,21 @@
 <h1>Dictionary</h1>
 
-<%= form_tag words_path, :method => 'get', :id => "dictionary_search" do %>
+<%= form_tag word_search_path, remote: true do %>
   <p>
+    <b><%= label_tag :term, "Search simplified, traditional and pinyin:" %></b><br>
     <%= text_field_tag :term, params[:term] %>
     <%= submit_tag "Search", :name => nil %><br>
-    <%= check_box_tag :exact_match %>
-    <%= label_tag :exact_match, "Exact Match" %><br>
-    <strong>Add a number to the end of a pinyin word to add an accent, hao3 for </strong>
-  </p>
-  <div id="results"><%= render 'results' %></div>
+    <%= label_tag :ignore_tones, "Ignore Tones" %>
+    <%= check_box_tag :ignore_accents %><br>
+    <em>Pinyin with tone numbers at the end will be converted to tone marks (ex: zhong1 wen4 for zhōngwén)</em>
 <% end %>
+
+<%= form_tag word_definition_search_path,  remote: true do %>
+  <p>
+    <b><%= label_tag :definitions_term, "Search definitions:" %><br></b>
+    <%= text_field_tag :definitions_term, params[:definitions_term] %>
+    <%= submit_tag "Search", :name => nil %><br>
+<% end %>
+
+</p>
+<div id="results"><%= render 'results' %></div>

@@ -38,6 +38,9 @@ Rails.application.routes.draw do
 
 
   resources :words, only: [:index, :show]
+  post 'words/search' => 'words#search', as: :word_search
+  post 'words/definition_search' => 'words#definition_search', as: :word_definition_search
+
   resources :tags, only: [:index, :show]
 
   resources :translations do

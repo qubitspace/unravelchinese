@@ -1,4 +1,3 @@
-<% @term = params[:term] %>
 <% @results.each do |word| %>
   <%= link_to highlight(word.simplified, @term), word_url(word) %>|
   <%= link_to highlight(word.traditional, @term), word_url(word) %>|

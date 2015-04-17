@@ -11,11 +11,10 @@ class Word < ActiveRecord::Base
   has_many :taggings, through: :definitions
 
   def self.search term
-    #TODO: split term and pinyinize any individual terms
-    #TODO: implement exact match
-    term = self.pinyinize term if validate term
 
     if term and term != ''
+      term = term.split(' ').map { |t| self.pinyinize t }.join('')
+
       limit = 100
       exact_matches = self.where('simplified = ? or traditional = ? or pinyin = ?', term, term, term).limit(limit)
 
@@ -34,20 +33,22 @@ class Word < ActiveRecord::Base
     # or just have an option for exact match
 
   def self.highlight value, term
-    #TODO: split term and pinyinize any individual terms
-      # Should i highlight with and with spaces?
-    term = pinyinize term if validate term
 
-    matches = []
-    return nil if value.nil? or term.nil?
-    normalized_value = I18n.transliterate(value).downcase
-    normalized_term = I18n.transliterate(term).downcase
-    normalized_value.scan(normalized_term) do |c|
-      matches << $~.offset(0)[0]
-    end
-    matches.reverse.each do |i|
-      match = value[i,term.length]
-      value[i, term.length] = "<mark>#{match}</mark>"
+    if term and term != ''
+      term = term.split(' ').map { |t| self.pinyinize t }.join('')
+      term = pinyinize term if validate term
+
+      matches = []
+      return nil if value.nil? or term.nil?
+      normalized_value = I18n.transliterate(value).downcase
+      normalized_term = I18n.transliterate(term).downcase
+      normalized_value.scan(normalized_term) do |c|
+        matches << $~.offset(0)[0]
+      end
+      matches.reverse.each do |i|
+        match = value[i,term.length]
+        value[i, term.length] = "<mark>#{match}</mark>"
+      end
     end
     return value.html_safe
   end
