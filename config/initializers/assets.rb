@@ -11,9 +11,9 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( admin.css )
 Rails.application.config.assets.precompile += %w( jquery.qtip.css )
 Rails.application.config.assets.precompile += %w( sentences.css )
-Rails.application.config.assets.precompile += %w( tokens.css )
+Rails.application.config.assets.precompile += %w( words.css )
 
-Rails.application.config.assets.precompile += %w( tokens.js )
+Rails.application.config.assets.precompile += %w( words.js )
 Rails.application.config.assets.precompile += %w( sentences.js )
 Rails.application.config.assets.precompile += %w( learned_words.js )
 Rails.application.config.assets.precompile += %w( jquery-2.1.3.js )

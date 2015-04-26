@@ -5,7 +5,7 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag 'jquery.qtip', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag 'sentences', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag 'tokens', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'words', media: 'all', 'data-turbolinks-track' => true %>
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
@@ -23,8 +23,7 @@
 
     <div class="main">
       <div class="main-content">
-        绎中文<br/>
-        Unravel Chinese
+        <%= link_to "绎中文<br>Unravel Chinese".html_safe, root_path %>
       </div>
     </div>
 
@@ -39,6 +38,9 @@
           <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
           <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
         <% end %>
+        <% if current_user.admin? %>
+          | <%= link_to 'Admin', admin_articles_path %>
+        <% end %>
       </div>
     </div>
 
@@ -50,9 +52,8 @@
     <div class="left"></div>
     <div class="main-meta">
       <div class="menu-wrapper">
-        <div class="link"><%= link_to 'Read', articles_path %></div>
+        <div class="link"><%= link_to 'Read Chinese', articles_path %></div>
         <div class="link"><%= link_to 'Dictionary', words_path %></div>
-        <div class="link"><%= link_to 'Flash Cards', "" %></div>
       </div>
     </div>
     <div class="right"></div>

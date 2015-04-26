@@ -4,8 +4,7 @@ class CreateTokens < ActiveRecord::Migration
       t.references :sentence, null: false, index: true
       t.references :word, null: false, index: true
       t.integer :rank
-      t.text :notes
-      
+
       t.timestamps null: false
     end
 

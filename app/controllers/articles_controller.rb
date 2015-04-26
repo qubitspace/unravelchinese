@@ -8,28 +8,8 @@ class ArticlesController < ApplicationController
 
   def show
     @article = tokenized_article params[:id]
-
-    @words = {}
-    @stats = {}
-    @stats[:total_words] = 0
-    @stats[:distinct_words] = 0
-
-    @article.sentences.each do |sentence|
-      sentence.tokens.each do |token|
-        if !token.word.punctuation?
-          @stats[:total_words] += 1
-          if @words.has_key? token.simplified
-            @words[token.simplified] += 1
-          else
-            @words[token.simplified] = 1
-            @stats[:distinct_words] += 1
-          end
-        end
-      end
-    end
-    @words = @words.sort_by {|k,v| v}.reverse
-
     @word_statuses = current_user.word_statuses
+    @stats = @article.get_stats @word_statuses
   end
 
   private

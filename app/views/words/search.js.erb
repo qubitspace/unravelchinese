@@ -1,2 +1,1 @@
-alert('<%= @term %>');
-$('#results').html("<%= escape_javascript(render(@results)).html_safe %>");
+$('#results').html("<%= escape_javascript(render partial: 'search_results').html_safe %>");

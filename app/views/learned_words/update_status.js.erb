@@ -1,1 +1,16 @@
-updateLearnedWordStatus('<%= @learned_word.word_id %>', '<%= @learned_word.status.to_s %>');
+$('div.qtip:visible').qtip('hide');
+$('.word_wrapper[wordId="<%= @word.id %>"]').each(function() {
+  parent = $(this).parent();
+
+  parent.hide();
+  parent.html("<%= escape_javascript(render(:partial => @word))%>");
+  newWord = parent.find(">:first-child");
+  addWordTooltip(newWord);
+  if(newWord.hasClass("learning"))
+  {
+    addLearningMouseover(newWord);
+  }
+  parent.fadeIn(1000);
+});
+
+$('.article_stats').html("<%= escape_javascript(render 'articles/article_stats')%>");

@@ -6,7 +6,8 @@ class WordsController < ApplicationController
 
   def search
     @term = params[:term]
-    @results = Word.search(@term)
+    @match_accents = params[:match_accents]
+    @results = Word.search(@term, @match_accents)
     respond_to do |format|
       format.js
     end
@@ -14,7 +15,7 @@ class WordsController < ApplicationController
 
   def definition_search
     @term = params[:term]
-    @results = Word.search(@term)
+    @results = Word.definition_search(@term)
     respond_to do |format|
       format.js
     end
@@ -22,6 +23,18 @@ class WordsController < ApplicationController
 
   def show
     @word = Word.find(params[:id])
+    @word_statuses = current_user.word_statuses
+    @derived_words = Word.order('-hsk_character_level desc').search(@word.simplified).select { |word| word != @word }
+    @sub_words = Word.order('-hsk_character_level desc').where(simplified: split_word(@word.simplified)).select { |word| word != @word }
+    @sentences = Sentence.where(['value LIKE ?', "%#{@word.simplified}%"])
+    @articles = @sentences.collect { |sentence| sentence.article }.uniq{ |article| article.id }
   end
 
+  def split_word word
+    (0..word.length).inject([]){|ai,i|
+      (1..word.length - i).inject(ai){|aj,j|
+        aj << word[i,j]
+      }
+    }.uniq
+  end
 end

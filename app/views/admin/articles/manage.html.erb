@@ -1,0 +1,16 @@
+<h1><%= @article.title %></h1>
+<% unless @article.description.nil? %><h4><%= @article.description %></h4><% end %>
+<!-- TODO: Create views for different types of words to not have conditional logic. -->
+<!-- either need aditional padding around literals, or need to get spacing in there somehow, only some literals need spaces -->
+
+<%= render @article.sentences %>
+
+<h2>Add a Sentence:</h2>
+<%= render 'admin/sentences/form' %>
+
+<%= link_to 'Articles', articles_path %> |
+<%= link_to 'Show', admin_article_path(@article) %> |
+<%= link_to 'Edit', edit_admin_article_path(@article) %>
+
+</script>
+

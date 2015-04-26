@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :articles do
       get 'manage', on: :member
       post 'add_sentence', on: :member
+      resources :sentences
     end
 
     resources :sentences, only: [:create, :destroy] do
@@ -13,15 +14,9 @@ Rails.application.routes.draw do
       post 'add_token', on: :member
     end
 
-
     resources :comments, only: [:destroy]
     resources :words, only: [:index]
     resources :tags, only: [:index]
-
-    get 'watch_word', to: 'users#watch_word', as: :watch_word
-    get 'learn_word', to: 'users#learn_word', as: :learn_word
-    get 'update_status', to: 'learned_words#update_status', as: :update_learned_word_status
-
   end
 
   devise_for :users
@@ -51,6 +46,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'update_status', to: 'learned_words#update_status', as: :update_learned_word_status
 
   root 'home#index'
 

@@ -1,0 +1,17 @@
+<% if @stats[:total_words] > 0 %>
+  You know <%= number_to_percentage( ((@stats[:known_words].to_f / @stats[:total_words].to_f) * 100), precision: 0) %>
+  of the words in this article.
+
+  <br>
+  <br>
+  Known Words: <%= @stats[:known_words] %><br>
+  Words: <%= @stats[:total_words] %><br>
+  Distinct Words: <%= @stats[:distinct_words] %><br><br>
+
+  <b>Most Frequent Words:</b><br>
+  <% @stats[:words][0..10].each do |word, word_stats| %>
+    <%= word %> - <%= word_stats[:count] %> (<%= number_to_percentage( ((word_stats[:count].to_f / @stats[:total_words].to_f) * 100), precision: 2) %>)
+    <% if word_stats[:known] %>- Known<% end %>
+    <br>
+  <% end %>
+<% end %>

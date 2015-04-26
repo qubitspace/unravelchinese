@@ -1,0 +1,19 @@
+
+<% status = (@word_statuses.has_key?(word.id) ? @word_statuses[word.id].status : 'unknown') %>
+<% status = 'known' if word.category == 'punctuation' %>
+<% show_pinyin = ['unknown'].include? status %>
+<% show_mark_unknown = ['known'].include? status %>
+<% show_mark_known = ['unknown'].include? status %>
+<div class='word_wrapper <%= word.category %> <%= status %>' wordid="<%= word.id %>">
+
+  <div class="tooltip_wrapper">
+    <span class='top learnable'>
+      <%= word.simplified %><br/>
+    </span>
+
+    <span class='bottom learnable'>
+      <%= word.pinyin %>
+    </span>
+  </div>
+
+</div>

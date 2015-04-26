@@ -1,7 +1,7 @@
 
 <div class="sentence -%>">
   <% @sentence.tokens.each do |token| %>
-    <%= render partial: 'tokens/token', locals: { token: token } %>
+    <div style="display:inline-block;"><%= render partial: 'words/word', locals: { word: token.word } %></div>
   <% end %>
   <br>
 

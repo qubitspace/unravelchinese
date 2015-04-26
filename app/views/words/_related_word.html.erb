@@ -1,0 +1,67 @@
+
+<% status = (@word_statuses.has_key?(word.id) ? @word_statuses[word.id].status : 'unknown') %>
+<% status = 'known' if word.category == 'punctuation' %>
+<% show_pinyin = ['unknown'].include? status %>
+<% show_mark_unknown = ['known'].include? status %>
+<% show_mark_known = ['unknown'].include? status %>
+<div class='related_word_wrapper <%= word.category %> <%= status %>' wordid="<%= word.id %>">
+  <div class="related_word">
+    <% if word.category == 'punctuation' %>
+      <%= word.simplified %><br/>
+      It's just punctuation!
+    <% else %>
+      <span class='top learnable'>
+        <%= word.simplified %><br/>
+      </span>
+
+      <% unless status == 'known' %>
+        <span class='bottom learnable'>
+          <%= word.pinyin %>
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="related_word_definitions">
+    <% word.definitions.each do |definition| %>
+      <%= definition.value %><br/>
+    <% end %>
+  </div>
+  <!--% unless word.punctuation? %-->
+    <div class="tooltip <%= word.category %> <%= status %>" wordId="<%= word.id %>">
+      <div class="close_tooltip">&#10006;</div>
+
+      <div class='top'>
+        <%= link_to word.simplified, word_path(word) %>
+      </div>
+
+      <div class='bottom'>
+        <%= word.pinyin %>
+      </div>
+
+      <hr>
+
+      <div class="definitions">
+        <strong>
+        <% word.definitions.each do |definition| %>
+          • <%= definition.value %><br/>
+        <% end %>
+        </strong>
+      </div>
+
+      <% if word.definitions.any? %><hr><% end %>
+
+      <% if status == 'known' %>
+        <%= link_to "Mark as Unknown", update_learned_word_status_path(word_id: word.id, status: :unknown), remote: true %><br/>
+        <%= link_to "Mark as Learning", update_learned_word_status_path(word_id: word.id, status: :learning), remote: true %>
+      <% elsif status == 'learning' %>
+        <%= link_to "Mark as Known", update_learned_word_status_path(word_id: word.id, status: :known), remote: true %><br/>
+        <%= link_to "Mark as Unknown", update_learned_word_status_path(word_id: word.id, status: :unknown), remote: true %>
+      <% else %>
+        <%= link_to "Mark as Known", update_learned_word_status_path(word_id: word.id, status: :known), remote: true %><br/>
+        <%= link_to "Mark as Learning", update_learned_word_status_path(word_id: word.id, status: :learning), remote: true %>
+      <% end %>
+
+    </div>
+  <!--% end %-->
+</div>

@@ -1,16 +1,54 @@
-<h1>Show</h1>
 
-Simplified: <%= @word.simplified %><br/>
-Traditional: <%= @word.traditional %><br/>
-Pinyin: <%= @word.pinyin %><br/>
-HSK Char Level: <%= @word.hsk_character_level %><br/>
-HSK Word Level: <%= @word.hsk_word_level %><br/>
-Character Frequency: <%= @word.character_frequency %><br/>
-Word Frequency: <%= @word.word_frequency %><br/>
-Radical Number: <%= @word.radical_number %><br/>
-Strokes: <%= @word.strokes %><br/><br/>
+<% content_for :title do %>
+  <div class="word_title_wrapper">
+    <div class="word_title"><%= @word.simplified %></div>
+    <div class="word_title_pinyin"><%= @word.pinyin %></div>
+  </div>
+  <div class="word_title_traditional">(<%= @word.traditional %>)</div>
+<% end %>
 
-Definitions: <br/>
+
+
+<div class="content">
 <% @word.definitions.each do |definition| %>
-  • <%= definition.value %> <% definition.tags.each do |tag| %>[<%= link_to tag.name, tag %>] <% end %> <br/>
+  <div class="word_definition">
+  • <%= definition.value %> <% definition.tags.each do |tag| %>[<%= link_to tag.name, tag %>] <% end %>
+  </div>
+<% end %>
+
+<hr>
+
+<h1>Sub Words:</h1>
+<% @sub_words.each do |sub_word| %>
+  <%= render partial: 'words/related_word', locals: { word: sub_word } %>
+<% end %>
+
+<hr>
+
+<h1>Related Words:</h1>
+
+<% @derived_words.each do |derived_word| %>
+  <%= render partial: 'words/related_word', locals: { word: derived_word } %>
+<% end %>
+
+<h1>Sentences:</h1>
+<% @sentences.each do |sentence| %>
+  <%= sentence.value %><br>
+<% end %>
+
+<h1>Articles:</h1>
+<%= @articles.count %>
+
+</div>
+
+
+<% content_for :meta do %>
+  <div class="content">
+    HSK Char Level: <%= @word.hsk_character_level %><br/>
+    HSK Word Level: <%= @word.hsk_word_level %><br/>
+    Character Frequency: <%= @word.character_frequency %><br/>
+    Word Frequency: <%= @word.word_frequency %><br/>
+    Radical Number: <%= @word.radical_number %><br/>
+    Strokes: <%= @word.strokes %><br/><br/>
+  </div>
 <% end %>

@@ -1,7 +1,10 @@
 
 <% content_for :title do %>
-  <h1><%= @article.title %></h1>
-  Source: <%= link_to @article.source.name, @article.source.link %>
+  <div class="article_title"><%= @article.title %></div>
+  <div class="article_meta">
+    <%= time_ago_in_words @article.created_at %> ago<br>
+    Source: <%= link_to @article.source.name, @article.source.link %>
+  </div>
 <% end %>
 
 
@@ -30,18 +33,8 @@
 
 
 <% content_for :meta do %>
-  <div class="content">
-    Known Words:<br>
-    Percent Known:<br>
-    <b>Stats:</b><br>
-    Words: <%= @stats[:total_words] %><br>
-    Distinct Words: <%= @stats[:distinct_words] %><br><br>
-
-    <b>Most Frequent Words:</b><br>
-    <% @words[0..10].each do |word, count| %>
-      <%= word %> - <%= count %> (<%= number_to_percentage( ((count.to_f / @stats[:total_words].to_f) * 100), precision: 2) %>)
-      <br>
-    <% end %>
+  <div class="content article_stats">
+  <%= render 'article_stats' %>
   </div>
 <% end %>
 <!--%= link_to 'Articles', articles_path %-->

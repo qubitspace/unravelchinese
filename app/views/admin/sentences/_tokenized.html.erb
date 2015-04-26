@@ -1,0 +1,10 @@
+<div id="tokenized">
+  Translation Count: <%= @sentence.translations.count %><br/>
+  <% @sentence.translations.each do |translation| %>
+    <%= translation.value %> (<%= translation.source %>)<br/>
+  <% end %>
+  <% @sentence.tokens.each do |token| %>
+    <%= render partial: 'admin/words/word', locals: { word: token.word } %>
+  <% end %>
+  <div class="untokenized"><%= @sentence.untokenized %></div>
+</div>

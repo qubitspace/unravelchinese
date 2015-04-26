@@ -20,12 +20,22 @@ body {
   background-color: #191919;
 }
 
+mark { background-color: #EEEEEE; font-weight: bold; }
+
+
+$red: #C7272A;
+$blue: #052866;
+$black: #000000;
+
 .wrapper {
   min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
+.header {
+
+}
 
 .header, .menu, .title, .body, .footer {
   .left {
@@ -88,6 +98,16 @@ body {
 
   .main { font-size: 40px; }
 
+  a {
+    color: $red;
+    text-decoration: none;
+  }
+
+  a:hover
+  {
+       cursor:pointer;
+  }
+
 }
 
 // -------
@@ -118,7 +138,8 @@ body {
       padding: 10px;
     }
     a:hover, a:active {
-      background-color: #BE4C39;
+      //background-color: #BE4C39;
+      background-color: $red;
     }
 
     font-size: 21px;
@@ -133,6 +154,7 @@ body {
   flex-direction: row;
   flex: 0 0 auto;
   width: 100%;
+  line-height: 16px;
 
   .left, .right {
     background-color: #EEEEEE;
@@ -143,6 +165,7 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 12px;
     color: #222222;
+    padding-top: 25px;
   }
 }
 
@@ -183,4 +206,21 @@ body {
 
   color: #F0F0F0;
 
+}
+
+
+
+.article_title {
+  //font-family: Georgia, serif;
+  //font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-family: "TiemposHeadline-Medium","Tiempos Headline Medium",Georgia,"Times New Roman",Times,serif;
+  font-size: 46pt;
+  padding-bottom: 40px;
+  color: $blue;
+  margin: 0 25px;
+}
+
+.article_meta {
+  margin: 0 25px;
+  color: $blue;
 }

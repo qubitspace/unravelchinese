@@ -1,0 +1,12 @@
+<div id="tokenizer">
+
+  <%= render partial: 'tokenized' %>
+
+  <hr/>
+
+  <%= render partial: 'next_token' %>
+  <br/>
+  <%= link_to 'Manage Article', manage_admin_article_path(@sentence.article) %> |
+  <%= link_to 'Delete Tokens', untokenize_admin_sentence_path(@sentence) %>
+
+</div>
