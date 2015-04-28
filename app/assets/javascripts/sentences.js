@@ -1,54 +1,29 @@
-function addTranslationTooltip(translations)
-{
-    translations.qtip({
-        content: translations.find('.translations'),
-        show: {
-            event: 'click',
-            solo: true,
-            effect: function() {
-                $(this).fadeTo(200, 1);
-            }
-        },
-        hide: {
-            event: 'unfocus',
-            target: $('.close'),
-            fixed: true,
-            effect: function() {
-                $(this).fadeTo(100, 0);
-            }
-        },
-        style: {
-            classes: "qtip-bootstrap"
-        },
-        position: {
-            my: 'top center',
-            at: 'bottom center',
-            viewport: $(window),
-            adjust: {
-                method: 'shift flip'
-            }
-        }
-    });
+// Change these to be adding/removing classes instead od changing css!
 
-}
-
-function addTranslationTooltips()
-{
-    $('.toggle_translations').each(function () {
-        addTranslationTooltip($(this));
-    });
-}
-
-function addCloseDefinitionTooltipActions()
-{
+function addCloseDefinitionTooltipActions() {
     $('.close_translation_tooltip').click(function() {
-      $(this).closest('div.qtip').hide();
+        $(this).parent().prev().css('display', 'inline');
+        $(this).parent().prev().css('border', '0px');
+        $(this).parent().hide();
+    });
+}
+
+function addToggleTranslationActions() {
+    $('.toggle_translations').click(function() {
+        if ( $(this).parent().next().css("display") == "none" ) {
+            $(this).parent().css('display', 'block');
+            $(this).parent().css('border', '1px solid #000000');
+        } else {
+            $(this).parent().css('display', 'inline');
+            $(this).parent().css('border', '0px');
+        }
+        $(this).parent().next().toggle();
     });
 }
 
 var ready;
 ready = function() {
-    addTranslationTooltips();
+    addToggleTranslationActions();
     addCloseDefinitionTooltipActions();
 };
 

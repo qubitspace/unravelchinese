@@ -2,10 +2,6 @@
   <% sentence.tokens.each do |token| %>
     <div style="display:inline-block;"><%= render partial: 'words/word', locals: { word: token.word } %></div>
   <% end %>
-  <!--% if sentence.untokenized != '' %-->
-    <!--%= sentence.untokenized %-->
-    <!--%= link_to 'Tokenize', manage_sentence_path(sentence) %-->
-  <!--% end %-->
 
 
 </div>
@@ -16,10 +12,9 @@
   </div>
   <div class="translations">
     <div class="close_translation_tooltip">&#10006;</div>
-    <% if sentence.translations.size > 0 %>
-      <% translation = sentence.translations[0] %>
-      <%= raw translation.value %>
-      <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
+    <% sentence.translations.each do |translation| %>
+      <b><%= translation.source.name %></b><br>
+      <%= raw translation.value %><br/>
       <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
     <% end %>
   </div>

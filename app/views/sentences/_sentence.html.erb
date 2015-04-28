@@ -3,35 +3,27 @@
   <% sentence.tokens.each do |token| %>
     <div style="display:inline-block;"><%= render partial: 'words/word', locals: { word: token.word } %></div>
   <% end %>
-  <!--% if sentence.untokenized != '' %-->
-    <!--%= sentence.untokenized %-->
-    <!--%= link_to 'Tokenize', manage_sentence_path(sentence) %-->
-  <!--% end %-->
 
+  <div class="toggle_translations">
+    <div class="toggle_translations_button_wrapper">
+      <%= image_tag("translate2.jpg", class: 'toggle_translations_button') %>
+    </div>
+  </div>
 
 </div>
 
-<div class="toggle_translations">
-  <div class="toggle_translations_button_wrapper">
-    <%= image_tag("translate2.jpg", class: 'toggle_translations_button') %>
-  </div>
-  <div class="translations">
-    <div class="close_translation_tooltip">&#10006;</div>
-    <% if sentence.translations.size > 0 %>
-      <% translation = sentence.translations[0] %>
-      <%= raw translation.value %>
-      <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
-      <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
+<div class="translations">
+  <div class="close_translation_tooltip">&#10006;</div>
+  <% sentence.translations.each do |translation| %>
+    <% if translation.source.present? %>
+      <b><%= translation.source.name %></b><br>
     <% end %>
-  </div>
+    <%= raw translation.value %><br/>
+    <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
+  <% end %>
 </div>
-
 
 <% if sentence.end %>
 <div class="end_paragraph"></div>
 <% end %>
-
-
-<!--%= link_to 'Delete Sentence', sentence, method: :delete %-->
-<!--%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %-->
 

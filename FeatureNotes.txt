@@ -5,33 +5,47 @@ Alpha - Cut and Simplify!
 |Content|
 |-------|
 
-Do i have a way to find the radicals that are in a word?
+Collect radical information from BDBG
+	https://www.mdbg.net/chindict/chindict.php?cdqrad=1 TO
+	https://www.mdbg.net/chindict/chindict.php?cdqrad=214
+	Creating mapping table from Radical to words that have it as a radical (add to word page.)
+
+	OR
+	
+	http://www.chinese-tools.com/tools/sinograms.html?r
+	http://www.chinese-tools.com/tools/sinograms.html?r=女
+
+Add search by radical? Or is that implied by having a radical link to all words?
+Should make all chars that match a radical as a radical?
+	All the words that match a radical should have a foreign key to the radical, which has all the words that use it. (radical_id instead of radical_number)
 
 All the places I have a word (even in the tooltips) use a partial, that includes a tooltip. (simplified version)
-
-Finish Definitions Tooltip
-	Highlight the sentence that has defnitions tooltip open.
-	The icon should highlight when it's open.
-	Fix padding and close icon on the tooltip.
-	Need a link to the sentence translations page.
-	
-Add link from a sentence to the article it belongs to.
-Change from JS to CSS for changing the bottom learnable text color (add/remove a class)
-
-Link at bottom show chinese and pinyin below the article.
-
-Finish Word show page
-	related words (sub words or word and derived words)
-		related word should fit in one line and have an expand button
-		link to actual word
+	First get a list of all the pages, then build the partials...
 
 Dictionary should have a better view per result.
+	Some indication if known/unknown/learning
+
+Finish Definitions Tooltip
+	The icon should highlight when it's open and unhighlight when it closes
+	Need a link to the sentence translations page.
+
+	
+Change from JS to CSS for changing the bottom learnable text color (add/remove a class)
+Change from JS to css for showing/hiding translations.
+
+Finish Word show page
+	related words (sub words, derived words and relations by radical)
+		related word should fit in one line and have an expand button
+		link to actual word
 
 Finish sentence show page (mostly done right?)
 	A user can add one translation per sentence
 	Show the top 3 translations.
 	Maximum one translation per source or user (source if a source exists, otherwise user required and one translation per user.
 	New translations should link to user who added it.
+	Add link from a sentence to the article it belongs to.
+
+Add some static content pages, by either having a basic blog, or some hard coded pages for now...
 
 Add a right bar to every page that has disclaimer about alpha! (links would require a blog, might move to beta)
 	Site is in alpha
@@ -39,7 +53,6 @@ Add a right bar to every page that has disclaimer about alpha! (links would requ
 	Link to site tutorial (what you can do so far)
 	Link to site goals (with basic timelines)
 
-Recipes!
 
 |-----|
 |Admin|
@@ -60,62 +73,65 @@ Create admin pages (tags, sources, articles, sentences, words, tokens, ...)
 		Add a retranslate button if it doesn't have a google/bing translation
 		Only translate for sources that don't already exist
 
-Make sure rank is being set correctly on sentences
-
-Create after_delete hook for sentences to re-order remaining ranks
+Make sure rank is being set correctly on sentences (keep them in a small group to allow re-ordering with a new UI later.)
+	Create after_delete hook for sentences to re-order remaining ranks
 
 Make sure end (paragraph) is being set correctly on sentences
 
 
-Add stats to words page about how many people know the word (can I rank all the words by who knows them and say the rank?) How many times it's in text, etc...
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+
 
 --------------------------
 Beta - Improve What's There!
 --------------------------
 
-Instead of 'mark as known' and 'mark as unknown' add a gear icon with all options
+Categories
+	Recipies
+	Stories
+	Historical
+
+Insert a whole chinese article. It will split it into sentences as best as posisble, but you can edit before submitting.
+	Use google or bing translate to show the tranlsation for each sentence.
+
+Instead of 'mark as known' and 'mark as unknown' add a gear icon with all options. Or a Red/yellow/green type button where one is selected.
 
 Public/Private Word Lists and sub lists
 	Something that would work for yoyo 300
 	Be able to browse all the hsk and most common words, or search, and easily add them to lists (that can be used as flashcards.)
 	This will probably be the base for flash cards.
 
-
 Definition partial with links to tags (and extra tags at the end)
 	tags page with all content for that tag
-
-Still all valid options... But dont spend too much time on it.
-Try using javascript for sentence translations to see if i can get animation working.
-	possibly use click instead of hover.
-	Consider making translations a tooltip?
-	Consider making copy text/pinyin a tooltip with full text and copy links?? http://stackoverflow.com/questions/7218061/javascript-copy-text-to-clipboard
-	Or use google translate tooltip as a base.
 
 Add a button at bottom to show chinese text and pinyin.
 
 Show articles tags/categories in title
+	Allow sharing other stuff as well
 Add links to share on social media
 Add image to articles
-Add image to sources
+Add image to sources (and a whole page with a review)
 
 Add bookmark to save your spot for longer articles.
 
-GAMES!
-	numbers, how fast can you type them in
+GAMES! Challenges, quizes...
+	numbers, how fast can you type them in, etc..
 
 Add ratings to articles
 
 Things can be flaggable for different reasons
-
-Have a summary at the end of each article with all the words in the article by frequency. (With all the normal word info + any other stats that are useful.
+Add a way to request content takedowns.
 
 Ajax Comments
 
-Add ability to add words to different lists/tags.
+Word lists (stats on lists, tests, find material etc.)
 
-Create a seperate view for each sentence where people can comment and colaborate on the translations.
-
-Add a way to request content takedowns.
+Sentence page - People can comment and colaborate on the translations. 
 
 Add a way to add arbitrary tags to a definition? 
 
@@ -141,9 +157,10 @@ Improve Tokenizing
 Categorization
 	Articles should have tags and categories.
 	More difficult articles should start having chinese titles (would have to be processed though)
+		Article has a title which has a sentence which has tokens that link to words.
 	Add a header (english or chinese) to preface the material
 
-Settings
+Settings (need balance here, can't make it too complicated. Simplicity!)
 	Characters size
 	Show Pinyin.
 	Show Sentence Translations. (easy mode)
@@ -156,10 +173,7 @@ Settings
 	Simlifited vs Traditional
 	Word Spacing/seperators
 
-Colors
-	Allow setting the color of the tones for pinyin (default to michaels colors from him audio books.)
-
-Link Words:
+Word Page:
 	For each word, find the words that it is a substring of, and link them.
 	Link a word to all its classifiers
 	Link a word to it’s components.
