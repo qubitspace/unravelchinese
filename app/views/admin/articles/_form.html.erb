@@ -1,5 +1,18 @@
+<%= form_for [:admin, @article] do |f| %>
 
-<%= form_for @article, url: { action: "create" } do |f| %>
+  <%= fields_for :source do |source| %>
+    <div class="field">
+      <%= source.label :name, 'Source Name' %>
+      <%= source.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= source.label :link, 'Link' %>
+      <%= source.text_field :link %>
+    </div>
+  <% end %>
+
+
 
   <% if @article.errors.any? %>
     <div id="error_explanation">

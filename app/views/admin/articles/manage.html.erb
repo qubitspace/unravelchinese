@@ -3,7 +3,9 @@
 <!-- TODO: Create views for different types of words to not have conditional logic. -->
 <!-- either need aditional padding around literals, or need to get spacing in there somehow, only some literals need spaces -->
 
+<div id="sentences">
 <%= render @article.sentences %>
+</div>
 
 <h2>Add a Sentence:</h2>
 <%= render 'admin/sentences/form' %>

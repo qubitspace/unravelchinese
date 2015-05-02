@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   namespace :admin do
 
     resources :articles do
@@ -21,7 +22,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :articles, only: [:index, :show] do
+  resources :articles do
     resources :comments, only: [:create]
   end
 

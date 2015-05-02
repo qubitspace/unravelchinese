@@ -49,12 +49,6 @@
 .toggle_translations {
   display: inline-block;
   margin-right: 10px;
-  &:hover{
-    .translations {
-      display: block;
-      max-height: 1000px;
-    }
-  }
 }
 
 .toggle_translations_button_wrapper {

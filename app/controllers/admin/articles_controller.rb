@@ -25,15 +25,22 @@ class Admin::ArticlesController < Admin::BaseController
 
   def new
     @sources = Source.all
+    #Source.build
     @article = Article.new
+    @article.build_source
 
     sentence = @article.sentences.build
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @article }
+    end
   end
 
   def create
     @article = Article.new(article_params)
     @sources = Source.all
-    @article.save ? redirect_to(manage_article_path(@article)) : render('new')
+    @article.save ? redirect_to(manage_admin_article_path(@article)) : render('new')
   end
 
   def edit
@@ -45,7 +52,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def update
     @article = Article.find(params[:id])
-    @article.update(article_params) ? redirect_to(manage_article_path(@article))  : render('edit')
+    @article.update(article_params) ? redirect_to(manage_admin_article_path(@article))  : render('edit')
   end
 
   def destroy

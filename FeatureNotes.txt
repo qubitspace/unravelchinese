@@ -5,6 +5,25 @@ Alpha - Cut and Simplify!
 |Content|
 |-------|
 
+If I cant find a character, search for traditional instead of adding it as a constant.
+
+After creating a sentence it should reload the page and add the partial.
+
+Article titles can't be unique. Maybe they should be optional altogether (after tags/categories.
+Adding translations when adding a sentence not working....
+
+IDIOMS: Automagic content
+	select * from words w
+	inner join definitions d
+	on w.id = d.word_id
+	where d.value like '%(idiom)%'
+
+	Since all the idoms are in the dictionary as words.
+	Show users all the idioms where they know all the words.
+	Basically just change from (idiom) in the definition to is_idiom for the associated word.
+
+Dedupe dictionary results by word_id after everything else.
+
 Collect radical information from BDBG
 	https://www.mdbg.net/chindict/chindict.php?cdqrad=1 TO
 	https://www.mdbg.net/chindict/chindict.php?cdqrad=214
@@ -121,6 +140,9 @@ Add bookmark to save your spot for longer articles.
 
 GAMES! Challenges, quizes...
 	numbers, how fast can you type them in, etc..
+	"Type this in: xxx"
+		Show the english and the pinyin. And they need to type the chinese.
+		This is more realistic practice than writing characters, and still builds memory.
 
 Add ratings to articles
 

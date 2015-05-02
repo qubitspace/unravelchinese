@@ -13,6 +13,9 @@ Rails.application.config.assets.precompile += %w( jquery.qtip.css )
 Rails.application.config.assets.precompile += %w( sentences.css )
 Rails.application.config.assets.precompile += %w( words.css )
 
+Rails.application.config.assets.precompile += %w( admin/sentences.css )
+Rails.application.config.assets.precompile += %w( admin/words.css )
+
 Rails.application.config.assets.precompile += %w( words.js )
 Rails.application.config.assets.precompile += %w( sentences.js )
 Rails.application.config.assets.precompile += %w( learned_words.js )

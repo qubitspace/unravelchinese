@@ -1,5 +1,5 @@
 var new_sentence = $("<%= escape_javascript(render(:partial => @sentence))%>")
-$('#sentences').prepend(new_sentence);
+$('#sentences').append(new_sentence);
 
 //$('#sentence_<%= @sentence.id %>').fadeIn('slow');
 //$('#new_sentence')[0].reset();

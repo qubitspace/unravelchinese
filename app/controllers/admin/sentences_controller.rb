@@ -1,8 +1,10 @@
 class Admin::SentencesController < Admin::BaseController
 
   def create
+    @params = sentence_params
     @article = Article.find(params[:article_id])
     @sentence = @article.sentences.create(sentence_params)
+    @sentence.untokenized = @sentence.value
     respond_to do |format|
       if @sentence.save
         format.js
@@ -50,7 +52,7 @@ class Admin::SentencesController < Admin::BaseController
   def untokenize
     @sentence = Sentence.find params[:id]
     @sentence.tokens.delete_all
-    redirect_to manage_sentence_path(@sentence)
+    redirect_to manage_admin_sentence_path(@sentence)
   end
 
   def add_token

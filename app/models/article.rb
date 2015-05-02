@@ -2,7 +2,9 @@ class Article < ActiveRecord::Base
   include Taggable
   has_many :sentences, dependent: :destroy
   has_many :comments, dependent: :destroy
-  belongs_to :source
+
+  belongs_to :source, :class_name => 'Source'
+  accepts_nested_attributes_for :source, :reject_if => :all_blank
 
   validates :title, presence: true, uniqueness: true
   validates :source, presence: true
