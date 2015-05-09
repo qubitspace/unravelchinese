@@ -4,7 +4,7 @@
     <%= translation.value %> (<%= translation.source %>)<br/>
   <% end %>
   <% @sentence.tokens.each do |token| %>
-    <%= render partial: 'admin/words/word', locals: { word: token.word } %>
+    <%= render partial: 'admin/words/word', locals: { article: @sentence.article, word: token.word } %>
   <% end %>
   <div class="untokenized"><%= @sentence.untokenized %></div>
 </div>

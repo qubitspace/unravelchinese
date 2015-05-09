@@ -25,7 +25,6 @@ class Admin::ArticlesController < Admin::BaseController
 
   def new
     @sources = Source.all
-    #Source.build
     @article = Article.new
     @article.build_source
 
@@ -40,7 +39,7 @@ class Admin::ArticlesController < Admin::BaseController
   def create
     @article = Article.new(article_params)
     @sources = Source.all
-    @article.save ? redirect_to(manage_admin_article_path(@article)) : render('new')
+    @article.save ? redirect_to([:admin, @article]) : render('new')
   end
 
   def edit
@@ -52,7 +51,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def update
     @article = Article.find(params[:id])
-    @article.update(article_params) ? redirect_to(manage_admin_article_path(@article))  : render('edit')
+    @article.update(article_params) ? redirect_to([:admin, @article])  : render('edit')
   end
 
   def destroy
@@ -66,7 +65,7 @@ class Admin::ArticlesController < Admin::BaseController
     @sentence = @article.sentences.build
   end
 
-  def manage
+  def show
     @article = tokenized_article params[:id]
 
     @article.sentences.each do |sentence|
@@ -98,8 +97,9 @@ class Admin::ArticlesController < Admin::BaseController
       :description,
       :body,
       :commentable,
-      :publishable
+      :published
     )
+
   end
 end
 

@@ -43,13 +43,15 @@
     <div class="right"></div>
   </section>
 
-
+  <br><br>
   <section class="menu">
     <div class="left"></div>
     <div class="main-meta">
       <div class="menu-wrapper">
-        <div class="link"><%= link_to 'Read Chinese', articles_path %></div>
-        <div class="link"><%= link_to 'Dictionary', words_path %></div>
+        <span class="link"><%= link_to 'Sources', admin_sources_path %></span> |
+        <span class="link"><%= link_to 'Articles', admin_articles_path %></span> |
+        <span class="link"><%= link_to 'Sentences', admin_sentences_path %></span> |
+        <span class="link"><%= link_to 'Words', admin_words_path %></span>
       </div>
     </div>
     <div class="right"></div>

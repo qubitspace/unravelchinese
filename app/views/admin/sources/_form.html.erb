@@ -1,0 +1,29 @@
+<%= form_for [:admin, @source] do |f| %>
+
+  <% if @source.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@source.errors.count, "error") %> prohibited
+        this source from being saved:
+      </h2>
+      <ul>
+        <% @source.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <%= f.label :name %><br>
+  <%= f.text_field :name %><br><br/>
+
+  <%= f.label :link %><br>
+  <%= f.text_field :link %><br><br/>
+
+  <p>
+    <%= f.submit 'Save', :disable_with => 'Please wait ...' %>
+  </p>
+<% end %>
+
+

@@ -58,15 +58,17 @@
 
       <% if word.definitions.any? %><hr><% end %>
 
+      <% article_id = article.id if article %>
+
       <% if status == 'known' %>
-        <%= link_to "Mark as Unknown", update_learned_word_status_path(article_id: @article.id, word_id: word.id, status: :unknown), remote: true %><br/>
-        <%= link_to "Mark as Learning", update_learned_word_status_path(article_id: @article.id, word_id: word.id, status: :learning), remote: true %>
+        <%= link_to "Mark as Unknown", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :unknown), remote: true %><br/>
+        <%= link_to "Mark as Learning", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :learning), remote: true %>
       <% elsif status == 'learning' %>
-        <%= link_to "Mark as Known", update_learned_word_status_path(article_id: @article.id, word_id: word.id, status: :known), remote: true %><br/>
-        <%= link_to "Mark as Unknown", update_learned_word_status_path(article_id: @article.id, word_id: word.id, status: :unknown), remote: true %>
+        <%= link_to "Mark as Known", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :known), remote: true %><br/>
+        <%= link_to "Mark as Unknown", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :unknown), remote: true %>
       <% else %>
-        <%= link_to "Mark as Known", update_learned_word_status_path(article_id: @article.id, word_id: word.id, status: :known), remote: true %><br/>
-        <%= link_to "Mark as Learning", update_learned_word_status_path(article_id: @article.id, word_id: word.id, status: :learning), remote: true %>
+        <%= link_to "Mark as Known", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :known), remote: true %><br/>
+        <%= link_to "Mark as Learning", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :learning), remote: true %>
       <% end %>
 
     </div>

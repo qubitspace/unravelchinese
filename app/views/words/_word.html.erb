@@ -51,7 +51,7 @@
       <div class="definitions">
         <strong>
         <% word.definitions.each do |definition| %>
-          • <%= definition.value %><br/>
+          • <%= raw definition.html_value %><br/>
         <% end %>
         </strong>
       </div>

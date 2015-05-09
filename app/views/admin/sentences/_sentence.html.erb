@@ -1,7 +1,7 @@
-
+<%= link_to 'Manage Sentence', [:admin, sentence] %>
 <div class="admin_sentence">
   <% sentence.tokens.each do |token| %>
-    <div style="display:inline-block;"><%= render partial: 'admin/words/word', locals: { word: token.word } %></div>
+    <div style="display:inline-block;"><%= render partial: 'admin/words/word', locals: { article: sentence.article, word: token.word } %></div>
   <% end %>
 
   <% if sentence.untokenized != '' %>
@@ -23,10 +23,7 @@
 <div class="end_paragraph"></div>
 <% end %>
 
-
-
-
-<%= link_to 'Manage', manage_admin_sentence_path(sentence) %> |
+<%= link_to 'Manage', [:admin, sentence] %> |
 
 <%= link_to 'Clear Tokens', untokenize_admin_sentence_path(sentence), method: :post %> |
 

@@ -12,7 +12,7 @@
 <div class="content">
 <% @word.definitions.each do |definition| %>
   <div class="word_definition">
-  • <%= definition.value %> <% definition.tags.each do |tag| %>[<%= link_to tag.name, tag %>] <% end %>
+  • <%= raw definition.html_value %> <% definition.tags.each do |tag| %>[<%= link_to tag.name, tag %>] <% end %>
   </div>
 <% end %>
 
@@ -29,6 +29,13 @@
 
 <% @derived_words.each do |derived_word| %>
   <%= render partial: 'words/related_word', locals: { word: derived_word } %>
+<% end %>
+
+
+<h1>Synonyms:</h1>
+
+<% @synonyms.each do |synonym| %>
+  <%= render partial: 'words/related_word', locals: { word: synonym } %>
 <% end %>
 
 <h1>Sentences:</h1>

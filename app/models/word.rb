@@ -10,6 +10,10 @@ class Word < ActiveRecord::Base
 
   has_many :taggings, through: :definitions
 
+  def self.find_words simplified, traditional, pinyin
+    @words = self.find_words simplified, traditional, pinyin
+  end
+
   def self.search term, match_accents = 0
 
     if term and term != ''
@@ -107,6 +111,18 @@ class Word < ActiveRecord::Base
   @@vowels = ['a', 'e', 'i', 'o', 'u', 'ü', 'A', 'E', 'I', 'O', 'U', 'Ü']
   @@medials = ['i', 'u', 'ü','I', 'U', 'Ü']
 
+  def self.find_words simplified, traditional, pinyin
+    limit = 100
+
+    search_terms = {}
+    search_terms[:simplified] = simplified
+    search_terms[:traditional] = traditional if traditional.present?
+    search_terms[:pinyin_cs] = pinyin if pinyin.present?
+    results = self.where(search_terms).limit(limit).order(
+      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
+    )
+    return results
+  end
 
   def self.case_sensitive_search term
     limit = 100

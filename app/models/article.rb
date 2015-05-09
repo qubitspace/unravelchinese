@@ -3,10 +3,9 @@ class Article < ActiveRecord::Base
   has_many :sentences, dependent: :destroy
   has_many :comments, dependent: :destroy
 
-  belongs_to :source, :class_name => 'Source'
+  belongs_to :source
   accepts_nested_attributes_for :source, :reject_if => :all_blank
 
-  validates :title, presence: true, uniqueness: true
   validates :source, presence: true
   validates :published, inclusion: { in: [true, false] }
 

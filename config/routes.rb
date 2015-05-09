@@ -1,23 +1,25 @@
 Rails.application.routes.draw do
-
-
   namespace :admin do
 
+    resources :sources
+    resources :categories
+    resources :tags#, only: [:index]
+
     resources :articles do
-      get 'manage', on: :member
       post 'add_sentence', on: :member
       resources :sentences
     end
 
-    resources :sentences, only: [:create, :destroy] do
-      get 'manage', on: :member
+    resources :sentences do
       post 'untokenize', on: :member
       post 'add_token', on: :member
     end
 
-    resources :comments, only: [:destroy]
-    resources :words, only: [:index]
-    resources :tags, only: [:index]
+    resources :comments#, only: [:destroy]
+    resources :translations
+    resources :tokens
+    resources :words
+
   end
 
   devise_for :users
@@ -36,6 +38,8 @@ Rails.application.routes.draw do
   resources :words, only: [:index, :show]
   post 'words/search' => 'words#search', as: :word_search
   post 'words/definition_search' => 'words#definition_search', as: :word_definition_search
+
+  get 'dictionary/find' => 'words#find'
 
   resources :tags, only: [:index, :show]
 

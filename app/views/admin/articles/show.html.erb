@@ -1,0 +1,22 @@
+<br>
+
+Source: <%= @article.source.name %><br>
+Published: <%= @article.published %><br>
+Commentable: <%= @article.commentable %><br>
+
+<h1><%= @article.title %></h1>
+<% unless @article.description.nil? %><h4><%= @article.description %></h4><% end %>
+
+<div id="sentences">
+<%= render @article.sentences %>
+</div>
+
+<h2>Add a Sentence:</h2>
+<%= render 'admin/sentences/form' %>
+
+<%= link_to 'Articles', admin_articles_path %> |
+<%= link_to 'Show', admin_article_path(@article) %> |
+<%= link_to 'Edit', edit_admin_article_path(@article) %>
+
+</script>
+

@@ -1,10 +1,23 @@
 class Admin::SentencesController < Admin::BaseController
 
+  def index
+    @sentences = Sentence.all
+  end
+
+
+  def edit
+    @sentence = Sentence.find(params[:id])
+  end
+
+  def update
+    @sentence = Sentence.find(params[:id])
+    @sentence.update(sentence_params) ? redirect_to([:admin, @sentence])  : render('edit')
+  end
+
   def create
-    @params = sentence_params
-    @article = Article.find(params[:article_id])
-    @sentence = @article.sentences.create(sentence_params)
-    @sentence.untokenized = @sentence.value
+    @sentence = Sentence.new(sentence_params)
+    @sentence.article_id = params[:article_id]
+
     respond_to do |format|
       if @sentence.save
         format.js
@@ -12,11 +25,6 @@ class Admin::SentencesController < Admin::BaseController
         format.html { redirect_to :back, notice: @sentence.errors }
       end
     end
-  end
-
-  def show
-    @sentence = Sentence.find params[:id]
-    @word_statuses = current_user.word_statuses
   end
 
   def copy_text
@@ -32,10 +40,10 @@ class Admin::SentencesController < Admin::BaseController
     @sentence = Sentence.find params[:id]
     @sentence.destroy
 
-    redirect_to manage_admin_article_path @sentence.article
+    redirect_to [:admin, @sentence.article]
   end
 
-  def manage
+  def show
     @learned_words = current_user.words
     @word_statuses = current_user.word_statuses
     @sentence = Sentence.find params[:id]
@@ -107,6 +115,6 @@ class Admin::SentencesController < Admin::BaseController
   private
 
   def sentence_params
-    params.require(:sentence).permit(:rank, :value, :end, translations_attributes: [:id, :_destroy, :value ])
+    params.require(:sentence).permit(:article_id, :rank, :value, :end, translations_attributes: [:id, :_destroy, :value ])
   end
 end
