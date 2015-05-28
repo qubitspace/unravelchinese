@@ -1,6 +1,6 @@
-<h1>Dictionary</h1>
+<h1>Words</h1>
 
-<%= form_tag word_search_path, remote: true do %>
+<%= form_tag [:search, :words], remote: true do %>
   <p>
     <b><%= label_tag :term, "Search simplified, traditional and pinyin:" %></b><br>
     <%= text_field_tag :term, params[:term] %>
@@ -10,7 +10,7 @@
     <em>Pinyin with tone numbers at the end will be converted to tone marks (ex: zhong1 wen4 for zhōngwén)</em>
 <% end %>
 
-<%= form_tag word_definition_search_path,  remote: true do %>
+<%= form_tag [:search_by_definition, :words], remote: true do %>
   <p>
     <b><%= label_tag :term, "Search definitions:" %><br></b>
     <%= text_field_tag :term, params[:term] %>

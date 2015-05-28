@@ -19,8 +19,6 @@ class Admin::ArticlesController < Admin::BaseController
         sentence.untokenized.slice! token.word.simplified
       end
     end
-
-    @word_statuses = current_user.word_statuses
   end
 
   def new
@@ -74,8 +72,6 @@ class Admin::ArticlesController < Admin::BaseController
         sentence.untokenized.slice! token.word.simplified
       end
     end
-
-    @word_statuses = current_user.word_statuses
   end
 
   private

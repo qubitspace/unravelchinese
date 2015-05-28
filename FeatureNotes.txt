@@ -1,38 +1,46 @@
-﻿--------------------------
-Alpha - Cut and Simplify!
---------------------------
-|-------|
-|Content|
-|-------|
+﻿
 
 
 
 Dictionary:
 ----------
-Dedupe dictionary results by word_id after everything else in case the same word comes up in two searches (don't think they are exclusive.)
-Dictionary should have a better view per result.
-	Some indication if known/unknown/learning
-
-
-
+Finish partial pattern
+	Keep all the _word partials in the controller they are used in, so a refresh calls the correct action.
+	Articles will have a _sentence and _word partial.
+	Sentences will have a _word partial.
+	To share code move common code to another partial and both render new partial
+	Ex: if a Sentence wants to render word partials, have a _word partial in the sentences folder and move shared code to words folder.
+	Don't go overboard w/ this, this is just alpha and similar view isn't a big deal, I already moved some logic into the word model.
 
 Articles:
 --------
 Article titles can't be unique. Maybe they should be optional altogether (after tags/categories.
 Block comments if not commentable
 
-
 Sentences:
 ----------
+Make a view for sentences not dependant on an Article.
+	Build out sentence views.
+	Create a link from article to view sentences, and get back to the article.
 A user can add one translation per sentence
 Show the top 3 translations.
 Maximum one translation per source or user (source if a source exists, otherwise user required and one translation per user.
 New translations should link to user who added it.
 Add link from a sentence to the article it belongs to.
+Add right panels.
 
+Tokens:
+------
+Have a way to pick or vote the definition that fits best the context.
+	Admin or Social:
+		depending if it's an admin or social features, or a combination of the two...
+		either admin overrides votes or they are side by side.
 
 Words:
 ------
+Add all the links for marking words know/learning/unknown on related words and the main word
+Add consistent visuals for if a word is known (including for the word/related_word)
+
 Show all radicals related to a word.
 Should make all chars that match a radical as a radical?
 	All the words that match a radical should have a foreign key to the radical, which has all the words that use it. (radical_id instead of radical_number)
@@ -44,29 +52,46 @@ If one of the definitions is "CL:" then have those in side bar.
 If one of the definitions is "see [[" or "see also [[" add to side bar.
 
 
+
 Definitions:
 	At least one definition that wasn't caught and added in [[]] (see 3C<sānC>)
-	Also for "also pr. " or "also written [["
+	Also for "also pr. <pronunciation>" or "also written [["
 	Possibly for (lit.)
+
+Comments:
+	Be able to vote/flag them out of existence. (Or hide them by default if they are voted down)
+
+UI:
+---------
+Move header article title, word) inside the content div? and move right bars up? Or add another wrapper around the header
+
 
 Database:
 ---------
-IDIOMS: Automagic content
-	select * from words w
+
+Sentences:
+	Allow sentences that aren't associated with articles. This will work for super beginning content and stuff like idioms.
+	Then if you are browsing sentences you can include/exclude articles sentences.
+
+
+Idioms: select * from words w
 	inner join definitions d
 	on w.id = d.word_id
 	where d.value like '%(idiom)%'
 
-	Since all the idoms are in the dictionary as words.
-	Show users all the idioms where they know all the words.
-	Basically just change from (idiom) in the definition to is_idiom for the associated word.
-Collect radical information from BDBG
-	https://www.mdbg.net/chindict/chindict.php?cdqrad=1 TO
-	https://www.mdbg.net/chindict/chindict.php?cdqrad=214
-	Creating mapping table from Radical to words that have it as a radical (add to word page.)
-	OR
-	http://www.chinese-tools.com/tools/sinograms.html?r
-	http://www.chinese-tools.com/tools/sinograms.html?r=女
+	Have a Idiom token on sentences.
+	Make it easy to create Articles/Sentences
+
+Finish processing radical information into dictionary.
+
+Create a word_relationship table with the two words, and the relationship (directional)
+	So a radical will have entries in the join table with relationship 'RadicalOf' to all related words
+	Conversely a word can have an entry in the table of 'Radical' to it's radicals.
+	Can add relationships like 'seeAlso' or similar to...
+	Make sure this is actually worth it (I currently think it is...)
+		Simplicity of select vs building all the join tables/relationships
+		Should I use seperate join tables or fit them all in one?
+
 
 
 
@@ -87,6 +112,8 @@ Clean up admin pages then add functionality as needed.
 
 Allow creating a translation with a source.
 Manage translations on sentence page.
+	Reload google/bing translations
+	Delete, etc...
 
 Make sure rank is being set correctly on sentences (keep them in a small group to allow re-ordering with a new UI later.)
 	Create after_delete hook for sentences to re-order remaining ranks
@@ -103,6 +130,8 @@ Make sure rank is being set correctly on sentences (keep them in a small group t
 --------------------------
 Beta - Improve What's There!
 --------------------------
+Recipes! Other content
+
 Add option to color words by tone
 
 Categories

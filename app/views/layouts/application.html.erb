@@ -3,10 +3,6 @@
 <head>
   <title>Unravel Chinese</title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag 'jquery.qtip', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag 'sentences', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag 'words', media: 'all', 'data-turbolinks-track' => true %>
-
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
   <%= csrf_meta_tags %>
@@ -50,8 +46,9 @@
     <div class="left"></div>
     <div class="main-meta">
       <div class="menu-wrapper">
-        <div class="link"><%= link_to 'Read Chinese', articles_path %></div>
-        <div class="link"><%= link_to 'Dictionary', words_path %></div>
+        <div class="link"><%= link_to 'Articles', [:articles] %></div>
+        <div class="link"><%= link_to 'Sentences', [:sentences] %></div>
+        <div class="link"><%= link_to 'Words', [:words] %></div>
       </div>
     </div>
     <div class="right"></div>

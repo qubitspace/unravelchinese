@@ -22,7 +22,7 @@ class Word < ActiveRecord::Base
       if match_accents
         results = self.case_sensitive_search term
       else
-        results = self.case_insentivie_search term
+        results = self.case_insensitive_search term
       end
     else
       results = self.none
@@ -38,10 +38,10 @@ class Word < ActiveRecord::Base
 
     wildcard = "%#{term}%"
     partial_match_limit = limit - exact_matches.count
-    partial_matches = self.joins([:definitions]).where('definitions.value like ?', wildcard).limit(limit).order(
+    partial_matches = self.joins([:definitions]).where('definitions.value like ? and id not in (?)', wildcard, exact_matches.map(&:id)).limit(limit).order(
       "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
     )
-    results = exact_matches + partial_matches
+    results = exact_matches
     return results
   end
 
@@ -91,6 +91,16 @@ class Word < ActiveRecord::Base
     return value.html_safe
   end
 
+  def update_status current_user, status
+    learned_word = LearnedWord.find_or_create_by(user: current_user, word: self)
+    learned_word.status = status
+
+    if ['known', 'learning'].include? status
+      learned_word.save
+    elsif
+      learned_word.destroy
+    end
+  end
   private
 
   @@accents = {
@@ -118,38 +128,44 @@ class Word < ActiveRecord::Base
     search_terms[:simplified] = simplified
     search_terms[:traditional] = traditional if traditional.present?
     search_terms[:pinyin_cs] = pinyin if pinyin.present?
-    results = self.where(search_terms).limit(limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
-    )
+    results = self
+      .where(search_terms)
+      .limit(limit).order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
     return results
   end
 
   def self.case_sensitive_search term
     limit = 100
-    exact_matches = self.where('simplified = ? or traditional = ? or pinyin_cs = ?', term, term, term).limit(limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
-    )
+    exact_matches = self
+      .where('simplified = ? or traditional = ? or pinyin_cs = ?', term, term, term)
+      .limit(limit)
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
 
     wildcard = "%#{term}%"
     partial_match_limit = limit - exact_matches.count
-    partial_matches = self.where('simplified like ? or traditional like ? or pinyin_cs like ?', wildcard, wildcard, wildcard).limit(partial_match_limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
-    )
+    partial_matches = self
+      .where('simplified like ? or traditional like ? or pinyin_cs like ?', wildcard, wildcard, wildcard)
+      .where('id not in (?)', exact_matches.map(&:id))
+      .limit(partial_match_limit)
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
     results = exact_matches + partial_matches
     return results
   end
 
-  def self.case_insentivie_search term
+  def self.case_insensitive_search term
     limit = 100
-    exact_matches = self.where('simplified = ? or traditional = ? or pinyin = ?', term, term, term).limit(limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
-    )
+    exact_matches = self
+      .where('simplified = ? or traditional = ? or pinyin = ?', term, term, term)
+      .limit(limit)
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
 
     wildcard = "%#{term}%"
     partial_match_limit = limit - exact_matches.count
-    partial_matches = self.where('simplified like ? or traditional like ? or pinyin like ?', wildcard, wildcard, wildcard).limit(partial_match_limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
-    )
+    partial_matches = self
+      .where('simplified like ? or traditional like ? or pinyin like ?', wildcard, wildcard, wildcard)
+      .where('id not in (?)', exact_matches.map(&:id))
+      .limit(partial_match_limit)
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
     results = exact_matches + partial_matches
     return results
   end

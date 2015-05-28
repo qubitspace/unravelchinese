@@ -2,6 +2,10 @@ class Definition < ActiveRecord::Base
   include Taggable
   belongs_to :word
 
+
+  #Might be useful for parsing the definition links.
+  #key = key.to_s.gsub(/\[(\d+)\]/, '.\1')
+
   def html_value
     result = value.sub /^CL\:/, '<b>Classifiers:</b> '
     result.gsub /\[\[(.*?)\]\]/ do |reference|

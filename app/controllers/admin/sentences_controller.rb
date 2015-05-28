@@ -44,8 +44,6 @@ class Admin::SentencesController < Admin::BaseController
   end
 
   def show
-    @learned_words = current_user.words
-    @word_statuses = current_user.word_statuses
     @sentence = Sentence.find params[:id]
 
     @sentence.untokenized = @sentence.value.dup
@@ -64,8 +62,6 @@ class Admin::SentencesController < Admin::BaseController
   end
 
   def add_token
-    @learned_words = current_user.words
-    @word_statuses = current_user.word_statuses
     @sentence = Sentence.find params[:id]
     word = Word.find params[:word_id]
 

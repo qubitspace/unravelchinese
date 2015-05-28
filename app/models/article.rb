@@ -17,7 +17,7 @@ class Article < ActiveRecord::Base
     sentences.count == 0 ? 0 : sentences.maximum('rank') + 1
   end
 
-  def get_stats word_statuses
+  def get_stats current_user
     stats = {}
     stats[:total_words] = 0
     stats[:distinct_words] = 0
@@ -26,7 +26,7 @@ class Article < ActiveRecord::Base
 
     sentences.each do |sentence|
       sentence.tokens.each do |token|
-        known = word_statuses.include? token.word.id
+        known = current_user.word_statuses.include? token.word.id
         if !token.word.punctuation?
           stats[:total_words] += 1
           if stats[:words].has_key? token.simplified

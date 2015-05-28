@@ -1,5 +1,4 @@
-
-<% status = (@word_statuses.has_key?(word.id) ? @word_statuses[word.id].status : 'unknown') %>
+<% status = (current_user.word_statuses.has_key?(word.id) ? current_user.word_statuses[word.id].status : 'unknown') %>
 <% status = 'known' if word.category == 'punctuation' %>
 <% show_pinyin = ['unknown'].include? status %>
 <% show_mark_unknown = ['known'].include? status %>
@@ -61,14 +60,14 @@
       <% article_id = article.id if article %>
 
       <% if status == 'known' %>
-        <%= link_to "Mark as Unknown", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :unknown), remote: true %><br/>
-        <%= link_to "Mark as Learning", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :learning), remote: true %>
+        <%= link_to "Mark as Unknown", article_update_word_status_path(article_id: article_id, word_id: word.id, status: :unknown), remote: true, method: :post %><br/>
+        <%= link_to "Mark as Learning", article_update_word_status_path(article_id: article_id, word_id: word.id, status: :learning), remote: true, method: :post %>
       <% elsif status == 'learning' %>
-        <%= link_to "Mark as Known", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :known), remote: true %><br/>
-        <%= link_to "Mark as Unknown", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :unknown), remote: true %>
+        <%= link_to "Mark as Known", article_update_word_status_path(article_id: article_id, word_id: word.id, status: :known), remote: true, method: :post %><br/>
+        <%= link_to "Mark as Unknown", article_update_word_status_path(article_id: article_id, word_id: word.id, status: :unknown), remote: true, method: :post %>
       <% else %>
-        <%= link_to "Mark as Known", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :known), remote: true %><br/>
-        <%= link_to "Mark as Learning", update_learned_word_status_path(article_id: article_id, word_id: word.id, status: :learning), remote: true %>
+        <%= link_to "Mark as Known", article_update_word_status_path(article_id: article_id, word_id: word.id, status: :known), remote: true, method: :post %><br/>
+        <%= link_to "Mark as Learning", article_update_word_status_path(article_id: article_id, word_id: word.id, status: :learning), remote: true, method: :post %>
       <% end %>
 
     </div>

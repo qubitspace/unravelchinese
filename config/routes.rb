@@ -24,20 +24,24 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :articles do
+  resources :articles, only: [:show, :index] do
     resources :comments, only: [:create]
+    post 'update_word_status'
   end
 
 
-  resources :sentences, only: [:show] do
+  resources :sentences, only: [:show, :index] do
     resources :translations, only: [:create]
-    get "copy_text", to: "sentences#copy_text", as: :copy_text
+    get "copy_text"
+    post 'update_word_status'
   end
 
 
-  resources :words, only: [:index, :show]
-  post 'words/search' => 'words#search', as: :word_search
-  post 'words/definition_search' => 'words#definition_search', as: :word_definition_search
+  resources :words, only: [:index, :show] do
+    post 'search', on: :collection
+    post 'search_by_definition', on: :collection
+    post 'update_word_status'
+  end
 
   get 'dictionary/find' => 'words#find'
 
@@ -45,13 +49,12 @@ Rails.application.routes.draw do
 
   resources :translations do
     member do
-      put "upvote", to: "translations#upvote"
-      put "downvote", to: "translations#downvote"
-      put "unvote", to: "translations#unvote"
+      put "upvote"
+      put "downvote"
+      put "unvote"
     end
   end
 
-  get 'update_status', to: 'learned_words#update_status', as: :update_learned_word_status
 
   root 'home#index'
 

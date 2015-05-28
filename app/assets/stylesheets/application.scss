@@ -28,6 +28,7 @@ $blue: #052866;
 $black: #000000;
 
 .wrapper {
+  min-width: 800px;
   min-height: 100%;
   display: flex;
   flex-direction: column;

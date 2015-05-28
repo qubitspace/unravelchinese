@@ -34,8 +34,6 @@ class Admin::WordsController < Admin::BaseController
 
   def show
     @word = Word.find params[:id]
-    @learned_words = current_user.words
-    @word_statuses = current_user.word_statuses
   end
 
 

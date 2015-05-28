@@ -1,0 +1,22 @@
+
+<% status = (current_user.word_statuses.has_key?(word.id) ? current_user.word_statuses[word.id].status : 'unknown') %>
+<% status = 'known' if word.category == 'punctuation' %>
+[<%= status %>]<br>
+<%= link_to highlight(word.simplified, @term), word_url(word) %><br>
+<%= link_to highlight(word.traditional, @term), word_url(word) %><br>
+<%= link_to Word.highlight(word.pinyin, @term, @match_accents), word_url(word) %>
+<% word.definitions.each do |definition| %>
+  <div style="margin-left: 25px">• <%= definition.value %></div>
+<% end %>
+
+<% if status == 'known' %>
+  <%= link_to "Mark as Unknown", word_update_word_status_path(article_id: @article.nil? ? nil : @article.id , word_id: word.id, status: :unknown), remote: true, method: :post %><br/>
+  <%= link_to "Mark as Learning", word_update_word_status_path(article_id: @article.nil? ? nil : @article.id, word_id: word.id, status: :learning), remote: true, method: :post %>
+<% elsif status == 'learning' %>
+  <%= link_to "Mark as Known", word_update_word_status_path(article_id: @article.nil? ? nil : @article.id, word_id: word.id, status: :known), remote: true, method: :post %><br/>
+  <%= link_to "Mark as Unknown", word_update_word_status_path(article_id: @article.nil? ? nil : @article.id, word_id: word.id, status: :unknown), remote: true, method: :post %>
+<% else %>
+  <%= link_to "Mark as Known", word_update_word_status_path(article_id: @article.nil? ? nil : @article.id, word_id: word.id, status: :known), remote: true, method: :post %><br/>
+  <%= link_to "Mark as Learning", word_update_word_status_path(article_id: @article.nil? ? nil : @article.id, word_id: word.id, status: :learning), remote: true, method: :post %>
+<% end %>
+<br><br>

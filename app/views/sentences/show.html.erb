@@ -1,44 +1,45 @@
+<div class="content">
+  <div class="sentence -%>">
+    <% @sentence.tokens.each do |token| %>
+      <div style="display:inline-block;"><%= render partial: 'words/word', locals: { word: token.word } %></div>
+    <% end %>
+    <br>
 
-<div class="sentence -%>">
-  <% @sentence.tokens.each do |token| %>
-    <div style="display:inline-block;"><%= render partial: 'words/word', locals: { word: token.word } %></div>
-  <% end %>
-  <br>
+    <h3>Translations</h3>
+    <% @sentence.translations.each do |translation| %>
+      <div class="translation">
+        <%= translation.value %>
+        <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
+        <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %>
 
-  <h3>Translations</h3>
-  <% @sentence.translations.each do |translation| %>
-    <div class="translation">
-      <%= translation.value %>
-      <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
-      <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %>
+        <!-- TODO: move to partial -->
+        <div class="votes">
+          <%= translation.cached_votes_up %> Upvotes |
+          <%= translation.cached_votes_down %> Downvotes <br>
+          <% unless current_user.voted_for_sentence translation.sentence %>
+            <%= link_to "upvote", upvote_translation_path(translation), method: :put %> |
+            <%= link_to "downvote", downvote_translation_path(translation), method: :put %>
+          <% end %>
 
-      <!-- TODO: move to partial -->
-      <div class="votes">
-        <%= translation.cached_votes_up %> Upvotes |
-        <%= translation.cached_votes_down %> Downvotes <br>
-        <% unless current_user.voted_for_sentence translation.sentence %>
-          <%= link_to "upvote", upvote_translation_path(translation), method: :put %> |
-          <%= link_to "downvote", downvote_translation_path(translation), method: :put %>
-        <% end %>
+          <% if current_user.voted_up_on? translation %>
+            <%= link_to "Delete Upvote", unvote_translation_path(translation), method: :put %>
+          <% end %>
 
-        <% if current_user.voted_up_on? translation %>
-          <%= link_to "Delete Upvote", unvote_translation_path(translation), method: :put %>
-        <% end %>
-
-        <% if current_user.voted_down_on? translation %>
-          <%= link_to "Delete Downvote", unvote_translation_path(translation), method: :put %>
-        <% end %>
+          <% if current_user.voted_down_on? translation %>
+            <%= link_to "Delete Downvote", unvote_translation_path(translation), method: :put %>
+          <% end %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+
+  <h2>Add a translation:</h2>
+  <%= render 'translations/form' %>
+
+  <!-- add form for adding new translations -->
+  <!-- add voting for translations -->
+
+  <!--%= link_to 'Delete Sentence', sentence, method: :delete %-->
+  <!--%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %-->
+
 </div>
-
-<h2>Add a translation:</h2>
-<%= render 'translations/form' %>
-
-<!-- add form for adding new translations -->
-<!-- add voting for translations -->
-
-<!--%= link_to 'Delete Sentence', sentence, method: :delete %-->
-<!--%= link_to 'Delete Tokens', untokenize_sentence_path(sentence) %-->
-

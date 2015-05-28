@@ -8,8 +8,19 @@ class ArticlesController < ApplicationController
 
   def show
     @article = tokenized_article params[:id]
-    @word_statuses = current_user.word_statuses
-    @stats = @article.get_stats @word_statuses
+    @stats = @article.get_stats current_user
+  end
+
+  def update_word_status
+    @word = Word.find(params[:word_id])
+    @word.update_status current_user, params[:status]
+
+    @article = Article.find(params[:article_id])
+    @stats = @article.get_stats current_user
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
@@ -34,5 +45,6 @@ class ArticlesController < ApplicationController
       :publishable
     )
   end
+
 end
 
