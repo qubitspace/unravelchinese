@@ -2,16 +2,28 @@ class Article::Cell < Cell::Concept
   property :title
   property :created_at
   property :source
+  property :description
 
+  # include Cell::CreatedAt
   def show
     render
   end
 
   def for_title
-    render :title
+    render(:title).html_safe
   end
 
   private
+
+  def sentences
+    # talk about why we don't need an Operation, yet, to collect comments here.
+    @sentences ||= model.sentences
+  end
+
+  def comments
+    # talk about why we don't need an Operation, yet, to collect comments here.
+    @comments ||= model.comments#.page(page).per(10)
+  end
 
   def name_link
     link_to title, article_path(model)
