@@ -1,3 +1,4 @@
+
 class User < ActiveRecord::Base
   acts_as_voter
   has_many :learned_words, dependent: :destroy
@@ -11,15 +12,9 @@ class User < ActiveRecord::Base
     self.role ||= :user
   end
 
-  # Include default devise modules. Others available are:
-  # :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
-
-  # Add username
-  validates :email, presence: true
-  validates :email, uniqueness: true
-  validates :password, length: { minimum: 6 }, unless: "password.nil?"
-  validates :password, presence: true, if: "id.nil?"
+  validates :email, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: true
+  validates :password_digest, presence: true
 
   def word_statuses
      Hash[ learned_words.map { |learned_word| [learned_word.word_id, learned_word] } ]

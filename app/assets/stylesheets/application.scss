@@ -38,23 +38,28 @@ $black: #000000;
 
 }
 
+
 .header, .menu, .title, .body, .footer {
   .left {
     flex: 1 1 auto;
     min-width: 50px;
   }
+
   .main {
     flex: 0 1 auto;
     width: 1000px;
   }
+
   .meta {
     flex: 0 1 auto;
     width: 400px;
   }
+
   .main-meta {
     flex: 0 1 auto;
     width: 1400px;
   }
+
   .right {
     flex: 1 1 auto;
     min-width: 50px;
@@ -211,7 +216,7 @@ $black: #000000;
 
 
 
-.article_title {
+.article-title_conflicted-with-form {
   //font-family: Georgia, serif;
   //font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-family: "TiemposHeadline-Medium","Tiempos Headline Medium",Georgia,"Times New Roman",Times,serif;

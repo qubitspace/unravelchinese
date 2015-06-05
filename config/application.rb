@@ -22,5 +22,11 @@ module UnravelChinese
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+
+    # For Foundation 5
+    config.assets.precompile += %w( vendor/modernizr )
   end
 end
+
+require "trailblazer/rails/railtie"

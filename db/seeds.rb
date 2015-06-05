@@ -1,5 +1,7 @@
 # ruby encoding: utf-8
 require 'pp'
+require 'monban'
+#include Monban::ControllerHelpers
 
 #TEMP
 User.delete_all
@@ -15,8 +17,7 @@ Word.delete_all
 connection = ActiveRecord::Base.connection()
 connection.execute("ALTER TABLE words MODIFY `pinyin_cs` varchar(255) COLLATE utf8_bin;")
 
-user1 = User.create email: 'sethwilberger@gmail.com', password: 'password', confirmed_at: DateTime.now, role: :admin
-user1 = User.create email: 'sethwilberger2@gmail.com', password: 'password', confirmed_at: DateTime.now, role: :user
+user1 = Monban::Services::SignUp.new({username: 'qubitspace', email: 'sethwilberger@gmail.com', password: 'password', role: :admin}).perform
 
 google = Source.create name: "Google", link: "https://translate.google.com"
 bing = Source.create name: "Bing", link: "http://www.bing.com/translator"

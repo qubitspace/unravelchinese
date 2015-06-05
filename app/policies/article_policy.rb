@@ -7,7 +7,7 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    true #@user.admin?
   end
 
   def show?
@@ -15,23 +15,24 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    admin?
   end
 
   def new?
-    create?
+    admin?
+  end
+
+
+  def edit?
+    admin?
   end
 
   def update?
-    user.admin?
-  end
-
-  def edit?
-    user.admin?
+    admin?
   end
 
   def destroy?
-    user.admin?
+    admin?
   end
 
   def scope
@@ -51,5 +52,10 @@ class ArticlePolicy < ApplicationPolicy
     end
   end
 
+  private
+
+  def admin?
+    user.admin?
+  end
 
 end

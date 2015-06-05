@@ -1,0 +1,27 @@
+%h3 Create Article
+
+- if @form.errors.count > 0
+  %h3 Problem:
+  %ul
+    = @form.errors.each do |k, v|
+      %li{ class: 'error' }
+        = k
+        = v
+
+
+= simple_form_for @form do |f|
+
+  = f.input :link, placeholder: "Link", label: false
+  = f.input :title, placeholder: "Title", label: false, readonly: @form.readonly?(:title)
+  = f.input :description, placeholder: "Description", label: false
+  = f.input :published, label: "Published", as: :boolean
+  = f.input :commentable, label: "Commentable", as: :boolean, :value => true
+
+  %div
+    - f.fields_for :user do |f2|
+      f2.input :username, placeholder: "User Name"
+      f2.input :email, placeholder: "User Email"
+
+  = f.button :submit, class: :expand
+
+= @form.errors.messages unless @form.errors.nil?

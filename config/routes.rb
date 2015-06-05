@@ -1,32 +1,49 @@
+require "monban/constraints/signed_in"
+require "monban/constraints/signed_out"
+
 Rails.application.routes.draw do
-  namespace :admin do
+  resource :session, only: [:new, :create, :destroy]
+  resources :users, only: [:new, :create]
 
-    resources :sources
-    resources :categories
-    resources :tags#, only: [:index]
-
-    resources :articles do
-      post 'add_sentence', on: :member
-      resources :sentences
-    end
-
-    resources :sentences do
-      post 'untokenize', on: :member
-      post 'add_token', on: :member
-    end
-
-    resources :comments#, only: [:destroy]
-    resources :translations
-    resources :tokens
-    resources :words
-
+  constraints Monban::Constraints::SignedIn.new do
+    root "home#dashboard", as: 'dashboard'
   end
 
-  devise_for :users
+  constraints Monban::Constraints::SignedOut.new do
+    root "home#welcome"
+  end
 
-  resources :articles, only: [:show, :index] do
-    resources :comments, only: [:create]
+  # namespace :admin do
+
+  #   resources :sources
+  #   resources :categories
+  #   resources :tags#, only: [:index]
+
+  #   resources :articles do
+  #     post 'add_sentence', on: :member
+  #     resources :sentences
+  #   end
+
+  #   resources :sentences do
+  #     post 'untokenize', on: :member
+  #     post 'add_token', on: :member
+  #   end
+
+  #   resources :comments#, only: [:destroy]
+  #   resources :translations
+  #   resources :tokens
+  #   resources :words
+
+  # end
+
+  resources :articles do
+    resources :comments
     post 'update_word_status'
+
+
+    member do
+      post :create_comment
+    end
   end
 
 
@@ -55,8 +72,6 @@ Rails.application.routes.draw do
     end
   end
 
-
-  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

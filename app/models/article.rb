@@ -1,17 +1,17 @@
 class Article < ActiveRecord::Base
   include Taggable
-  has_many :sentences, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :sentences#, dependent: :destroy
+  has_many :comments#, dependent: :destroy
 
   belongs_to :source
-  accepts_nested_attributes_for :source, :reject_if => :all_blank
+  #accepts_nested_attributes_for :source, :reject_if => :all_blank
 
-  validates :source, presence: true
-  validates :published, inclusion: { in: [true, false] }
+  #validates :source, presence: true
+  #validates :published, inclusion: { in: [true, false] }
 
-  accepts_nested_attributes_for :source
+  #accepts_nested_attributes_for :source
 
-  before_save :clean_quotes
+  #before_save :clean_quotes
 
   def next_rank
     sentences.count == 0 ? 0 : sentences.maximum('rank') + 1

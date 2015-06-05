@@ -38,20 +38,37 @@ group :development, :test do
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem "minitest-spec-rails"
+  gem "capybara_minitest_spec"
+  gem 'rspec-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'devise'
+gem 'monban'
 gem 'pundit'
 gem 'rjb'
 gem 'mysql2'
-gem 'rspec-rails'
 gem 'typhoeus'
 gem 'json'
 gem 'nokogiri'
 gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'acts_as_votable'
+#gem 'haml-rails'
+
 gem 'trailblazer'
+gem 'cells'
+#gem 'cells-haml'
+gem 'cells-erb'
+gem 'kaminari-cells'
+gem "reform", "1.2.6" # git: "https://github.com/apotonick/reform.git"
+gem 'simple_form'
+
+
+# gem 'spring',        group: :development
+# gem 'foundation-rails'
+# gem 'high_voltage'
+# gem "roar"
+# gem 'rails-timeago'
