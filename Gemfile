@@ -56,19 +56,16 @@ gem 'nokogiri'
 gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'acts_as_votable'
-#gem 'haml-rails'
 
 gem 'trailblazer'
 gem 'cells'
-#gem 'cells-haml'
 gem 'cells-erb'
-gem 'kaminari-cells'
 gem "reform", "1.2.6" # git: "https://github.com/apotonick/reform.git"
-gem 'simple_form'
+gem "rails-timeago"
 
+gem "kaminari-cells", git: "https://github.com/apotonick/kaminari-cells", branch: "cells-4"
 
 # gem 'spring',        group: :development
 # gem 'foundation-rails'
 # gem 'high_voltage'
 # gem "roar"
-# gem 'rails-timeago'

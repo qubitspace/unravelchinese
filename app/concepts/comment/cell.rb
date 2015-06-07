@@ -1,12 +1,12 @@
 class Comment::Cell < Cell::Concept
   property :created_at
   property :body
-  property :user
+  #property :user
 
   include Cell::GridCell
-  self.classes = ["comment", "large-4", "columns"]
-
   include Cell::CreatedAt
+
+  self.classes = ["comment", "large-4", "columns"]
 
   def show
     render
@@ -16,9 +16,9 @@ private
 
   # Move this to /trb/current_user.rb
 
-  def current_user # could be used in the view
-    @options[:current_user]
-  end
+  # def current_user # could be used in the view
+  #   @options[:current_user]
+  # end
 
   class Grid < Cell::Concept
     inherit_views Comment::Cell
@@ -32,9 +32,9 @@ private
       render :grid
     end
 
-    # def append
-    #   %{ $("#next").replaceWith("#{j(show)}") }
-    # end
+    def append
+      %{ $("#next").replaceWith("#{j(show)}") }
+    end
 
   private
     def page

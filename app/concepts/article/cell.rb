@@ -4,7 +4,7 @@ class Article::Cell < Cell::Concept
   property :source
   property :description
 
-  # include Cell::CreatedAt
+  include Cell::CreatedAt
   def show
     render
   end

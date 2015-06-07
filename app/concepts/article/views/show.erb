@@ -1,5 +1,4 @@
 <div class="content">
-
   <% unless description.nil? %><%= description %><% end %>
   <br><br>
   <hr>
@@ -10,14 +9,6 @@
       <%= render partial: 'sentence', locals: { sentence: sentence } %>
     <% end %>
   </div>
-</div>
-
-<div class="content-header">Comments</div>
-<div class="content">
-  <!--%= render comments %-->
-
-  <h2>Add a comment:</h2>
-  <!--%= render 'comments/form' %-->
 </div>
 
 

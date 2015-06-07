@@ -17,22 +17,12 @@ class Comment < ActiveRecord::Base
       # end
 
       property :body
-      #property :weight
-      #property :thing
+      property :article
 
       validates :body, length: { in: 6..160 }
-      #validates :weight, inclusion: { in: weights.keys }
-      validates :article, :user, presence: true
 
-      property :user do
-        property :email
-        #validates :email, presence: true, email: true
-      end
-
-      def weight
-        super or "0"
-      end
     end
+
 
     def process(params)
       validate(params[:comment]) do |f|
@@ -45,14 +35,15 @@ class Comment < ActiveRecord::Base
       end
     end
 
+
     def article
       model.article
     end
 
+
   private
     def setup_model!(params)
       model.article = Article.find_by_id(params[:id])
-      #model.build_user
     end
   end
 end

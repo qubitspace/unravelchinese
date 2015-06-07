@@ -8,6 +8,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
+    process_params! params
     run Article::Create do |o|
       return redirect_to o.model
     end
@@ -34,9 +35,7 @@ class ArticlesController < ApplicationController
 
   def show
     present Article::Update
-    #form Comment::Create
-    #@article = tokenized_article(params[:id])
-
+    form Comment::Create
     #@stats = @article.get_stats current_user
   end
 
@@ -52,6 +51,7 @@ class ArticlesController < ApplicationController
     form Article::Update
   end
 
+
   def update_word_status
     @word = Word.find(params[:word_id])
     @word.update_status current_user, params[:status]
@@ -64,28 +64,50 @@ class ArticlesController < ApplicationController
     end
   end
 
+
+  def create_comment
+    present Article::Update
+    run Comment::Create do |o|
+      flash[:notice] = "Created comment for \"#{o.article.title}\""
+      return redirect_to article_path(o.article)
+    end
+
+    render :show
+  end
+
+
+  def next_comments
+    present Thing::Update
+
+    render js: concept("comment/cell/grid", @thing, page: params[:page]).(:append)
+  end
+
+
   private
+  # def process_params!(params)
+  #   params.merge!(current_user: current_user)
+  # end
 
-  def tokenized_article id
-    Article.includes(
-      :source,
-      :sentences => [
-        { :translations => :source },
-        { :tokens => { :word => :definitions } }
-      ]).find(id)
-  end
+  # def tokenized_article id
+  #   Article.includes(
+  #     :source,
+  #     :sentences => [
+  #       { :translations => :source },
+  #       { :tokens => { :word => :definitions } }
+  #     ]).find(id)
+  # end
 
-  def article_params
-    params.require(:article).permit(
-      :source_id,
-      :link,
-      :title,
-      :description,
-      :body,
-      :commentable,
-      :publishable
-    )
-  end
+  # def article_params
+  #   params.require(:article).permit(
+  #     :source_id,
+  #     :link,
+  #     :title,
+  #     :description,
+  #     :body,
+  #     :commentable,
+  #     :publishable
+  #   )
+  # end
 
 end
 

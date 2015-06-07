@@ -1,3 +1,21 @@
 <%= concept("article/cell", @article).call(:show) do |cell| %>
   <%= content_for :title, cell.for_title %>
 <% end %>
+
+<div class="content-header">Comments</div>
+<div class="content">
+  <!--%= render comments %-->
+
+  <h2>Add a comment:</h2>
+  <%= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
+    <%= f.input :body %>
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+
+  <%= @form.errors.messages %>
+</div>
+
+
+
+<h3><%= @article.comments.size %> comments</h3>
+<%= concept "comment/cell/grid", @article %>

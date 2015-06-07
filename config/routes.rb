@@ -40,9 +40,9 @@ Rails.application.routes.draw do
     resources :comments
     post 'update_word_status'
 
-
     member do
       post :create_comment
+      get :next_comments
     end
   end
 
