@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150405021949) do
+ActiveRecord::Schema.define(version: 17) do
 
   create_table "articles", force: :cascade do |t|
     t.integer  "source_id",   limit: 4
+    t.integer  "category_id", limit: 4
     t.text     "link",        limit: 65535
     t.text     "title",       limit: 65535,                 null: false
     t.text     "description", limit: 65535
@@ -24,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150405021949) do
     t.datetime "updated_at",                                null: false
   end
 
+  add_index "articles", ["category_id"], name: "index_articles_on_category_id", using: :btree
   add_index "articles", ["source_id"], name: "index_articles_on_source_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
@@ -39,14 +41,15 @@ ActiveRecord::Schema.define(version: 20150405021949) do
   add_index "categories", ["parent_id"], name: "index_categories_on_parent_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "article_id", limit: 4
-    t.text     "body",       limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "user_id",          limit: 4
+    t.integer  "commentable_id",   limit: 4
+    t.string   "commentable_type", limit: 255
+    t.text     "body",             limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
-  add_index "comments", ["article_id"], name: "index_comments_on_article_id", using: :btree
+  add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "definitions", force: :cascade do |t|
@@ -72,22 +75,26 @@ ActiveRecord::Schema.define(version: 20150405021949) do
   add_index "learned_words", ["word_id"], name: "index_learned_words_on_word_id", using: :btree
 
   create_table "sentences", force: :cascade do |t|
-    t.integer  "article_id", limit: 4,     null: false
-    t.integer  "rank",       limit: 4,     null: false
-    t.text     "value",      limit: 65535, null: false
-    t.boolean  "end",        limit: 1
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "source_id",     limit: 4
+    t.integer  "article_id",    limit: 4,     null: false
+    t.integer  "rank",          limit: 4,     null: false
+    t.text     "value",         limit: 65535, null: false
+    t.boolean  "end_paragraph", limit: 1
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "sentences", ["article_id", "rank"], name: "index_sentences_on_article_id_and_rank", unique: true, using: :btree
   add_index "sentences", ["article_id"], name: "index_sentences_on_article_id", using: :btree
+  add_index "sentences", ["source_id"], name: "index_sentences_on_source_id", using: :btree
 
   create_table "sources", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       limit: 255,                 null: false
     t.string   "link",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.boolean  "disabled",   limit: 1,   default: false
+    t.boolean  "restricted", limit: 1,   default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
@@ -100,6 +107,8 @@ ActiveRecord::Schema.define(version: 20150405021949) do
     t.datetime "updated_at",                null: false
   end
 
+  add_index "taggings", ["tag_id"], name: "fk_rails_40b06e886e", using: :btree
+
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
@@ -111,7 +120,7 @@ ActiveRecord::Schema.define(version: 20150405021949) do
   create_table "tokens", force: :cascade do |t|
     t.integer  "sentence_id", limit: 4, null: false
     t.integer  "word_id",     limit: 4, null: false
-    t.integer  "rank",        limit: 4
+    t.integer  "rank",        limit: 4, null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -175,8 +184,8 @@ ActiveRecord::Schema.define(version: 20150405021949) do
   add_index "votes", ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
 
   create_table "words", force: :cascade do |t|
-    t.integer  "category",            limit: 4,   null: false
-    t.string   "simplified",          limit: 255, null: false
+    t.integer  "category",            limit: 4,                   null: false
+    t.string   "simplified",          limit: 255,                 null: false
     t.string   "traditional",         limit: 255
     t.string   "pinyin",              limit: 255
     t.string   "pinyin_cs",           limit: 255
@@ -186,14 +195,16 @@ ActiveRecord::Schema.define(version: 20150405021949) do
     t.integer  "word_frequency",      limit: 4
     t.integer  "radical_number",      limit: 4
     t.integer  "strokes",             limit: 4
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "noun",                limit: 1,   default: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
   add_index "words", ["category"], name: "index_words_on_category", using: :btree
   add_index "words", ["character_frequency"], name: "index_words_on_character_frequency", using: :btree
   add_index "words", ["hsk_character_level"], name: "index_words_on_hsk_character_level", using: :btree
   add_index "words", ["hsk_word_level"], name: "index_words_on_hsk_word_level", using: :btree
+  add_index "words", ["noun"], name: "index_words_on_noun", using: :btree
   add_index "words", ["pinyin"], name: "index_words_on_pinyin", using: :btree
   add_index "words", ["pinyin_cs"], name: "index_words_on_pinyin_cs", using: :btree
   add_index "words", ["radical_number"], name: "index_words_on_radical_number", using: :btree
@@ -202,13 +213,15 @@ ActiveRecord::Schema.define(version: 20150405021949) do
   add_index "words", ["traditional"], name: "index_words_on_traditional", using: :btree
   add_index "words", ["word_frequency"], name: "index_words_on_word_frequency", using: :btree
 
+  add_foreign_key "articles", "categories"
   add_foreign_key "articles", "sources"
-  add_foreign_key "comments", "articles"
   add_foreign_key "comments", "users"
   add_foreign_key "definitions", "words"
   add_foreign_key "learned_words", "users"
   add_foreign_key "learned_words", "words"
   add_foreign_key "sentences", "articles"
+  add_foreign_key "sentences", "sources"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "tokens", "sentences"
   add_foreign_key "tokens", "words"
   add_foreign_key "translations", "sentences"

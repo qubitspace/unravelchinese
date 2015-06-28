@@ -1,21 +1,24 @@
-<%= concept("article/cell", @article).call(:show) do |cell| %>
-  <%= content_for :title, cell.for_title %>
-<% end %>
-
-<div class="content-header">Comments</div>
 <div class="content">
-  <!--%= render comments %-->
 
-  <h2>Add a comment:</h2>
-  <%= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
-    <%= f.input :body %>
-    <%= f.button :submit, class: :expand %>
-  <% end %>
+  <%= concept("article/admin_menu/cell", @article, current_user: current_user) %>
+  <%= concept("article/cell", @article).call(:show) %>
 
-  <%= @form.errors.messages %>
+
+  <div class="content-header">Comments</div>
+  <div class="content">
+    <!--%= render comments %-->
+
+    <h2>Add a comment:</h2>
+    <%= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
+      <%= f.input :body %>
+      <%= f.button :submit, class: :expand %>
+    <% end %>
+
+    <%= @form.errors.messages %>
+  </div>
+
+
+  <div class='comments'>
+    <%= concept "comment/comment_cell/comment_grid", @article %>
+  </div>
 </div>
-
-
-
-<h3><%= @article.comments.size %> comments</h3>
-<%= concept "comment/cell/grid", @article %>

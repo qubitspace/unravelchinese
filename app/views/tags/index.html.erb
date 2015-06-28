@@ -1,7 +1,7 @@
 <h1>Tags:Index</h1>
 
 <% @tags.each do |tag| %>
-  <%= link_to tag.name, tag_path(tag) %> (<%= tag.word_count %> words) |
+  <%= link_to tag.name, tag_path(tag) %> (<%= tag.taggable_count %> words) |
   <%= link_to 'Delete', tag, method: :delete, data: { confirm: 'Are you sure?' } %></br>
 
 <% end %>

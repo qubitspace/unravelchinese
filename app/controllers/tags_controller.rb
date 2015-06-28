@@ -1,8 +1,9 @@
 class TagsController < ApplicationController
   def index
-    #@tags = Tag.includes(:words).all
-    #@word_counts = Tag.includes(:words).count(group: 'tag.id')
-    @tags = Tag.with_word_count limit: 1000
+    #model this off off comments, add a link to load more pages and search
+
+    # Just pass through params since it will parse them out for now
+    @tags = Tag.with_taggable_count params
   end
 
   def show
@@ -12,7 +13,7 @@ class TagsController < ApplicationController
   def destroy
     @tag = Tag.find(params[:id])
     @tag.destroy
-   
+
     redirect_to tags_path
   end
 

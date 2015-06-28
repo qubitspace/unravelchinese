@@ -1,0 +1,13 @@
+
+<div class="word <%=type%>" word-id="<%=id%>">
+  <%= link(highlight(simplified)) %> -
+  <%= link(highlight(traditional)) %><br/>
+  <%= link(highlight(pinyin)) %>
+
+  <div style="margin-left: 25px">
+  <%= definitions.collect{|d| d.value}.join " / " %>
+
+  </div>
+  <%= status_links.join " - " %>
+</div>
+<br><hr><br>

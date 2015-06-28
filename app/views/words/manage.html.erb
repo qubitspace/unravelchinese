@@ -1,0 +1,15 @@
+<div class="content">
+  <%= concept("word/word_admin_menu_cell", @word, current_user: current_user) %>
+  <%= concept("word/word_cell", @word, current_user: current_user).call(:show) %>
+
+
+  <h2>Add a Definition:</h2>
+  <%= simple_form_for @form, url: word_create_definition_path(@word) do |f| %>
+    <%= f.input :value %>
+    <%= f.input :rank %>
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+
+  <%= @form.errors.messages %>
+
+</div>

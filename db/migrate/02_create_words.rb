@@ -12,7 +12,7 @@ class CreateWords < ActiveRecord::Migration
       t.integer :word_frequency, index: true
       t.integer :radical_number, index: true
       t.integer :strokes, index: true
-      t.integer :radical_number, index: true
+      t.boolean :noun, index: true, default: false
 
       t.timestamps null: false
     end

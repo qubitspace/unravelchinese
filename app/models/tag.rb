@@ -6,28 +6,18 @@ class Tag < ActiveRecord::Base
 
   has_many :articles, through: :taggings, source: :taggable, source_type: Article
 
-  def self.with_word_count options = {}
-    options[:count]       ||= 1000
+  def self.with_taggable_count options = {}
+    options[:count]       ||= 100
+    options[:page]        ||= 0
+    options[:type]        ||= 'Definition'
 
-    Tag.joins("inner join taggings on taggings.tag_id = tags.id
-              inner join definitions on taggings.taggable_id = definitions.id and taggings.taggable_type = 'Definition'
-              inner join words on definitions.word_id = words.id")
-      .select("tags.name, tags.id, count(*) as word_count")
-      .group('tags.id')
-      .order('count(*) asc')
+    Tag.select("tags.id, tags.name, taggings.taggable_type, count(taggings.taggable_id) AS taggable_count")
+      .joins('inner join taggings on tags.id = taggings.tag_id')
+      .group("tags.id, tags.name, taggings.taggable_type")
+      .having('taggings.taggable_type = ?', options[:type])
+      .order('taggable_count desc')
+      .offset(5)
       .limit(options[:count])
   end
-
-    # Find Notes:
-    # find( :all,
-    #     :limit => options[:count],
-    #     :select => 'posts.id, posts.title, posts.state, posts.created_at,
-    #     posts.photo_file_name, posts.photo_content_type, posts.photo_file_size,
-    #     posts.photo_updated_at, tags.name, tags.taggable_id',
-    #     :conditions => "tags.name IN (\"#{names*"\",\""}\") AND posts.id != #{post_id}",
-    #     :include => 'tags',
-    #     :group => 'tags.taggable_id',
-    #     :having => 'COUNT(ratings.ratable_id) >= ' + options[:min].to_s,
-    #     :order => 'count(tags.name) desc')
 
 end

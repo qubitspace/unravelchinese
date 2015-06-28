@@ -1,14 +1,17 @@
 class CommentsController < ApplicationController
+
   def create
     run Comment::Create do |op|
-      flash[:notice] = "Created comment for \"#{op.thing.name}\""
+      flash[:notice] = "Created comment for \"#{op.comment.name}\""
       return redirect_to article_path(@article)
-    @article = Article.find(params[:article_id]) # UI-specific logic!
+    @article = Article.find(params[:article_id])
     render :new
-    # @article = Article.find(params[:article_id])
-    # @comment = @article.comments.create(comment_params)
-    # redirect_to article_path(@article)
   end
+
+
+  ###########################
+  ### Non-Operation Based ###
+  ###########################
 
   def destroy
     @article = Article.find(params[:article_id])
@@ -17,11 +20,4 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article)
   end
 
-
-  private
-
-
-  def comment_params
-    params.require(:comment).permit(:body)
-  end
 end

@@ -1,0 +1,44 @@
+<div class="content">
+
+  <%= concept("word/word_admin_menu_cell", @form.model, current_user: current_user) %>
+
+  <h2>Edit Word</h2>
+
+
+  <% if @form.errors.count > 0 %>
+    <h3>Problem:</h3>
+    <ul>
+      <%= @form.errors.each do |k, v| %>
+        <li class='error'>
+          <%= k %>
+          <%= v %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= simple_form_for @form do |word_form| %>
+
+    <%= word_form.input :simplified, placeholder: "Simplified" %><br/>
+    <%= word_form.input :traditional, placeholder: "Traditional" %><br/>
+    <%= word_form.input :pinyin, placeholder: "Pinyin" %><br/>
+    <%= word_form.input :hsk_character_level, placeholder: "HSK Character Level" %><br/>
+    <%= word_form.input :hsk_word_level, placeholder: "HSK Word Level" %><br/>
+    <%= word_form.input :character_frequency, placeholder: "Character Frequency" %><br/>
+    <%= word_form.input :word_frequency, placeholder: "Word Frequency" %><br/>
+    <%= word_form.input :radical_number, placeholder: "Radical Number" %><br/>
+    <%= word_form.input :strokes, placeholder: "Strokes" %><br/>
+
+
+    <%= word_form.simple_fields_for :definitions do |definition_form| %>
+      <div class="word_definition_inputs">
+        <%= definition_form.input :value %>
+        <%= definition_form.input :rank %>
+        <%= definition_form.input :remove, as: :boolean, input_html: { checked: false } %>
+      </div><br/>
+    <% end %>
+
+  <%= word_form.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+</div>

@@ -1,16 +1,38 @@
-<h1><%= @article.title %></h1>
-<% unless @article.description.nil? %><h4><%= @article.description %></h4><% end %>
-<!-- TODO: Create views for different types of words to not have conditional logic. -->
-<!-- either need aditional padding around literals, or need to get spacing in there somehow, only some literals need spaces -->
+<div class="content">
+  <%= concept("article/admin_menu/cell", @article, current_user: current_user) %>
+  <%= concept("article/cell", @article).call(:show) %>
 
-<%= render @article.sentences %>
+  <div class="content-header">Sentence</div>
+  <div class="content">
 
-<h2>Add a Sentence:</h2>
-<%= render 'sentences/form' %>
+  <h2>Add a sentence:</h2>
+  <%= simple_form_for @form, url: create_sentence_article_path(@article) do |f| %>
+    <%= f.input :value %>
+    <%= f.input :end_paragraph, as: :boolean %>
 
-<%= link_to 'Articles', articles_path %> |
-<%= link_to 'Show', article_path(@article) %> |
-<%= link_to 'Edit', edit_article_path(@article) %>
+    <div id="new_translation">
+      <%= @form.translations.each_with_index do |f2, i| %>
+        <%= f2.input :name, placeholder: "Name" %>
+        <%= f2.input :link, placeholder: "Link" %>
 
-</script>
+        <%= f2.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
+        <div id="new_source">
+          <%= f2.fields_for :source do |f3| %>
+            <%= f3.input :name, placeholder: "Name" %>
+            <%= f3.input :link, placeholder: "Link" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
 
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+
+  </div>
+
+  <h3><%= @article.comments.size %> comments</h3>
+  <div class='comments'>
+    <%= concept "comment/comment_cell/comment_grid", @article %>
+  </div>
+</div>

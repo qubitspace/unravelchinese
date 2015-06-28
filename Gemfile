@@ -57,13 +57,13 @@ gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'acts_as_votable'
 
-gem 'trailblazer'
-gem 'cells'
-gem 'cells-erb'
-gem "reform", "1.2.6" # git: "https://github.com/apotonick/reform.git"
+#gem 'trailblazer', git: 'https://github.com/apotonick/trailblazer'
+gem "cells"#, git: 'https://github.com/apotonick/cells'
+gem "reform"#, git: 'https://github.com/apotonick/reform', branch: 'reform-2'
+gem 'cells-erb'#, git: 'https://github.com/trailblazer/cells-erb'
 gem "rails-timeago"
 
-gem "kaminari-cells", git: "https://github.com/apotonick/kaminari-cells", branch: "cells-4"
+gem "kaminari-cells"#, git: 'https://github.com/apotonick/kaminari-cells'
 
 # gem 'spring',        group: :development
 # gem 'foundation-rails'

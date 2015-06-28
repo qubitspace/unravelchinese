@@ -43,6 +43,10 @@
         <div class="link"><%= link_to 'Articles', [:articles] %></div>
         <div class="link"><%= link_to 'Sentences', [:sentences] %></div>
         <div class="link"><%= link_to 'Words', [:words] %></div>
+        <% if current_user and current_user.admin? %>
+          <div class="link"><span class="admin"> | </div>
+          <div class="link"><%= link_to 'Tags', [:tags], class: 'admin' %></div>
+        <% end %>
       </div>
     </div>
     <div class="right"></div>

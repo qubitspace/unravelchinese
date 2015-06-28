@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   include Pundit
   protect_from_forgery with: :exception
-  #before_action :require_login, except: [:welcome]
+  before_action :require_login, except: [:welcome]
 
-  include Trailblazer::Operation::Controller
-  require 'trailblazer/operation/controller/active_record'
-  include Trailblazer::Operation::Controller::ActiveRecord # named instance variables.
+  #include Trailblazer::Operation::Controller
+  #require 'trailblazer/operation/controller/active_record'
+  #include Trailblazer::Operation::Controller::ActiveRecord # named instance variables.
 end

@@ -1,12 +1,13 @@
 <div id="tokenizer">
 
+  End Paragraph: <%= @sentence.end_paragraph %><br>
   <%= render partial: 'tokenized' %>
 
   <hr/>
 
   <%= render partial: 'next_token' %>
   <br/>
-  <%= link_to 'Manage Article', manage_article_path(@sentence.article) %> |
-  <%= link_to 'Delete Tokens', untokenize_sentence_path(@sentence) %>
+  <%= link_to 'Manage Article', [:admin, @sentence.article] %> |
+  <%= link_to 'Delete Tokens', untokenize_admin_sentence_path(@sentence) %>
 
 </div>

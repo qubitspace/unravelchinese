@@ -1,21 +1,17 @@
 ﻿
-
-
-
 Dictionary:
 ----------
-Finish partial pattern
-	Keep all the _word partials in the controller they are used in, so a refresh calls the correct action.
-	Articles will have a _sentence and _word partial.
-	Sentences will have a _word partial.
-	To share code move common code to another partial and both render new partial
-	Ex: if a Sentence wants to render word partials, have a _word partial in the sentences folder and move shared code to words folder.
-	Don't go overboard w/ this, this is just alpha and similar view isn't a big deal, I already moved some logic into the word model.
+Need to add symantecs to words like simplified version of a radical... etc...
+	Need to clean up all the radical info and work on relationships
+Need to integrate the squished words
+
 
 Articles:
 --------
-Article titles can't be unique. Maybe they should be optional altogether (after tags/categories.
+Article titles can't be unique.
+Maybe they should be optional altogether (after tags/categories.)
 Block comments if not commentable
+
 
 Sentences:
 ----------
@@ -28,6 +24,11 @@ Maximum one translation per source or user (source if a source exists, otherwise
 New translations should link to user who added it.
 Add link from a sentence to the article it belongs to.
 Add right panels.
+
+Tags:
+----
+Add a way to add tags to anything that is (or will be taggable)
+	Definitions/Words/Articles/Sentences
 
 Tokens:
 ------
@@ -118,6 +119,10 @@ Manage translations on sentence page.
 Make sure rank is being set correctly on sentences (keep them in a small group to allow re-ordering with a new UI later.)
 	Create after_delete hook for sentences to re-order remaining ranks
 
+Content:
+---------
+Optionally hide the character for unknown characters (always show either only the character or the pinyin)
+Get as much content from yoyochinese as I can. (Source it?)
 
 ==============================================================================================================
 ==============================================================================================================
@@ -351,6 +356,24 @@ Tone-Pairs
 
 Spaced Repetition/Flashcards.
 
+What you need to be able to do to read chinese. Create practice for each
+	Map characters to meaning (character recognition)
+		Show character, pick or type the meaning
+	Group characters into meaningful words (vocabulary)
+		User basically tokenizes a text. Easy mode shows options, hard mode doesn't (just click the last char in the next word.
+	Group words into meaningful sentences (grammar)
+		Some quiz about word order. Drag words into correct order, or pick what one is correct.
+	Understand the meaning of sentences in context (pragmatics)
+		???
+	Understand the writer’s intent (reading between the lines)
+		???
+	Map characters to pronunciation (pronunciation recall)
+		Show character in context, pick the correct tone.
+	Understand how meaning influences pronunciation (intonation, sentence stress)
+		???
+
+Tone pair drills.
+
 Challenges!
 	Build a simple test.
 	Challenge people to pass it.
@@ -378,6 +401,8 @@ Switch to AngularJS
 --------------------------
 Blog
 --------------------------
+
+
 
 	Memory techniques - Get Emotional
 

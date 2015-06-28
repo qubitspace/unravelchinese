@@ -1,21 +1,14 @@
 <h1>Words</h1>
 
-<%= form_tag [:search, :words], remote: true do %>
+<%= form_tag [:words], method: 'get' do %>
   <p>
-    <b><%= label_tag :term, "Search simplified, traditional and pinyin:" %></b><br>
-    <%= text_field_tag :term, params[:term] %>
+    <b><%= label_tag :query, "Search simplified, traditional and pinyin:" %></b><br>
+    <%= text_field_tag :query, params[:query] %>
     <%= submit_tag "Search", :name => nil %><br>
     <%= label_tag :match_accents, "Match Accents" %>
     <%= check_box_tag :match_accents, 1, false %><br>
     <em>Pinyin with tone numbers at the end will be converted to tone marks (ex: zhong1 wen4 for zhōngwén)</em>
 <% end %>
 
-<%= form_tag [:search_by_definition, :words], remote: true do %>
-  <p>
-    <b><%= label_tag :term, "Search definitions:" %><br></b>
-    <%= text_field_tag :term, params[:term] %>
-    <%= submit_tag "Search", :name => nil %><br>
-<% end %>
-
 </p>
-<div id="results"></div>
+<%= concept("word/word_cell/word_search_result_cell", collection: @results, current_user: current_user, query: params[:query] ) %>

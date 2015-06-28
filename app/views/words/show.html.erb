@@ -1,48 +1,19 @@
-
-<% content_for :title do %>
-  <%= render partial: @word %>
-<% end %>
-
 <div class="content">
-  <% @word.definitions.each do |definition| %>
-    <div class="word_definition">
-    • <%= raw definition.html_value %> <% definition.tags.each do |tag| %>[<%= link_to tag.name, tag %>] <% end %>
-    </div>
-  <% end %>
+  <%= concept("word/word_admin_menu_cell", @word, current_user: current_user) %>
+  <%= concept("word/word_cell", @word, current_user: current_user).call(:show) %>
 
   <h1>Sub Words:</h1>
-  <% @sub_words.each do |sub_word| %>
-    <%= render partial: 'words/related_word', locals: { word: sub_word } %>
-  <% end %>
+  <%= concept("word/word_cell/word_preview_cell", collection: @sub_words, current_user: current_user ) %>
 
   <h1>Related Words:</h1>
+  <%= concept("word/word_cell/word_preview_cell", collection: @derived_words, current_user: current_user ) %>
 
-  <% @derived_words.each do |derived_word| %>
-    <%= render partial: 'words/related_word', locals: { word: derived_word } %>
-  <% end %>
-
-  <h1>Synonyms:</h1>
-
-  <% @synonyms.each do |synonym| %>
-    <%= render partial: 'words/related_word', locals: { word: synonym } %>
-  <% end %>
+  <h1>Homophones:</h1>
+  <%= concept("word/word_cell/word_preview_cell", collection: @synonyms, current_user: current_user ) %>
 
   <h1>Sentences:</h1>
-  <% @sentences.each do |sentence| %>
-    <%= sentence.value %><br>
-  <% end %>
+  <%= concept("sentence/sentence_cell", collection: @sentences, current_user: current_user ) %>
 
   <h1>Articles:</h1>
-  <%= @articles.count %>
+  <!--%= @articles.count %-->
 </div>
-
-<% content_for :meta do %>
-  <div class="content">
-    HSK Char Level: <%= @word.hsk_character_level %><br/>
-    HSK Word Level: <%= @word.hsk_word_level %><br/>
-    Character Frequency: <%= @word.character_frequency %><br/>
-    Word Frequency: <%= @word.word_frequency %><br/>
-    Radical Number: <%= @word.radical_number %><br/>
-    Strokes: <%= @word.strokes %><br/><br/>
-  </div>
-<% end %>

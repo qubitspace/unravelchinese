@@ -136,6 +136,7 @@ $black: #000000;
   }
 
   .link {
+    span { float: left; color: #f00; padding: 10px; }
     display: inline;
     a {
       float: left;
@@ -147,6 +148,7 @@ $black: #000000;
       //background-color: #BE4C39;
       background-color: $red;
     }
+    a.admin { color: #f00; }
 
     font-size: 21px;
   }
@@ -163,11 +165,11 @@ $black: #000000;
   line-height: 16px;
 
   .left, .right {
-    background-color: #EEEEEE;
+    background-color: #ffffff;
   }
 
   .main-meta {
-    background-color: #EEEEEE;
+    background-color: #ffffff;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 12px;
     color: #222222;
@@ -184,21 +186,21 @@ $black: #000000;
   flex: 1 0 auto;
 
   .left, .right {
-    background-color: #EEEEEE;
+    background-color: #ffffff;
   }
   .main, .meta {
-    background-color: #EEEEEE;
+    background-color: #ffffff;
   }
 }
 
 .content {
-  background-color: #FFFFFF;
-  border: 2px solid #E0E0E0;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  padding: 30px;
-  line-height: 24px;
+  //background-color: #FFFFFF;
+  //border: 2px solid #E0E0E0;
+  //-moz-border-radius: 5px;
+  //-webkit-border-radius: 5px;
+  //border-radius: 5px;
+  //padding: 30px;
+  //line-height: 24px;
 }
 
 // -------

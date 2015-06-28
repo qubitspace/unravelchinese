@@ -3,6 +3,8 @@ require "i18n"
 class Word < ActiveRecord::Base
   has_many :tokens, dependent: :destroy
   has_many :sentences, through: :tokens
+
+  has_many :tags, through: :taggings, dependent: :destroy
   has_many :definitions, dependent: :destroy
 
   enum category: [:uncategorized, :punctuation, :alphanumeric, :word, :character, :radical, ]
@@ -12,6 +14,19 @@ class Word < ActiveRecord::Base
 
   def self.find_words simplified, traditional, pinyin
     @words = self.find_words simplified, traditional, pinyin
+  end
+
+  def self.find_word simplified, traditional, pinyin
+    limit = 100
+    results = self # simplified and (!traditional.present? or t)
+      .where('simplified = ? and (? = false or traditional = ?) and (? = false or pinyin_cs = ?)', simplified, traditional.present?, traditional, pinyin.present?, pinyin)
+      .limit(limit)
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc")
+    if results.count == 1
+      redirect_to results[0]
+    else
+      results
+    end
   end
 
   def self.search term, match_accents = 0
@@ -33,13 +48,13 @@ class Word < ActiveRecord::Base
   def self.definition_search term
     limit = 100
     exact_matches = self.joins([:definitions]).where('definitions.value = ?', term).limit(limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
+      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc"
     )
 
     wildcard = "%#{term}%"
     partial_match_limit = limit - exact_matches.count
     partial_matches = self.joins([:definitions]).where('definitions.value like ? and id not in (?)', wildcard, exact_matches.map(&:id)).limit(limit).order(
-      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc"
+      "-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc"
     )
     results = exact_matches
     return results
@@ -91,16 +106,7 @@ class Word < ActiveRecord::Base
     return value.html_safe
   end
 
-  def update_status current_user, status
-    learned_word = LearnedWord.find_or_create_by(user: current_user, word: self)
-    learned_word.status = status
 
-    if ['known', 'learning'].include? status
-      learned_word.save
-    elsif
-      learned_word.destroy
-    end
-  end
   private
 
   @@accents = {
@@ -130,7 +136,7 @@ class Word < ActiveRecord::Base
     search_terms[:pinyin_cs] = pinyin if pinyin.present?
     results = self
       .where(search_terms)
-      .limit(limit).order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
+      .limit(limit).order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc")
     return results
   end
 
@@ -139,7 +145,7 @@ class Word < ActiveRecord::Base
     exact_matches = self
       .where('simplified = ? or traditional = ? or pinyin_cs = ?', term, term, term)
       .limit(limit)
-      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc")
 
     wildcard = "%#{term}%"
     partial_match_limit = limit - exact_matches.count
@@ -147,7 +153,7 @@ class Word < ActiveRecord::Base
       .where('simplified like ? or traditional like ? or pinyin_cs like ?', wildcard, wildcard, wildcard)
       .where('id not in (?)', exact_matches.map(&:id))
       .limit(partial_match_limit)
-      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc")
     results = exact_matches + partial_matches
     return results
   end
@@ -157,7 +163,7 @@ class Word < ActiveRecord::Base
     exact_matches = self
       .where('simplified = ? or traditional = ? or pinyin = ?', term, term, term)
       .limit(limit)
-      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc")
 
     wildcard = "%#{term}%"
     partial_match_limit = limit - exact_matches.count
@@ -165,7 +171,7 @@ class Word < ActiveRecord::Base
       .where('simplified like ? or traditional like ? or pinyin like ?', wildcard, wildcard, wildcard)
       .where('id not in (?)', exact_matches.map(&:id))
       .limit(partial_match_limit)
-      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc")
+      .order("-hsk_character_level desc, -hsk_word_level desc, -character_frequency desc, -word_frequency desc, -strokes desc, -radical_number desc, noun asc")
     results = exact_matches + partial_matches
     return results
   end

@@ -1,5 +1,44 @@
-<h1>Editing Article</h1>
+<div class="content">
 
-<%= render 'form' %>
+  <%= concept("article/admin_menu/cell", @form.model, current_user: current_user) %>
 
-<%= link_to 'Articles', articles_path %>
+  <h2>Edit Article</h2>
+
+
+  <% if @form.errors.count > 0 %>
+    <h3>Problem:</h3>
+    <ul>
+      <%= @form.errors.each do |k, v| %>
+        <li class='error'>
+          <%= k %>
+          <%= v %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= simple_form_for @form do |article_form| %>
+
+    <%= article_form.input :simplified, placeholder: "Simplified" %><br/>
+    <%= article_form.input :traditional, placeholder: "Traditional" %><br/>
+    <%= article_form.input :pinyin, placeholder: "Pinyin" %><br/>
+    <%= article_form.input :hsk_character_level, placeholder: "HSK Character Level" %><br/>
+    <%= article_form.input :hsk_word_level, placeholder: "HSK Word Level" %><br/>
+    <%= article_form.input :character_frequency, placeholder: "Character Frequency" %><br/>
+    <%= article_form.input :word_frequency, placeholder: "Word Frequency" %><br/>
+    <%= article_form.input :radical_number, placeholder: "Radical Number" %><br/>
+    <%= article_form.input :strokes, placeholder: "Strokes" %><br/>
+
+
+    <%= article_form.simple_fields_for :translations do |translation_form| %>
+      <div class="word_definition_inputs">
+        <%= translation_form.input :value %>
+        <%= translation_form.input :rank %>
+        <%= translation_form.input :remove, as: :boolean, input_html: { checked: false } %>
+      </div><br/>
+    <% end %>
+
+  <%= article_form.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+</div>

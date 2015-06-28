@@ -1,4 +1,9 @@
-<h3>Create Article</h3>
+userid: <%= current_user.id %><br>
+admin? <%= current_user.admin? %><br/>
+
+<%= @form.inspect %>
+
+<h2>Create Article</h2>
 
 <% if @form.errors.count > 0 %>
   <h3>Problem:</h3>
@@ -12,20 +17,25 @@
   </ul>
 <% end %>
 
-<%= simple_form_for @form do |f| %>
+<%= simple_form_for @form do |article| %>
 
-  <%= f.input :link, placeholder: "Link", label: false %>
-  <%= f.input :title, placeholder: "Title", label: false, readonly: @form.readonly?(:title) %>
-  <%= f.input :description, placeholder: "Description", label: false %>
-  <%= f.input :published, label: "Published", as: :boolean %>
-  <%= f.input :commentable, label: "Commentable", as: :boolean, :value => true %>
+  <%= article.input :link, placeholder: "Link", label: false %>
+  <%= article.input :title, placeholder: "Title", label: false %>
+  <%= article.input :description, placeholder: "Description", label: false %>
+  <%= article.input :published, label: "Published", as: :boolean %>
+  <%= article.input :commentable, label: "Commentable", as: :boolean %>
 
-  <div>
-    <%= f.fields_for :source do |f2| %>
-      <%= f2.input :name, placeholder: "Name" %>
-      <%= f2.input :link, placeholder: "Link" %>
-    <% end %>
-  </div>
-  <%= f.button :submit, class: :expand %>
+
+  <h3>Source:</h3>
+
+  <%= article.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
+  <br/>
+  <%= article.fields_for :source do |source| %>
+    <%= source.input :name, placeholder: "Name" %>
+    <%= source.input :link, placeholder: "Link" %>
+  <% end %>
+
+
+<%= article.button :submit, class: :expand %>
 <% end %>
 <%= @form.errors.messages unless @form.errors.nil? %>

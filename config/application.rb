@@ -29,4 +29,4 @@ module UnravelChinese
   end
 end
 
-require "trailblazer/rails/railtie"
+#require "trailblazer/rails/railtie"

@@ -33,3 +33,11 @@ end
       # inner join votes v on t.id = v.votable_id and v.votable_type = 'Translation'
       # where t.sentence_id = 6
       #   and v.voter_id = 1
+
+
+
+#class Session::SignIn < Trailblazer::Operation
+# def process(params)
+#   Monban.signin(params)
+#   mark_online_activity!
+# end

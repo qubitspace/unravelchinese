@@ -16,4 +16,24 @@ class Definition < ActiveRecord::Base
       "<span class='definition_link'><a href='/dictionary/find?simplified=#{simplified}&traditional=#{traditional}&pinyin=#{pinyin}'>#{simplified}#{'('+pinyin+')' if pinyin}</a></span>"
     end
   end
+
+  def set_rank word, rank
+
+    if rank.present?
+      self.rank = rank
+      shift_definitions = word.definitions.where( "rank > ?", rank).order( 'rank desc')
+      shift_definitions.each do |definition|
+        definition.rank += 1
+        definition.save
+      end
+    else
+      self.rank = if word.definitions.count > 0
+                then word.definitions.maximum(:rank) + 1
+                else 0
+                end
+    end
+
+  end
 end
+
+

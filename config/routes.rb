@@ -13,51 +13,26 @@ Rails.application.routes.draw do
     root "home#welcome"
   end
 
-  # namespace :admin do
-
-  #   resources :sources
-  #   resources :categories
-  #   resources :tags#, only: [:index]
-
-  #   resources :articles do
-  #     post 'add_sentence', on: :member
-  #     resources :sentences
-  #   end
-
-  #   resources :sentences do
-  #     post 'untokenize', on: :member
-  #     post 'add_token', on: :member
-  #   end
-
-  #   resources :comments#, only: [:destroy]
-  #   resources :translations
-  #   resources :tokens
-  #   resources :words
-
-  # end
-
   resources :articles do
-    resources :comments
-    post 'update_word_status'
-
+    #resources :comments
+    get :manage
     member do
       post :create_comment
+      post :create_sentence
       get :next_comments
     end
+    get :manage
   end
 
-
-  resources :sentences, only: [:show, :index] do
-    resources :translations, only: [:create]
-    get "copy_text"
-    post 'update_word_status'
+  resources :sentences do
+    get :manage
   end
 
-
-  resources :words, only: [:index, :show] do
-    post 'search', on: :collection
-    post 'search_by_definition', on: :collection
-    post 'update_word_status'
+  resources :words do
+    post :search, on: :collection
+    post :create_definition
+    put :update_status
+    get :manage
   end
 
   get 'dictionary/find' => 'words#find'
@@ -66,12 +41,11 @@ Rails.application.routes.draw do
 
   resources :translations do
     member do
-      put "upvote"
-      put "downvote"
-      put "unvote"
+      put :upvote
+      put :downvote
+      put :unvote
     end
   end
-
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

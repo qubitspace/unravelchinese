@@ -1,10 +1,12 @@
 class Sentence < ActiveRecord::Base
   belongs_to :article
+  belongs_to :source
   has_many :tokens, dependent: :destroy
   has_many :translations, -> { order('cached_votes_score desc') }, dependent: :destroy
   has_many :words, through: :tokens
 
-  accepts_nested_attributes_for :translations, :reject_if => lambda { |t| t[:value].blank? }
+
+  #accepts_nested_attributes_for :translations, :reject_if => lambda { |t| t[:value].blank? }
 
   before_create :set_rank
   before_create :translate, on: :create
@@ -23,7 +25,7 @@ class Sentence < ActiveRecord::Base
   end
 
   def dictionary_translate
-    source = Source.find_or_create_by name: "Dictionary.com", link: "http://translate.reference.com/"
+    source = Source.find_or_create_by name: "Dictionary.com", link: "http://translate.reference.com/", restricted: true
 
     url = "http://translate.reference.com/chinese-simplified/english/#{self.value}"
     response = Typhoeus.get(url, followlocation: true)
@@ -33,7 +35,7 @@ class Sentence < ActiveRecord::Base
   end
 
   def google_translate
-    source = Source.find_or_create_by name: "Google Translate", link: "www.google.com"
+    source = Source.find_or_create_by name: "Google Translate", link: "www.google.com", restricted: true
 
     config = {
       :method => :get,
@@ -77,7 +79,7 @@ class Sentence < ActiveRecord::Base
   end
 
   def bing_translate
-    source = Source.find_or_create_by name: "Bing Translate", link: "www.bing.com"
+    source = Source.find_or_create_by name: "Bing Translate", link: "www.bing.com", restricted: true
     access_token = get_bing_access_token
 
     translate_url = "http://api.microsofttranslator.com/v2/Http.svc/Translate"
