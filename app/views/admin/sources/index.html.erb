@@ -1,9 +1,0 @@
-<br>
-<%= link_to 'New Source', new_admin_source_path %><br><br>
-
-<% @sources.each do |source| %>
-  <%= link_to source.name, admin_source_path(source) %><br>
-  <%= source.link %><br>
-  <%= link_to 'Edit', edit_admin_source_path(source) %> |
-  <%= link_to 'Delete', [:admin, source], method: :delete, data: { confirm: 'Are you sure?' } %><br><br>
-<% end %>

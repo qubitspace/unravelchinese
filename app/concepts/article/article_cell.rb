@@ -12,7 +12,7 @@ class Article::ArticleCell < Cell::Concept
 
   include Cell::CreatedAt
   def show
-    render
+    render :article_show
   end
 
   def for_title
@@ -56,7 +56,7 @@ class Article::ArticleCell < Cell::Concept
     #property :created_at
 
     def show
-      render :preview
+      render :article_preview
     end
 
     #include Cell::GridCell
@@ -76,7 +76,7 @@ class Article::ArticleCell < Cell::Concept
 
   class ArticleManage < Article::ArticleCell
     def show
-      render :manage
+      render :article_manage
     end
   end
 

@@ -1,7 +1,8 @@
 class Word::WordLinkCell < Cell::Concept
+  inherit_views Word::WordCell
 
   def show
-    render :link
+    render :word_link
   end
 
   private

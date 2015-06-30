@@ -1,7 +1,6 @@
 <div class="content">
-
-  <%= concept("article/admin_menu/cell", @article, current_user: current_user) %>
-  <%= concept("article/cell", @article).call(:show) %>
+  <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
+  <%= concept("article/article_cell", @article).call(:show) %>
 
 
   <div class="content-header">Comments</div>
@@ -19,6 +18,6 @@
 
 
   <div class='comments'>
-    <%= concept "comment/comment_cell/comment_grid", @article %>
+    <%= concept "comment/comment_grid_cell", @article %>
   </div>
 </div>

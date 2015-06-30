@@ -1,9 +1,0 @@
-<% @results.each do |word| %>
-  <%= link_to word.simplified, word_url(word) %><br>
-  <%= link_to word.traditional, word_url(word) %><br>
-  <%= link_to word.pinyin, word_url(word) %>
-  <% word.definitions.each do |definition| %>
-    <div style="margin-left: 25px">• <%= Word.highlight_definition(definition.value, @term) %></div>
-  <% end %>
-  <br>
-<% end %>

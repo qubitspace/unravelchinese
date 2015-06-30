@@ -1,7 +1,12 @@
 class Article::ArticleAdminMenuCell < Cell::Concept
+  inherit_views Article::ArticleCell
+
+  def self._local_prefixes
+    ["test"]
+  end
 
   def show
-    render :admin_menu
+    render :article_admin_menu
   end
 
   private
@@ -14,16 +19,22 @@ class Article::ArticleAdminMenuCell < Cell::Concept
     current_user.admin?
   end
 
-  def show_link
-    link_to 'Show', model
+  def new_article_link
+    link_to 'New', new_article_path
   end
 
-  def edit_link
-    link_to 'Edit', edit_article_path(model)
+  def show_article_link
+    model.present? ? link_to('Show', model) : 'Show'
   end
 
-  def manage_link
-    link_to 'Manage', article_manage_path(model)
+  def edit_article_link
+    model.present? ? link_to('Edit', edit_article_path(model)) : 'Edit'
   end
+
+  def manage_article_link
+    model.present? ? link_to('Manage', article_manage_path(model)) : 'Manage'
+  end
+
+
 
 end

@@ -11,6 +11,8 @@ Articles:
 Article titles can't be unique.
 Maybe they should be optional altogether (after tags/categories.)
 Block comments if not commentable
+Articles should have a resources associated with them (videos or pictures or something) 
+	Will allow music videos
 
 
 Sentences:

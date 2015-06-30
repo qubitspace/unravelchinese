@@ -1,4 +1,5 @@
 class Word::WordAdminMenuCell < Cell::Concept
+  inherit_views Word::WordCell
 
   def show
     render :word_admin_menu
@@ -14,16 +15,21 @@ class Word::WordAdminMenuCell < Cell::Concept
     current_user.admin?
   end
 
-  def show_link
-    link_to 'Show', model
+
+  def new_word_link
+    link_to 'New', new_word_path
   end
 
-  def edit_link
-    link_to 'Edit', edit_word_path(model)
+  def show_word_link
+    model.present? ? link_to('Show', model) : 'Show'
   end
 
-  def manage_link
-    link_to 'Manage', word_manage_path(model)
+  def edit_word_link
+    model.present? ? link_to('Edit', edit_word_path(model)) : 'Edit'
+  end
+
+  def manage_word_link
+    model.present? ? link_to(word_manage_path(model)) : 'Manage'
   end
 
 end
