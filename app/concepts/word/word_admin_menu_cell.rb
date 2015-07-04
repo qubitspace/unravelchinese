@@ -29,7 +29,7 @@ class Word::WordAdminMenuCell < Cell::Concept
   end
 
   def manage_word_link
-    model.present? ? link_to(word_manage_path(model)) : 'Manage'
+    model.present? ? link_to('Manage', word_manage_path(model)) : 'Manage'
   end
 
 end

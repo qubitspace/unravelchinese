@@ -7,18 +7,17 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 
 # Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( admin.css )
-Rails.application.config.assets.precompile += %w( jquery.qtip.css )
-Rails.application.config.assets.precompile += %w( sentences.css )
-Rails.application.config.assets.precompile += %w( words.css )
+#application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+# Rails.application.config.assets.precompile += %w( admin.css )
+# Rails.application.config.assets.precompile += %w( jquery.qtip.css )
+# Rails.application.config.assets.precompile += %w( sentences.css )
+# Rails.application.config.assets.precompile += %w( words.css )
 
-Rails.application.config.assets.precompile += %w( admin/sentences.css )
-Rails.application.config.assets.precompile += %w( admin/words.css )
+# Rails.application.config.assets.precompile += %w( admin/sentences.css )
+# Rails.application.config.assets.precompile += %w( admin/words.css )
 
-Rails.application.config.assets.precompile += %w( words.js )
-Rails.application.config.assets.precompile += %w( sentences.js )
-Rails.application.config.assets.precompile += %w( learned_words.js )
-Rails.application.config.assets.precompile += %w( jquery-2.1.3.js )
-Rails.application.config.assets.precompile += %w( jquery.qtip.js )
-
+# Rails.application.config.assets.precompile += %w( words.js )
+# Rails.application.config.assets.precompile += %w( sentences.js )
+# Rails.application.config.assets.precompile += %w( learned_words.js )
+# Rails.application.config.assets.precompile += %w( jquery-2.1.3.js )
+# Rails.application.config.assets.precompile += %w( jquery.qtip.js )

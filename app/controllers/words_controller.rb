@@ -1,25 +1,5 @@
 class WordsController < ApplicationController
 
-  def update_status
-    @word = Word.find(params[:word_id])
-
-    learned_word = LearnedWord.find_or_create_by(user: current_user, word: @word)
-    learned_word.status = params[:status]
-
-    if ['known', 'learning'].include? params[:status]
-      learned_word.save
-    else
-      learned_word.destroy
-    end
-
-    render js:
-      concept("word/cell", @word, current_user: current_user).(:refresh) +
-      concept("word/cell/preview", @word, current_user: current_user).(:refresh) +
-      concept("word/cell/search_result", @word, current_user: current_user, query: params[:query]).(:refresh)
-
-    # add logic to check if the update suceeded and if it failed, then javascript to say failure.
-  end
-
   def index
     if params[:query].present?
       @results = Word.search(params[:query], params[:match_accents])
@@ -70,19 +50,39 @@ class WordsController < ApplicationController
 
   def manage
     @word = Word.find(params[:word_id])
-    @form = Definition::Form.new(Definition.new)
+    @definition_form = Definition::Form.new(Definition.new)
   end
 
 
+  def update_status
+    @word = Word.find(params[:word_id])
+
+    learned_word = LearnedWord.find_or_create_by(user: current_user, word: @word)
+    learned_word.status = params[:status]
+
+    if ['known', 'learning'].include? params[:status]
+      learned_word.save
+    else
+      learned_word.destroy
+    end
+
+    render js:
+      concept("word/word_cell", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/word_preview_cell", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/word_search_result_cell", @word, current_user: current_user, query: params[:query]).(:refresh)
+
+    # add logic to check if the update suceeded and if it failed, then javascript to say failure.
+  end
+
   def create_definition
     @word = Word.find params[:word_id]
-    @form = Definition::Form.new(Definition.new)
-    @form.word = @word
-    if @form.validate(params[:definition])
-      @form.sync
-      definition = @form.model
+    @definition_form = Definition::Form.new(Definition.new)
+    @definition_form.word = @word
+    if @definition_form.validate(params[:definition])
+      @definition_form.sync
+      definition = @definition_form.model
 
-      @form.save do |form|
+      @definition_form.save do |form|
         definition.set_rank @word, form[:rank]
         definition.save
       end

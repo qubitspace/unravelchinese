@@ -28,6 +28,11 @@ Rails.application.routes.draw do
     get :manage
   end
 
+
+  resources :definitions do
+    get :show_edit_form
+  end
+
   resources :words do
     post :search, on: :collection
     post :create_definition

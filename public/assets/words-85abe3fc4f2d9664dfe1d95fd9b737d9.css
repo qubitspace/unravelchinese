@@ -1,0 +1,245 @@
+@charset "UTF-8";
+/* line 7, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper {
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-right: 5px;
+  height: 60px;
+  font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+}
+/* line 17, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.word {
+  cursor: pointer;
+}
+/* line 19, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.punctuation {
+  margin-right: 0px;
+}
+/* line 20, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper .top {
+  color: #C7272A;
+  line-height: 30px;
+}
+/* line 21, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper .top .punctuation {
+  letter-spacing: 0px;
+  padding-right: 0px;
+  margin-right: 0px;
+}
+/* line 22, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.known .top {
+  font-size: 24px;
+}
+/* line 23, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper .bottom {
+  font-size: 24px;
+  color: #000000;
+}
+/* line 25, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.unknown .top {
+  font-size: 22px;
+}
+/* line 27, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.learning .top {
+  font-size: 26px;
+  font-weight: bold;
+}
+/* line 29, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper .bottom {
+  line-height: 30px;
+}
+/* line 30, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.known .bottom.learnable {
+  display: none;
+}
+/* line 32, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.unknown .bottom.learnable {
+  display: block;
+}
+/* line 33, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.learning .bottom.learnable {
+  display: block;
+  font-size: 18px;
+  color: #FFFFFF;
+}
+/* line 36, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.known .mark_word_known {
+  display: none;
+}
+/* line 37, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.known .mark_word_unknown {
+  display: block;
+}
+/* line 39, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.unknown .mark_word_known {
+  display: block;
+}
+/* line 40, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.unknown .mark_word_unknown {
+  display: none;
+}
+/* line 42, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.learning .mark_word_known {
+  display: none;
+}
+/* line 43, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper.learning .mark_word_unknown {
+  display: block;
+}
+/* line 45, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_wrapper .section_label {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* line 52, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.close_button {
+  margin-top: -11px;
+  margin-right: -13px;
+  float: right;
+  width: 25px;
+  height: 25px;
+  display: block;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: #0394f9;
+  font-family: "Tahoma", Helvetica, sans-serif;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.2em;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  box-shadow: 0px 0px 2px 0px #666;
+  -moz-box-shadow: 0px 0px 2px 0px #666;
+  -webkit-box-shadow: 0px 0px 2px 0px #666;
+  text-indent: 1px;
+  cursor: pointer;
+}
+
+/* line 79, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.tooltip {
+  display: none;
+}
+/* line 81, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.tooltip .top {
+  font-size: 40px;
+  text-align: center;
+  line-height: 45px;
+}
+/* line 83, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.tooltip .top a {
+  text-decoration: none;
+  color: #C7272A;
+}
+/* line 84, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.tooltip .top a:hover {
+  border-bottom: 2px solid #C7272A;
+}
+/* line 86, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.tooltip .bottom {
+  font-size: 30px;
+  text-align: center;
+  line-height: 40px;
+  color: #000;
+}
+
+/* line 89, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_title_wrapper {
+  text-align: center;
+  float: left;
+  margin: 0 25px;
+}
+
+/* line 95, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_title {
+  color: #052866;
+  font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+  font-size: 46pt;
+}
+
+/* line 101, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_title_traditional {
+  font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+  font-size: 30pt;
+  padding-bottom: 40px;
+  color: #444444;
+}
+
+/* line 108, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_title_pinyin {
+  font-family: "TiemposHeadline-Medium","Tiempos Headline Medium",Georgia,"Times New Roman",Times,serif;
+  line-height: 60px;
+  font-size: 36pt;
+  margin-top: 30px;
+  color: #052866;
+}
+
+/* line 116, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.word_definition {
+  font-size: 16pt;
+  margin-bottom: 5px;
+}
+
+/*********************/
+/*** Related Words ***/
+/*********************/
+/* line 124, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper {
+  vertical-align: top;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  max-height: 60px;
+  overflow: hidden;
+  border-bottom: 1px solid #999;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+/* line 136, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .related_word_left {
+  flex: 1 1 auto;
+  min-width: 150px;
+}
+/* line 141, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .related_word_center {
+  flex: 0 1 auto;
+  width: 1400px;
+}
+/* line 146, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .related_word_right {
+  flex: 1 1 auto;
+  min-width: 20px;
+}
+/* line 151, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper.punctuation {
+  margin-right: 0px;
+}
+/* line 152, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .top {
+  color: #C7272A;
+  font-size: 26px;
+}
+/* line 153, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .bottom {
+  font-size: 26px;
+  color: #666;
+}
+/* line 155, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .section_label {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+/* line 161, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
+.related_word_wrapper .expand_related_word_button {
+  width: 20px;
+  height: 20px;
+}

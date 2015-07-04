@@ -4,6 +4,7 @@ class Sentence::SentenceCell < Cell::Concept
   property :value
   property :rank
   property :end_paragraph
+  property :untokenized
 
   property :article
   property :words

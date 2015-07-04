@@ -81,7 +81,19 @@ class Word::WordCell < Cell::Concept
   # either collect the links in a list, or yield some values to generate the link... like the text and the path...
 
 
-  # This is just a placehold
+  class WordManageCell < Word::WordCell
+
+    def show
+      render :word_manage
+    end
+
+    def type
+      'manage'
+    end
+
+  end
+
+
   class WordPreviewCell < Word::WordCell
 
     def show

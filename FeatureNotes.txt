@@ -1,4 +1,22 @@
-﻿
+﻿TODO:
+------
+Ditch forms? I'm already doing all the custom logic?
+	At least for the AJAXY calls like add comment translation.
+Ditch simple_form?
+The UpdateStatus should work exactly the same except
+	Move Ajax to a coffee script
+	Add a failure coffee script
+Form should make an AJAX call
+	Ajax response should be coffee script and should render different file for success or failure
+		Success will update the view accordingly (re-render cells or add additional cells)
+		Failure will decorate the appropriate  fields and add error message
+
+For the above, stick to functionality and don't worry about flashy
+I am mainly just annoyed with how using render :manage works leaving on a different page.
+
+
+
+
 Dictionary:
 ----------
 Need to add symantecs to words like simplified version of a radical... etc...
@@ -137,6 +155,9 @@ Get as much content from yoyochinese as I can. (Source it?)
 --------------------------
 Beta - Improve What's There!
 --------------------------
+
+Allow picking specific definitions that apply when tokenizing
+
 Recipes! Other content
 
 Add option to color words by tone

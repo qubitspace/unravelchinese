@@ -1,0 +1,10 @@
+<div class="definition_cell" definition-id="<%=definition.id%>">
+  <%= simple_form_for definition, url: definition_path(word), remote: true, method: :put do |f| %>
+    <%= f.input :definition_id, :as => :hidden, :input_html => { :value => definition.id } %>
+    <%= f.input :value %>
+    <%= f.input :rank %>
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+
+  <%= definition.errors.messages %>
+</div>

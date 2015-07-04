@@ -5,7 +5,7 @@ class Word < ActiveRecord::Base
   has_many :sentences, through: :tokens
 
   has_many :tags, through: :taggings, dependent: :destroy
-  has_many :definitions, dependent: :destroy
+  has_many :definitions, -> { order 'rank asc' }, dependent: :destroy
 
   enum category: [:uncategorized, :punctuation, :alphanumeric, :word, :character, :radical, ]
   validates :simplified, length: { minimum: 1 }

@@ -9,8 +9,8 @@
   <div class="sentences">
 
     <% sentences.each do |sentence| %>
-      <%= link_to 'Manage', sentence_manage_path(sentence) %>
-      <%= concept("sentence/cell", sentence).call(:show) %><br/>
+      <%#= link_to 'Manage', sentence_manage_path(sentence) %>
+      <%= concept("sentence/sentence_cell", sentence).call(:show) %><br/>
     <% end %>
   </div>
 </div>
