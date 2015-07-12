@@ -19,6 +19,7 @@ class Word::WordCell < Cell::Concept
   property :hsk_character_level
   property :definitions
   property :tags
+  property :taggings
 
   def show
     render :word_show

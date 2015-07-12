@@ -21,15 +21,19 @@ class Word::WordAdminMenuCell < Cell::Concept
   end
 
   def show_word_link
-    model.present? ? link_to('Show', model) : 'Show'
+    validate_model ? link_to('Show', model) : 'Show'
   end
 
   def edit_word_link
-    model.present? ? link_to('Edit', edit_word_path(model)) : 'Edit'
+    validate_model ? link_to('Edit', edit_word_path(model)) : 'Edit'
   end
 
   def manage_word_link
-    model.present? ? link_to('Manage', word_manage_path(model)) : 'Manage'
+    validate_model ? link_to('Manage', word_manage_path(model)) : 'Manage'
+  end
+
+  def validate_model
+    model.present? and model.id.present?
   end
 
 end

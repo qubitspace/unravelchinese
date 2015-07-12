@@ -1,0 +1,8 @@
+<div class="definition_cell" definition-id="<%=definition.id%>">
+  <%= simple_form_for form, url: word_update_definition_path(definition.word, definition), remote: true, method: :put do |f| %>
+    <%= f.input :id, :as => :hidden, :input_html => { :value => definition.id } %>
+    <%= f.input :value %>
+    <%= f.input :rank %>
+    <%= f.button :submit, class: :expand %> <%= link_to 'Cancel', word_show_manage_definition_cell_path(definition.word, definition), remote: true %>
+  <% end %>
+</div>

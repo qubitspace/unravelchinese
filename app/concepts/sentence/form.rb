@@ -1,24 +1,24 @@
 class Sentence::Form < Reform::Form
 
   property :article, validates: { presence: true }
-  property :value
-  property :end_paragraph
-
-  property :source_id
-  property :source, skip_if: :all_blank do
-    property :link
-    property :name
-  end
+  property :value, validates: { presence: true }
+  property :end_paragraph, validates: { presence: true }
 
   collection :translations do
 
-    property :value
+    property :value, validates: { presence: true }
 
-    property :source_id
-    property :source, skip_if: :all_blank do
-      property :link
+    property :source_id, virtual: true,
+                validates: {
+                  presence: { message: "required if a new source name and link is not specified" },
+                  if: "source.name.blank? or source.link.blank?"
+                }
+
+    property :source do
       property :name
+      property :link
     end
+
   end
 
 end

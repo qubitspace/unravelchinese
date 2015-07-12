@@ -5,7 +5,8 @@
 
 class Definition::DefinitionCell < Cell::Concept
 
-  include Partial
+
+  #include Partial
 
   property :id
   property :value
@@ -14,7 +15,7 @@ class Definition::DefinitionCell < Cell::Concept
   property :word
 
   def show
-    render :definition_show
+    render :show
   end
 
   private
@@ -23,24 +24,21 @@ class Definition::DefinitionCell < Cell::Concept
     @options[:current_user]
   end
 
-  def error_messages
-    @options[:errors].present? ? @options[:errors].messages : []
-  end
-
-  class DefinitionManageCell < Definition::DefinitionCell
+  class ManageDefinitionCell < Definition::DefinitionCell
 
     def show
-      render :definition_manage
+      render :manage_definition
     end
 
     private
 
-    def show_edit_form_link
-      link_to 'Edit', definition_show_edit_form_path(model), remote: true
+    def edit_definition_form_link
+      link_to 'Edit', word_show_edit_definition_form_path(word, model), remote: true
     end
 
-    def delete_link
-      link_to 'Delete', model, method: :delete, data: { confirm: 'Are you sure?' }
+    def delete_definition_link
+      link_to 'Delete', word_delete_definition_path(word, model), method: :delete, data: { confirm: 'Are you sure?' }, remote: true
     end
   end
+
 end

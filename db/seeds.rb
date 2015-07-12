@@ -17,7 +17,7 @@ chinese_reading_practice = Source.create name: "Chinese Reading Practice", link:
 
 batch = []
 batch_number = 1
-batch_size = 5000
+batch_size = 10000
 line_count = File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).count - 1
 
 File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).each_with_index do |line, i|
@@ -48,7 +48,7 @@ File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).each_wit
             definition = Definition.create word: word, value: value, rank: j
 
 						tags.each { |tag_name|
-							definition.tag tag_name
+							definition.word.tag tag_name
 						}
         end
 

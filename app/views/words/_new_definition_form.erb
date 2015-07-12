@@ -1,0 +1,8 @@
+<div class="new_definition_form">
+  <%= simple_form_for form, url: word_create_definition_path, remote: true, method: :post do |f| %>
+    <%#= f.input :word_id, :as => :hidden, :input_html => { :value => form.model.word_id } %>
+    <%= f.input :value %>
+    <%= f.input :rank %>
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+</div>

@@ -58,7 +58,7 @@ gem 'newrelic_rpm'
 gem 'acts_as_votable'
 
 #gem 'trailblazer', git: 'https://github.com/apotonick/trailblazer'
-gem "cells"#, git: 'https://github.com/apotonick/cells'
+gem "cells", '~> 4.0.2'
 gem "reform"#, git: 'https://github.com/apotonick/reform', branch: 'reform-2'
 gem 'cells-erb'#, git: 'https://github.com/trailblazer/cells-erb'
 gem "rails-timeago"

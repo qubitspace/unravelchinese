@@ -2,9 +2,7 @@
   <%= concept("word/word_admin_menu_cell", @word, current_user: current_user) %>
   <%= concept("word/word_cell/word_manage_cell", @word, current_user: current_user).call(:show) %>
 
-
   <h2>Add a Definition:</h2>
-  <%= render partial: "definitions/new_definition_form", locals: { definition: Definition.new, word: @word }  %>
-
+  <%= render partial: "words/new_definition_form", locals: { form: @definition_form, word: @word }  %>
 
 </div>

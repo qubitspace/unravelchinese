@@ -1,20 +1,16 @@
-﻿TODO:
+﻿http://localhost:3000/words/78307/manage
+tag 'old'
+
+TODO:
 ------
-Ditch forms? I'm already doing all the custom logic?
-	At least for the AJAXY calls like add comment translation.
-Ditch simple_form?
-The UpdateStatus should work exactly the same except
-	Move Ajax to a coffee script
-	Add a failure coffee script
-Form should make an AJAX call
-	Ajax response should be coffee script and should render different file for success or failure
-		Success will update the view accordingly (re-render cells or add additional cells)
-		Failure will decorate the appropriate  fields and add error message
+Need to decide if actions should be in the controller for the current page or the related type
+	i.e. Should Create Definition be in the words controller or the definitions controller?
+Figure out a clean way to add sources to the sentence translation :(
 
-For the above, stick to functionality and don't worry about flashy
-I am mainly just annoyed with how using render :manage works leaving on a different page.
-
-
+Creating sentences
+	Adding definitions
+	Should I move the action to the sentence controller? (will this conflict with the sentence create action?)
+		Should I do that other actions like create definition
 
 
 Dictionary:

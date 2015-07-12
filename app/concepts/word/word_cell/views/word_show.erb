@@ -4,11 +4,13 @@
   <h3><%= simplified %></h3>
 
   <h4>Definitions:</h4>
-  <% definitions.each do |definition| %>
-    <div class="word_definition">
-        (<%= definition.rank %>) <%= definition.value %><br>
-    </div>
-  <% end %>
+  <div id="definitions">
+    <% definitions.each do |definition| %>
+      <div class="word_definition">
+          (<%= definition.rank %>) <%= definition.value %><br>
+      </div>
+    <% end %>
+  </div>
 
   <h4>Tags:</h4>
   <div class="word_tag">

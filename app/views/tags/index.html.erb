@@ -1,4 +1,11 @@
-<h1>Tags:Index</h1>
+<h1>Tags</h1>
+
+<%= form_tag [:tags], method: 'get' do %>
+  <p>
+    <b><%= label_tag :query, "Search simplified, traditional and pinyin:" %></b><br>
+    <%= text_field_tag :query, params[:query] %>
+    <%= submit_tag "Search", :name => nil %><br>
+<% end %>
 
 <% @tags.each do |tag| %>
   <%= link_to tag.name, tag_path(tag) %> (<%= tag.taggable_count %> words) |

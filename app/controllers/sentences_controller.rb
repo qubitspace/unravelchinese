@@ -12,13 +12,53 @@ class SentencesController < ApplicationController
     @form = Sentence::Form.new(Sentence.new)
   end
 
+  # def create
+  #   run Sentence::Create do |op|
+  #     flash[:notice] = "Created sentence for \"#{op.sentence.name}\""
+  #     return redirect_to article_path(@article)
+  #   end
+  #   @article = Article.find(params[:article_id])
+  #   render :new
+  # end
+
+
   def create
-    run Sentence::Create do |op|
-      flash[:notice] = "Created sentence for \"#{op.sentence.name}\""
-      return redirect_to article_path(@article)
+    @article = Article.find params[:sentence][:article_id]
+
+    sentence = Sentence.new(:article_id => @article.id)
+    sentence.translations.build
+
+    @form = Sentence::Form.new(sentence)
+
+    if @form.validate(params[:sentence])
+      @form.sync
+      @form.save
+
+
+      @form.save do |form|
+        form.translations.each do |translation|
+
+          if form[:source_id].present?
+            article.source = Source.find form[:source_id]
+          else
+            article.source.update_attributes form[:source]
+          end
+          article.save
+        end
+      end
+
+      flash[:notice] = "Created sentence for \"#{@article.title}\""
+      respond_to do |format|
+        sentence = Sentence.new
+        sentence.translations.build
+        @new_form = Sentence::Form.new(sentence)
+        format.js   { render :action => "show_new_sentence"}
+      end
+    else
+      respond_to do |format|
+        format.js   { render :action => "refresh_new_form"}
+      end
     end
-    @article = Article.find(params[:article_id])
-    render :new
   end
 
   # def destroy

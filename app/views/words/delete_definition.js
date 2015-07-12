@@ -1,0 +1,1 @@
+$('.definition_cell[definition-id="<%= @definition.id %>"]').hide();

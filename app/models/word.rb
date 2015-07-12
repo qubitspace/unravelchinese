@@ -1,16 +1,17 @@
 require "i18n"
 
 class Word < ActiveRecord::Base
+  include Taggable
+
   has_many :tokens, dependent: :destroy
   has_many :sentences, through: :tokens
 
-  has_many :tags, through: :taggings, dependent: :destroy
+  has_many :taggings, :class_name => 'Tagging', :foreign_key => 'taggable_id'
+  has_many :tags, through: :taggings, dependent: :destroy, :source => :taggable, :source_type => "Word"
   has_many :definitions, -> { order 'rank asc' }, dependent: :destroy
 
   enum category: [:uncategorized, :punctuation, :alphanumeric, :word, :character, :radical, ]
   validates :simplified, length: { minimum: 1 }
-
-  has_many :taggings, through: :definitions
 
   def self.find_words simplified, traditional, pinyin
     @words = self.find_words simplified, traditional, pinyin

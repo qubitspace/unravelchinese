@@ -1,8 +1,6 @@
 class TagsController < ApplicationController
-  def index
-    #model this off off comments, add a link to load more pages and search
 
-    # Just pass through params since it will parse them out for now
+  def index
     @tags = Tag.with_taggable_count params
   end
 

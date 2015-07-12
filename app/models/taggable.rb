@@ -12,6 +12,10 @@ module Taggable
     self.taggings.find_or_create_by tag_id: tag.id
   end
 
+  def untag(tagging_id)
+    #todo
+  end
+
   def tag_names
     tags.collect(&:name)
   end

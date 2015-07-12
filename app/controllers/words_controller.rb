@@ -69,28 +69,10 @@ class WordsController < ApplicationController
     render js:
       concept("word/word_cell", @word, current_user: current_user).(:refresh) +
       concept("word/word_cell/word_preview_cell", @word, current_user: current_user).(:refresh) +
-      concept("word/word_cell/word_search_result_cell", @word, current_user: current_user, query: params[:query]).(:refresh)
+      concept("word/word_cell/word_search_result_cell", @word, current_user: current_user, query: params[:query]).(:refresh) +
+      concept("word/word_cell/word_manage_cell", @word, current_user: current_user, query: params[:query]).(:refresh)
 
     # add logic to check if the update suceeded and if it failed, then javascript to say failure.
-  end
-
-  def create_definition
-    @word = Word.find params[:word_id]
-    @definition_form = Definition::Form.new(Definition.new)
-    @definition_form.word = @word
-    if @definition_form.validate(params[:definition])
-      @definition_form.sync
-      definition = @definition_form.model
-
-      @definition_form.save do |form|
-        definition.set_rank @word, form[:rank]
-        definition.save
-      end
-      flash[:notice] = "Created definition for \"#{@word.simplified}\""
-      return redirect_to word_manage_path(@word)
-    end
-
-    render :manage
   end
 
   def split_word word
@@ -101,7 +83,84 @@ class WordsController < ApplicationController
     }.uniq
   end
 
+
+  def create_definition
+    @word = Word.find params[:word_id]
+    @form = Definition::Form.new(Definition.new(:word_id => @word.id))
+
+    if @form.validate(params[:definition])
+      @form.sync
+      @definition = @form.model
+
+      @form.save do |form|
+        @definition.set_rank @word, form[:rank]
+        @definition.save
+      end
+      flash[:notice] = "Created definition for \"#{@word.simplified}\""
+      respond_to do |format|
+        @new_form = Definition::Form.new(Definition.new(:word_id => @word.id))
+        format.js { render :action => "show_new_definition" }
+      end
+    else
+      respond_to do |format|
+        format.js   { render :action => "show_new_definition_form" }
+      end
+    end
+  end
+
+
+  def update_definition
+    @definition = Definition.find(params[:definition][:id])
+    @form = Definition::Form.new(@definition)
+
+    success = false
+    if @form.validate(params[:definition])
+      @form.save
+      success = true
+    end
+
+    if success
+      respond_to do |format|
+        format.js   { render :action => "show_manage_definition_cell"}
+      end
+    else
+      respond_to do |format|
+        format.js   { render :action => "show_edit_definition_form"}
+      end
+    end
+  end
+
+  def delete_definition
+    @definition = Definition.find(params[:definition_id])
+    @definition.destroy
+
+    respond_to :js
+  end
+
+  def show_edit_definition_form
+    @definition = Definition.includes(:word).find(params[:definition_id])
+    @form = Definition::Form.new(@definition)
+    respond_to :js
+  end
+
+  def show_manage_definition_cell
+    @definition = Definition.find(params[:definition_id])
+    respond_to :js
+  end
+
+  def untag
+    byebug
+    word = Word.find(params[:taggable_id])
+    @tagging = Tagging.find(params[:tagging_id])
+    @tagging.destroy #TODO: if success remove, otherwise show error
+
+    respond_to do |format|
+      format.js { render :action => "remove_tagging"}
+    end
+  end
+
   private
+
 
   def process_params!(params)
     params.merge!(current_user: current_user)

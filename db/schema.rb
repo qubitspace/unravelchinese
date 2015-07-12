@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.datetime "updated_at",                null: false
   end
 
-  add_index "taggings", ["tag_id"], name: "fk_rails_40b06e886e", using: :btree
+  add_index "taggings", ["tag_id"], name: "fk_rails_6ebd8c9b5f", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 255

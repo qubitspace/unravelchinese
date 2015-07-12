@@ -53,7 +53,7 @@ GEM
     capybara_minitest_spec (1.0.5)
       capybara (>= 2)
       minitest (>= 4)
-    cells (4.0.0)
+    cells (4.0.2)
       tilt (>= 1.4, < 3)
       uber (~> 0.0.9)
     cells-erb (0.0.4)
@@ -231,7 +231,7 @@ DEPENDENCIES
   acts_as_votable
   byebug
   capybara_minitest_spec
-  cells
+  cells (~> 4.0.2)
   cells-erb
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)

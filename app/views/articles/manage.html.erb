@@ -3,33 +3,9 @@
   <%= concept("article/article_cell", @article).call(:show) %>
 
   <div class="content-header">Sentence</div>
-  <div class="content">
 
-  <h2>Add a sentence:</h2>
-  <%= simple_form_for @form, url: create_sentence_article_path(@article) do |f| %>
-    <%= f.input :value %>
-    <%= f.input :end_paragraph, as: :boolean %>
-
-    <div id="new_translation">
-      <%= @form.translations.each_with_index do |f2, i| %>
-        <%= f2.input :name, placeholder: "Name" %>
-        <%= f2.input :link, placeholder: "Link" %>
-
-        <%= f2.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
-        <div id="new_source">
-          <%= f2.fields_for :source do |f3| %>
-            <%= f3.input :name, placeholder: "Name" %>
-            <%= f3.input :link, placeholder: "Link" %>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-
-    <%= f.button :submit, class: :expand %>
-  <% end %>
-  <%= @form.errors.messages unless @form.errors.nil? %>
-
-  </div>
+  <h2>Add a Sentence:</h2>
+  <%= render partial: "sentences/new", locals: { form: @sentence_form, sentence: @sentence, article: @article }  %>
 
   <h3><%= @article.comments.size %> comments</h3>
   <div class='comments'>

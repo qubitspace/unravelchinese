@@ -4,13 +4,13 @@
   <h3><%= simplified %></h3>
 
   <h4>Definitions:</h4>
-  <%= concept("definition/definition_cell/definition_manage_cell", collection: definitions, current_user: current_user) %>
+  <div id="definitions">
+    <%= concept("definition/definition_cell/manage_definition_cell", collection: definitions, current_user: current_user) %>
+  </div>
 
   <h4>Tags:</h4>
-  <div class="word_tag">
-    <% tags.each do |tag| %>
-      • <%= tag.name %><br/>
-    <% end %>
+  <div class="tags">
+    <%= concept("tagging/tagging_cell/manage_tagging_cell", collection: taggings, current_user: current_user) %>
   </div>
 
   <h4>Actions:</h4>

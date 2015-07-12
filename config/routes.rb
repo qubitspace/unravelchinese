@@ -28,21 +28,27 @@ Rails.application.routes.draw do
     get :manage
   end
 
-
-  resources :definitions do
-    get :show_edit_form
-  end
-
   resources :words do
-    post :search, on: :collection
-    post :create_definition
     put :update_status
     get :manage
+
+    # Definitions
+    post :create_definition
+    put 'update_definition/:definition_id', to: 'words#update_definition', as: 'update_definition'
+    delete 'delete_definition/:definition_id', to: 'words#delete_definition', as: 'delete_definition'
+
+    get 'show_edit_definition_form/:definition_id', to: 'words#show_edit_definition_form', as: 'show_edit_definition_form'
+    get 'show_manage_definition_cell/:definition_id', to: 'words#show_manage_definition_cell', as: 'show_manage_definition_cell'
+
   end
 
   get 'dictionary/find' => 'words#find'
 
-  resources :tags, only: [:index, :show]
+  resources :taggable do
+    post 'untag/:tagging_id', to: 'words#untag', as: 'untag'
+  end
+
+  resources :tags
 
   resources :translations do
     member do

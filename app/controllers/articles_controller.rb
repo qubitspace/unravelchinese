@@ -51,20 +51,9 @@ class ArticlesController < ApplicationController
 
   def manage
     @article = Article.find params[:article_id]
-    @form = Sentence::Form.new(Sentence.new)
-  end
-
-  def create_sentence
-    @article = Article.find params[:id]
-    @form = Sentence::Form.new(Sentence.new)
-    @form.article = @article
-    if @form.validate(params[:sentence])
-      @form.save
-      flash[:notice] = "Created sentence for \"#{@article.title}\""
-      return redirect_to article_manage_path(@article)
-    end
-
-    render :manage
+    sentence = Sentence.new(:article_id => @article.id)
+    sentence.translations.build
+    @sentence_form = Sentence::Form.new(sentence)
   end
 
   def create_comment
@@ -93,4 +82,7 @@ class ArticlesController < ApplicationController
     Article.new(source: Source.new)
   end
 
+  def new_sentence
+    Sentence.new(translation: Translation.new)
+  end
 end
