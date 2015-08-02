@@ -29,7 +29,7 @@ function addWordTooltip(word) {
 
 function addWordTooltips()
 {
-    $('.word_wrapper.word').each(function () {
+    $('.word').each(function () {
         addWordTooltip($(this));
     });
 }
@@ -44,7 +44,7 @@ function addLearningMouseover(word) {
 }
 
 function addLearningMouseovers() {
-    $('.word_wrapper.word.learning').each(function () {
+    $('.word.learning').each(function () {
         addLearningMouseover($(this));
     });
 }
@@ -60,20 +60,7 @@ ready = function() {
     addWordTooltips();
     addLearningMouseovers();
     addCloseWordTooltipActions();
-    addExpandRelatedWordActions();
 };
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
-
-function addExpandRelatedWordActions() {
-  $('.expand_related_word_button').click(function() {
-    e = $(this).parent().parent();
-    if(e.css('max-height') == '1000px') {
-      e.css('max-height', '60px');
-    }
-    else {
-      e.css('max-height', '1000px');
-    }
-  });
-}

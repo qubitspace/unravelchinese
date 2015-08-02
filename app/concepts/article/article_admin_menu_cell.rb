@@ -24,17 +24,20 @@ class Article::ArticleAdminMenuCell < Cell::Concept
   end
 
   def show_article_link
-    model.present? ? link_to('Show', model) : 'Show'
+    validate_model ? link_to('Show', model) : 'Show'
   end
 
   def edit_article_link
-    model.present? ? link_to('Edit', edit_article_path(model)) : 'Edit'
+    validate_model ? link_to('Edit', edit_article_path(model)) : 'Edit'
   end
 
   def manage_article_link
-    model.present? ? link_to('Manage', article_manage_path(model)) : 'Manage'
+    validate_model ? link_to('Manage', article_manage_path(model)) : 'Manage'
   end
 
+  def validate_model
+    model.present? and model.id.present?
+  end
 
 
 end

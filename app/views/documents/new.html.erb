@@ -1,0 +1,30 @@
+<div class="content">
+  <%#= concept("document/document_admin_menu_cell", @form.model, current_user: current_user) %>
+
+  <h1>Create Document</h1>
+
+  <%= simple_form_for @form do |document| %>
+    <%= document.error_notification %>
+
+    <%= document.file_field :file, placeholder: "File", label: false %>
+    <%= document.input :title, placeholder: "Title", label: false %>
+
+    <h3>Source:</h3>
+
+    <%= document.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
+    <br/>
+    <%= document.fields_for :source do |source| %>
+      <%= source.input :name, placeholder: "Name" %>
+      <%= source.input :link, placeholder: "Link" %>
+    <% end %>
+
+
+  <%#= document.input :type, collection: ['Image', 'Video', 'Audio'], :include_blank => "" %>
+
+  <%= document.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+
+  <%= link_to 'Back', documents_path %>
+</div>
+

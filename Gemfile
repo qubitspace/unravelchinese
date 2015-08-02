@@ -65,6 +65,9 @@ gem "rails-timeago"
 
 gem "kaminari-cells"#, git: 'https://github.com/apotonick/kaminari-cells'
 
+gem 'carrierwave'
+gem 'redcarpet'
+
 # gem 'spring',        group: :development
 # gem 'foundation-rails'
 # gem 'high_voltage'

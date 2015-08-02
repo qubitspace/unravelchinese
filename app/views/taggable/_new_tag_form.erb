@@ -1,0 +1,6 @@
+<div id="new_tag_form">
+  <%= simple_form_for form, url: taggable_tag_path(taggable.id, taggable.taggable_type) , remote: true, method: :post do |f| %>
+    <%= f.input :name %>
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+</div>

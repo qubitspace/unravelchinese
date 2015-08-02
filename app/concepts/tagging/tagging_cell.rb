@@ -10,7 +10,7 @@ class Tagging::TaggingCell < Cell::Concept
   private
 
   def remove_tag_link
-    link_to 'Untag', taggable_untag_path(taggable, model), method: :post, remote: true
+    link_to 'Untag', taggable_untag_path(taggable, taggable.taggable_type, model), method: :post, remote: true
   end
 
   def current_user

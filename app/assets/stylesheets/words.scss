@@ -1,10 +1,8 @@
-
-
 $red: #C7272A;
 $blue: #052866;
 $black: #000000;
 
-.word_wrapper {
+.read_word {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -13,24 +11,23 @@ $black: #000000;
   margin-right: 5px;
   height: 60px;
   font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
-
-  &.word { cursor: pointer; }
+  cursor: pointer;
 
   &.punctuation { margin-right: 0px; }
   .top { color: $red; line-height: 30px;  }
   .top .punctuation { letter-spacing: 0px; padding-right: 0px; margin-right: 0px; }
   &.known .top { font-size: 24px; }
-  .bottom { font-size: 24px; color: $black;  }
+  .bottom { font-size: 18px; color: $black;  }
 
   &.unknown .top { font-size: 22px; }
 
   &.learning .top { font-size: 26px; font-weight: bold; }
 
-  .bottom {  line-height: 30px; }
+  .bottom {  line-height: 22px; }
   &.known .bottom.learnable { display: none; }
   //.unknown .top.learnable { color: #aaa; }
   &.unknown .bottom.learnable { display: block; }
-  &.learning .bottom.learnable { display: block; font-size: 18px; color: #FFFFFF; }
+  &.learning .bottom.learnable { display: block; font-size: 16px; color: #FFFFFF; }
 
 
   &.known .mark_word_known { display: none; }

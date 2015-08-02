@@ -12,7 +12,7 @@ class Article::ArticleCell < Cell::Concept
 
   include Cell::CreatedAt
   def show
-    render :article_show
+    render :show_article
   end
 
   def for_title
@@ -47,7 +47,7 @@ class Article::ArticleCell < Cell::Concept
     @options[:current_user]
   end
 
-  class ArticlePreviewCell < Article::ArticleCell
+  class PreviewArticleCell < Article::ArticleCell
 
     # include Kaminari::Cells
     # include ActionView::Helpers::JavaScriptHelper
@@ -56,7 +56,7 @@ class Article::ArticleCell < Cell::Concept
     #property :created_at
 
     def show
-      render :article_preview
+      render :preview_article
     end
 
     #include Cell::GridCell
@@ -74,9 +74,9 @@ class Article::ArticleCell < Cell::Concept
 
   end
 
-  class ArticleManage < Article::ArticleCell
+  class ManageArticleCell < Article::ArticleCell
     def show
-      render :article_manage
+      render :manage_article
     end
   end
 

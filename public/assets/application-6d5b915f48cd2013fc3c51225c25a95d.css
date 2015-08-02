@@ -962,7 +962,7 @@ mark {
 }
 
 /* line 7, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper {
+.word {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -973,86 +973,86 @@ mark {
   font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
 }
 /* line 17, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.word {
+.word.word {
   cursor: pointer;
 }
 /* line 19, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.punctuation {
+.word.punctuation {
   margin-right: 0px;
 }
 /* line 20, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper .top {
+.word .top {
   color: #C7272A;
   line-height: 30px;
 }
 /* line 21, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper .top .punctuation {
+.word .top .punctuation {
   letter-spacing: 0px;
   padding-right: 0px;
   margin-right: 0px;
 }
 /* line 22, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.known .top {
+.word.known .top {
   font-size: 24px;
 }
 /* line 23, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper .bottom {
+.word .bottom {
   font-size: 24px;
   color: #000000;
 }
 /* line 25, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.unknown .top {
+.word.unknown .top {
   font-size: 22px;
 }
 /* line 27, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.learning .top {
+.word.learning .top {
   font-size: 26px;
   font-weight: bold;
 }
 /* line 29, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper .bottom {
+.word .bottom {
   line-height: 30px;
 }
 /* line 30, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.known .bottom.learnable {
+.word.known .bottom.learnable {
   display: none;
 }
 /* line 32, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.unknown .bottom.learnable {
+.word.unknown .bottom.learnable {
   display: block;
 }
 /* line 33, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.learning .bottom.learnable {
+.word.learning .bottom.learnable {
   display: block;
   font-size: 18px;
   color: #FFFFFF;
 }
 /* line 36, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.known .mark_word_known {
+.word.known .mark_word_known {
   display: none;
 }
 /* line 37, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.known .mark_word_unknown {
+.word.known .mark_word_unknown {
   display: block;
 }
 /* line 39, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.unknown .mark_word_known {
+.word.unknown .mark_word_known {
   display: block;
 }
 /* line 40, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.unknown .mark_word_unknown {
+.word.unknown .mark_word_unknown {
   display: none;
 }
 /* line 42, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.learning .mark_word_known {
+.word.learning .mark_word_known {
   display: none;
 }
 /* line 43, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper.learning .mark_word_unknown {
+.word.learning .mark_word_unknown {
   display: block;
 }
 /* line 45, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.word_wrapper .section_label {
+.word .section_label {
   margin-top: 20px;
   font-size: 14px;
   font-weight: bold;
@@ -1154,7 +1154,7 @@ mark {
 /*** Related Words ***/
 /*********************/
 /* line 124, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper {
+.related_word {
   vertical-align: top;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -1166,42 +1166,42 @@ mark {
   flex-direction: row;
 }
 /* line 136, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .related_word_left {
+.related_word .related_word_left {
   flex: 1 1 auto;
   min-width: 150px;
 }
 /* line 141, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .related_word_center {
+.related_word .related_word_center {
   flex: 0 1 auto;
   width: 1400px;
 }
 /* line 146, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .related_word_right {
+.related_word .related_word_right {
   flex: 1 1 auto;
   min-width: 20px;
 }
 /* line 151, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper.punctuation {
+.related_word.punctuation {
   margin-right: 0px;
 }
 /* line 152, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .top {
+.related_word .top {
   color: #C7272A;
   font-size: 26px;
 }
 /* line 153, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .bottom {
+.related_word .bottom {
   font-size: 26px;
   color: #666;
 }
 /* line 155, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .section_label {
+.related_word .section_label {
   margin-top: 20px;
   font-size: 14px;
   font-weight: bold;
 }
 /* line 161, D:/rails/unravelchinese/app/assets/stylesheets/words.scss */
-.related_word_wrapper .expand_related_word_button {
+.related_word .expand_related_word_button {
   width: 20px;
   height: 20px;
 }

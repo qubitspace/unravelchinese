@@ -1,41 +1,40 @@
-userid: <%= current_user.id %><br>
-admin? <%= current_user.admin? %><br/>
+<div class="content">
+  <%= concept("article/article_admin_menu_cell", @form.model, current_user: current_user) %>
 
-<%= @form.inspect %>
+  <h2>Create Article</h2>
 
-<h2>Create Article</h2>
-
-<% if @form.errors.count > 0 %>
-  <h3>Problem:</h3>
-  <ul>
-    <%= @form.errors.each do |k, v| %>
-      <li class='error'>
-        <%= k %>
-        <%= v %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
-
-<%= simple_form_for @form do |article| %>
-
-  <%= article.input :link, placeholder: "Link", label: false %>
-  <%= article.input :title, placeholder: "Title", label: false %>
-  <%= article.input :description, placeholder: "Description", label: false %>
-  <%= article.input :published, label: "Published", as: :boolean %>
-  <%= article.input :commentable, label: "Commentable", as: :boolean %>
-
-
-  <h3>Source:</h3>
-
-  <%= article.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
-  <br/>
-  <%= article.fields_for :source do |source| %>
-    <%= source.input :name, placeholder: "Name" %>
-    <%= source.input :link, placeholder: "Link" %>
+  <% if @form.errors.count > 0 %>
+    <h3>Problem:</h3>
+    <ul>
+      <%= @form.errors.each do |k, v| %>
+        <li class='error'>
+          <%= k %>
+          <%= v %>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
 
+  <%= simple_form_for @form do |article| %>
 
-<%= article.button :submit, class: :expand %>
-<% end %>
-<%= @form.errors.messages unless @form.errors.nil? %>
+    <%= article.input :link, placeholder: "Link", label: false %>
+    <%= article.input :title, placeholder: "Title", label: false %>
+    <%= article.input :description, placeholder: "Description", label: false, as: :text, width: '300px', height: '100px' %>
+    <%= article.input :published, label: "Published", as: :boolean %>
+    <%= article.input :commentable, label: "Commentable", as: :boolean %>
+
+
+    <h3>Source:</h3>
+
+    <%= article.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
+    <br/>
+    <%= article.fields_for :source do |source| %>
+      <%= source.input :name, placeholder: "Name" %>
+      <%= source.input :link, placeholder: "Link" %>
+    <% end %>
+
+
+  <%= article.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+</div>

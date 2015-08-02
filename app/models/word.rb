@@ -107,8 +107,12 @@ class Word < ActiveRecord::Base
     return value.html_safe
   end
 
+  def taggable_type
+    'Word'
+  end
 
   private
+
 
   @@accents = {
     'a' => ['ā', 'á', 'ǎ', 'à'],

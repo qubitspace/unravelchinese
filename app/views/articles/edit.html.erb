@@ -16,28 +16,26 @@
     </ul>
   <% end %>
 
-  <%= simple_form_for @form do |article_form| %>
+  <%= simple_form_for @form do |article| %>
 
-    <%= article_form.input :simplified, placeholder: "Simplified" %><br/>
-    <%= article_form.input :traditional, placeholder: "Traditional" %><br/>
-    <%= article_form.input :pinyin, placeholder: "Pinyin" %><br/>
-    <%= article_form.input :hsk_character_level, placeholder: "HSK Character Level" %><br/>
-    <%= article_form.input :hsk_word_level, placeholder: "HSK Word Level" %><br/>
-    <%= article_form.input :character_frequency, placeholder: "Character Frequency" %><br/>
-    <%= article_form.input :word_frequency, placeholder: "Word Frequency" %><br/>
-    <%= article_form.input :radical_number, placeholder: "Radical Number" %><br/>
-    <%= article_form.input :strokes, placeholder: "Strokes" %><br/>
+    <%= article.input :link, placeholder: "Link", label: false %>
+    <%= article.input :title, placeholder: "Title", label: false %>
+    <%= article.input :description, placeholder: "Description", label: false %>
+    <%= article.input :published, label: "Published", as: :boolean %>
+    <%= article.input :commentable, label: "Commentable", as: :boolean %>
 
 
-    <%= article_form.simple_fields_for :translations do |translation_form| %>
-      <div class="word_definition_inputs">
-        <%= translation_form.input :value %>
-        <%= translation_form.input :rank %>
-        <%= translation_form.input :remove, as: :boolean, input_html: { checked: false } %>
-      </div><br/>
+    <h3>Source:</h3>
+
+    <%= article.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
+    <br/>
+    <%= article.fields_for :source do |source| %>
+      <%= source.input :name, placeholder: "Name" %>
+      <%= source.input :link, placeholder: "Link" %>
     <% end %>
 
-  <%= article_form.button :submit, class: :expand %>
+
+  <%= article.button :submit, class: :expand %>
   <% end %>
   <%= @form.errors.messages unless @form.errors.nil? %>
 </div>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<% article = @post.content %>
+
+<% @documents.each do |p| %>
+  <% img_tag = "<div style=\"float: #{cycle('right', 'left')}\">" + image_tag(p.avatar_url) + "</div>" %>
+  <% article = article.sub( '[[document]]', img_tag ) %>
+
+  <%= link_to "Edit Document", edit_document_path(p) %>
+<% end %>
+
+
+<% renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true) %>
+<% markdown = Redcarpet::Markdown.new(renderer, extensions = {}) %>
+<%= raw markdown.render(article) %>
+
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>

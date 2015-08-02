@@ -1,0 +1,26 @@
+
+<div class="content">
+  <h1><%= title %></h1>
+  <%= source.name %><br>
+  <% unless description.nil? %><%= description %><% end %>
+  <br><br>
+  <hr>
+  <br>
+  <div class="sentences">
+
+    <% sentences.each do |sentence| %>
+      <%#= link_to 'Manage', sentence_manage_path(sentence) %>
+      <%= concept("sentence/sentence_cell/inline_sentence_cell", sentence, current_user: current_user).call(:show) %>
+    <% end %>
+  </div>
+</div>
+
+
+<!--% content_for :meta do %-->
+  <div class="content article_stats">
+  <!--%= render 'article_stats' %-->
+  </div>
+<!--% end %-->
+<!--%= link_to 'Articles', articles_path %-->
+<!--%= link_to 'Edit', edit_article_path(@article) %-->
+<!--%= link_to 'Tokenize', article_manage_path(@article) %-->

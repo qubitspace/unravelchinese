@@ -11,18 +11,20 @@ class Word::WordCell < Cell::Concept
   property :simplified
   property :traditional
   property :pinyin
+  property :category
   property :strokes
   property :radical_number
   property :word_frequency
   property :character_frequency
   property :hsk_word_level
   property :hsk_character_level
+
   property :definitions
   property :tags
   property :taggings
 
   def show
-    render :word_show
+    render :show_word
   end
 
   def refresh
@@ -30,6 +32,72 @@ class Word::WordCell < Cell::Concept
       $('.word.#{type}[word-id="#{id}"]').each(function() {
         $(this).replaceWith('#{j(show)}');
       });
+      function addWordTooltip(word) {
+        word.qtip({
+            content: word.find('.tooltip'),
+            show: {
+                event: 'click',
+                solo: true,
+                effect: function() {
+                    $(this).fadeTo(200, 1);
+                }
+            },
+            hide: {
+                event: 'unfocus',
+                fixed: true
+            },
+            style: {
+                classes: "qtip-bootstrap"
+            },
+            position: {
+                my: 'bottom center',
+                at: 'top center',
+                viewport: $(window),
+                adjust: {
+                    method: 'shift flip'
+                }
+            }
+        });
+
+      }
+
+      function addWordTooltips()
+      {
+          $('.word').each(function () {
+              addWordTooltip($(this));
+          });
+      }
+
+      function addLearningMouseover(word) {
+          word.mouseover(function() {
+              $(this).find(".bottom").css('color', '#666');
+          });
+          word.mouseout(function() {
+              $(this).find(".bottom").css('color', '#FFFFFF');
+          });
+      }
+
+      function addCloseWordTooltipActions() {
+          $('.close_tooltip').click(function() {
+              $(this).closest('div.qtip').hide();
+          });
+      }
+
+      var ready;
+      ready = function() {
+        $('.word[word-id=#{id}]').each(function () {
+          addWordTooltip($(this));
+          addCloseWordTooltipActions(); // TODO: This should only be applied to the new word id.
+          if ('#{status}' == 'learning')
+          {
+            addLearningMouseover($(this));
+          }
+        });
+      };
+
+      $(document).ready(ready);
+      $(document).on('page:load', ready);
+
     }
   end
 
@@ -82,10 +150,10 @@ class Word::WordCell < Cell::Concept
   # either collect the links in a list, or yield some values to generate the link... like the text and the path...
 
 
-  class WordManageCell < Word::WordCell
+  class ManageWordCell < Word::WordCell
 
     def show
-      render :word_manage
+      render :manage_word
     end
 
     def type
@@ -95,10 +163,10 @@ class Word::WordCell < Cell::Concept
   end
 
 
-  class WordPreviewCell < Word::WordCell
+  class PreviewWordCell < Word::WordCell
 
     def show
-      render :word_preview
+      render :preview_word
     end
 
     def type
@@ -127,6 +195,18 @@ class Word::WordCell < Cell::Concept
 
     def update_status_path status
       word_update_status_path word_id: id, status: status, query: query
+    end
+
+  end
+
+  class InlineWordCell < Word::WordCell
+
+    def show
+      render :inline_word
+    end
+
+    def type
+      'inline'
     end
 
   end

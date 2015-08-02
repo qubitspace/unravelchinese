@@ -1,5 +1,5 @@
 $('div.qtip:visible').qtip('hide');
-$('.word_wrapper[wordId="<%= @word.id %>"]').each(function() {
+$('.word[word-id="<%= @word.id %>"]').each(function() {
   parent = $(this).parent();
 
   parent.hide();

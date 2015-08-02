@@ -1,0 +1,38 @@
+<div id="tokenizer">
+  <%= manage_article_link %>
+  <div id="tokenized">
+
+    <div>
+      <%= value %>
+    </div>
+    Translation Count: <%= translations.count %><br/>
+    <% translations.each do |translation| %>
+      <br/><strong><%= translation.source.name %>:</strong>
+      <%= translation.value %><br/>
+    <% end %>
+    <br>
+    <br>
+    <% tokens.each do |token| %>
+      <%= concept("word/word_cell/inline_word_cell", token.word, current_user: current_user).call(:show) %>
+      <%#= render partial: 'admin/words/word', locals: { article: article, word: token.word } %>
+    <% end %>
+
+
+    <div class="untokenized"><%= untokenized %></div>
+
+  </div>
+
+  <div id="next_token">
+    <div id="add-next-token-form" style="display:none;"></div>
+    <% candidate_tokens.each do |word| %>
+      <h2>
+        <%= link_to "'#{word.simplified}'", sentence_add_token_path(word_id: word.id), remote: true, method: :post %>
+        <%= word.pinyin %>
+      </h2>
+      <% word.definitions.each do |definition| %>
+        • <%= definition.value %><br/>
+      <% end %>
+
+    <% end %>
+  </div>
+</div>

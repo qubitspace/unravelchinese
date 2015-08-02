@@ -1,6 +1,8 @@
 <h3><%= @tag.name %></h3>
-<% @tag.definitions.each do |definition| %>
-  <%= link_to definition.word.simplified, definition.word %> - <%= definition.value %><br/>
+<% @tag.taggings.each do |tagging| %>
+  <%= tagging.taggable.taggable_type %><br/>
 
-  <%= link_to 'Delete', @tag, method: :delete, data: { confirm: 'Are you sure?' } %></br>
+  <% taggable_type = tagging.taggable.taggable_type.downcase %>
+  <%= concept("#{taggable_type}/#{taggable_type}_cell", taggable: tagging.taggable) %>
+
 <% end %>

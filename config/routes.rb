@@ -2,6 +2,8 @@ require "monban/constraints/signed_in"
 require "monban/constraints/signed_out"
 
 Rails.application.routes.draw do
+  resources :documents
+
   resource :session, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]
 
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :sentences do
     get :manage
+    post 'add_token/:word_id', to: 'sentences#add_token', as: 'add_token'
   end
 
   resources :words do
@@ -45,7 +48,8 @@ Rails.application.routes.draw do
   get 'dictionary/find' => 'words#find'
 
   resources :taggable do
-    post 'untag/:tagging_id', to: 'words#untag', as: 'untag'
+    post 'tag/:taggable_type', to: 'taggables#tag', as: 'tag'
+    post 'untag/:taggable_type/:tagging_id', to: 'taggables#untag', as: 'untag'
   end
 
   resources :tags
@@ -57,6 +61,8 @@ Rails.application.routes.draw do
       put :unvote
     end
   end
+
+  resources :posts
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

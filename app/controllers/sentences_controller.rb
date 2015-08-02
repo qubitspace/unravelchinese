@@ -5,7 +5,7 @@ class SentencesController < ApplicationController
   end
 
   def show
-    @sentence = Sentence.find params[:id]
+    @sentence = get_sentence params[:id]#Sentence.find params[:id]
   end
 
   def new
@@ -26,32 +26,31 @@ class SentencesController < ApplicationController
     @article = Article.find params[:sentence][:article_id]
 
     sentence = Sentence.new(:article_id => @article.id)
-    sentence.translations.build
+    sentence.translations.build(source: Source.new)
 
     @form = Sentence::Form.new(sentence)
 
     if @form.validate(params[:sentence])
       @form.sync
-      @form.save
-
+      @sentence = @form.model
 
       @form.save do |form|
-        form.translations.each do |translation|
+        translation_form = form[:translations][0]
+        translation = @sentence.translations[0]
 
-          if form[:source_id].present?
-            article.source = Source.find form[:source_id]
-          else
-            article.source.update_attributes form[:source]
-          end
-          article.save
+        if translation_form[:source_id].present?
+          translation.source = Source.find(translation_form[:source_id])
+        else
+          translation.source.update_attributes translation_form[:source]
         end
+        @sentence.save
       end
 
       flash[:notice] = "Created sentence for \"#{@article.title}\""
       respond_to do |format|
-        sentence = Sentence.new
-        sentence.translations.build
-        @new_form = Sentence::Form.new(sentence)
+        @sentence = Sentence.new
+        @sentence.translations.build
+        @new_form = Sentence::Form.new(@sentence)
         format.js   { render :action => "show_new_sentence"}
       end
     else
@@ -69,7 +68,7 @@ class SentencesController < ApplicationController
   # end
 
   def manage
-    @sentence = Sentence.find params[:sentence_id]
+    @sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
 
     @sentence.untokenized = @sentence.value.dup
     @sentence.tokens.each do |token|
@@ -80,6 +79,31 @@ class SentencesController < ApplicationController
     @candidate_tokens = get_candidate_tokens @sentence.untokenized
   end
 
+  def add_token
+    @sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
+    word = Word.find params[:word_id]
+
+    @sentence.untokenized = @sentence.value.dup
+    @sentence.tokens.each do |token|
+      @sentence.untokenized.slice! token.word.simplified
+    end
+
+    if @sentence.untokenized.present? or @sentence.untokenized =~ /^#{word.simplified}/
+      token_rank = @sentence.tokens.size == 0 ? 0 : @sentence.tokens.map(&:rank).max + 1
+      token = Token.create sentence: @sentence, word: word, rank: token_rank
+      @sentence.reload
+      @sentence.untokenized.slice! token.word.simplified
+      @candidate_tokens = get_candidate_tokens @sentence.untokenized
+
+      render js: concept("sentence/sentence_cell/tokenize_sentence_cell", @sentence, candidate_tokens: @candidate_tokens, current_user: current_user).(:refresh)
+    else
+      @candidate_tokens = get_candidate_tokens @sentence.untokenized
+      flash[:alert] = "Error adding token. Token word didn't match untokenized text."
+      render js: "window.location = '#{tokenize_sentence_path(@sentence)}'"
+      return
+    end
+
+  end
 
   # def copy_text
   #   sentence = Sentence.find params[:sentence_id]
@@ -102,11 +126,7 @@ class SentencesController < ApplicationController
   #   end
   # end
 
-  # private
 
-  # def sentence_params
-  #   params.require(:sentence).permit(:rank, :value, :end, translations_attributes: [:id, :_destroy, :value ])
-  # end
 
   # def untokenize
   #   @sentence = Sentence.find params[:id]
@@ -114,32 +134,6 @@ class SentencesController < ApplicationController
   #   redirect_to manage_admin_sentence_path(@sentence)
   # end
 
-  # def add_token
-  #   @sentence = Sentence.find params[:id]
-  #   word = Word.find params[:word_id]
-
-  #   @sentence.untokenized = @sentence.value.dup
-  #   @sentence.tokens.each do |token|
-  #     @sentence.untokenized.slice! token.word.simplified
-  #   end
-
-  #   if @sentence.untokenized.present? or @sentence.untokenized =~ /^#{word.simplified}/
-  #     token_rank = @sentence.tokens.size == 0 ? 0 : @sentence.tokens.map(&:rank).max + 1
-  #     token = Token.create sentence: @sentence, word: word, rank: token_rank
-  #     @sentence.untokenized.slice! token.word.simplified
-  #     @candidate_tokens = get_candidate_tokens @sentence.untokenized
-  #     @sentence.reload
-  #   else
-  #     @candidate_tokens = get_candidate_tokens @sentence.untokenized
-  #     flash[:alert] = "Error adding token. Token word didn't match untokenized text."
-  #     render js: "window.location = '#{tokenize_sentence_path(@sentence)}'"
-  #     return
-  #   end
-
-  #   respond_to do |format|
-  #     format.js
-  #   end
-  # end
 
   private
 
@@ -161,5 +155,16 @@ class SentencesController < ApplicationController
       matches << word
     end
     return matches.sort_by { |y| -y.simplified.length} # TODO: add sort by how often it's used in the site.
+  end
+
+  def get_sentence id
+    Sentence.includes(
+      { words: [:definitions] },
+      :source
+    ).find(id)
+  end
+
+  def get_word id
+    Word.includes(:definitions).find(id)
   end
 end

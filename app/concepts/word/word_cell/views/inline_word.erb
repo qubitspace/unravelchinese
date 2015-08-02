@@ -1,0 +1,55 @@
+<div class="read_word <%=type%> <%= category %> <%= status %>" word-id="<%=id%>">
+
+    <% if status == 'known' || category == 'punctuation' %>
+      <span class='top learnable'>
+        <%= simplified %><br/>
+      </span>
+
+      <span class='bottom learnable'>
+        <%= pinyin %>
+      </span>
+    <% elsif status == 'learning' %>
+      <span class='top learnable'>
+        <%= simplified %><br/>
+      </span>
+
+      <span class='bottom learnable'>
+        <%= pinyin %>
+      </span>
+    <% else %>
+      <span class='top learnable'>
+        <%= pinyin %><br/>
+      </span>
+
+      <span class='bottom learnable'>
+        <%= simplified %>
+      </span>
+    <% end %>
+
+  <div class="tooltip" word-id="<%= id %>">
+    <div class="close_tooltip close_button">&#10006;</div>
+
+    <span class='top'>
+      <%= link_to simplified, word_path(model) %>
+    </span><br>
+
+    <span class='bottom'>
+      <%= pinyin %>
+    </span>
+
+    <hr>
+
+    <div class="definitions">
+      <strong>
+      <% definitions.each do |definition| %>
+        • <%= raw definition.html_value %><br/>
+      <% end %>
+      </strong>
+    </div>
+
+    <% status_links.each do |link| %>
+      <div class="link"><%= link %></div>
+    <% end %>
+
+  </div>
+</div>

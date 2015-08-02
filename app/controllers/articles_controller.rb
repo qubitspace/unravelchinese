@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.find params[:id]
+    @article = get_article params[:id]
     @form = Comment::Form.new(Comment.new)
   end
 
@@ -38,7 +38,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    #form Article::Update
+    @form = Article::Form.new(Article.find(params[:id]))
   end
 
   def update
@@ -50,7 +50,8 @@ class ArticlesController < ApplicationController
   end
 
   def manage
-    @article = Article.find params[:article_id]
+    @article = get_article params[:article_id]
+
     sentence = Sentence.new(:article_id => @article.id)
     sentence.translations.build
     @sentence_form = Sentence::Form.new(sentence)
@@ -84,5 +85,17 @@ class ArticlesController < ApplicationController
 
   def new_sentence
     Sentence.new(translation: Translation.new)
+  end
+
+  def get_article id
+    article = Article.includes({
+      sentences: [
+        { words: [:definitions] },
+        { translations: [:source] },
+        :source
+      ]},
+      :comments,
+      :source
+    ).find(id)
   end
 end

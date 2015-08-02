@@ -1,0 +1,37 @@
+
+<div class="sentence">
+
+  <%#= render partial: 'next_token' %>
+
+
+  <% tokens.each do |token| %>
+    <div style="display:inline-block;">
+      <%= concept("word/word_cell/inline_word_cell", token.word, current_user: current_user).call(:show) %>
+    </div>
+  <% end %>
+
+  <div class="toggle_translations">
+    <div class="toggle_translations_button_wrapper">
+      <%# The stupid assets are not playing nice :( %>
+      <%#= image_tag("translate.jpg", class: 'toggle_translations_button') %>
+      <img class="toggle_translations_button" src="/assets/translate.jpg" alt="Translate">
+    </div>
+  </div>
+
+</div>
+
+<div class="translations">
+  <div class="close_translation_tooltip">&#10006;</div>
+  <% translations.each do |translation| %>
+    <% if translation.source.present? %>
+      <b><%= translation.source.name %></b><br>
+    <% end %>
+    <%= raw translation.value %><br/>
+    <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
+  <% end %>
+</div>
+
+<% if end_paragraph %>
+<div class="end_paragraph"></div>
+<% end %>
+

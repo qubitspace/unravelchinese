@@ -53,6 +53,11 @@ GEM
     capybara_minitest_spec (1.0.5)
       capybara (>= 2)
       minitest (>= 4)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     cells (4.0.2)
       tilt (>= 1.4, < 3)
       uber (~> 0.0.9)
@@ -150,6 +155,7 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    redcarpet (3.3.2)
     reform (1.2.6)
       activemodel
       disposable (~> 0.0.5)
@@ -231,6 +237,7 @@ DEPENDENCIES
   acts_as_votable
   byebug
   capybara_minitest_spec
+  carrierwave
   cells (~> 4.0.2)
   cells-erb
   coffee-rails (~> 4.1.0)
@@ -246,6 +253,7 @@ DEPENDENCIES
   pundit
   rails (= 4.2.0)
   rails-timeago
+  redcarpet
   reform
   rjb
   rspec-rails

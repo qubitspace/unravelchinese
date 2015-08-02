@@ -51,6 +51,7 @@ class WordsController < ApplicationController
   def manage
     @word = Word.find(params[:word_id])
     @definition_form = Definition::Form.new(Definition.new)
+    @tag_form = Tag::Form.new(Tag.new)
   end
 
 
@@ -66,12 +67,13 @@ class WordsController < ApplicationController
       learned_word.destroy
     end
 
+    # TODO: Combine these to a single call and load all the js to reload all.
     render js:
       concept("word/word_cell", @word, current_user: current_user).(:refresh) +
-      concept("word/word_cell/word_preview_cell", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/preview_word_cell", @word, current_user: current_user).(:refresh) +
       concept("word/word_cell/word_search_result_cell", @word, current_user: current_user, query: params[:query]).(:refresh) +
-      concept("word/word_cell/word_manage_cell", @word, current_user: current_user, query: params[:query]).(:refresh)
-
+      concept("word/word_cell/manage_word_cell", @word, current_user: current_user, query: params[:query]).(:refresh) +
+      concept("word/word_cell/inline_word_cell", @word, current_user: current_user, query: params[:query]).(:refresh)
     # add logic to check if the update suceeded and if it failed, then javascript to say failure.
   end
 
@@ -146,17 +148,6 @@ class WordsController < ApplicationController
   def show_manage_definition_cell
     @definition = Definition.find(params[:definition_id])
     respond_to :js
-  end
-
-  def untag
-    byebug
-    word = Word.find(params[:taggable_id])
-    @tagging = Tagging.find(params[:tagging_id])
-    @tagging.destroy #TODO: if success remove, otherwise show error
-
-    respond_to do |format|
-      format.js { render :action => "remove_tagging"}
-    end
   end
 
   private

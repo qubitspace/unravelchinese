@@ -15,7 +15,6 @@ class Word::WordAdminMenuCell < Cell::Concept
     current_user.admin?
   end
 
-
   def new_word_link
     link_to 'New', new_word_path
   end

@@ -1,7 +1,7 @@
 class Article::Form < Reform::Form
 
   property :link
-  property :title
+  property :title, validates: { uniqueness: true }
   property :description
   property :published
   property :commentable
