@@ -88,7 +88,7 @@ class ArticlesController < ApplicationController
   end
 
   def get_article id
-    article = Article.includes({
+    Article.includes({
       sentences: [
         { words: [:definitions] },
         { translations: [:source] },

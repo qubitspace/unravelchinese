@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :sentences do
     get :manage
+    put :untokenize
     post 'add_token/:word_id', to: 'sentences#add_token', as: 'add_token'
   end
 
@@ -62,7 +63,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts
+  resources :posts do
+    get :manage
+    member do
+      post :create_attachment
+    end
+    delete 'delete_attachment/:attachment_id', to: 'posts#delete_attachment', as: 'delete_attachment'
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,12 +1,10 @@
 class Sentence < ActiveRecord::Base
-  belongs_to :article
+  belongs_to :sector, as: :resource, dependent: :destroy
+  belongs_to :article, through: :sector
   belongs_to :source
   has_many :tokens, dependent: :destroy
   has_many :translations, -> { order('cached_votes_score desc') }, dependent: :destroy
   has_many :words, through: :tokens
-
-
-  #accepts_nested_attributes_for :translations, :reject_if => lambda { |t| t[:value].blank? }
 
   before_create :set_rank
   before_create :translate, on: :create

@@ -49,11 +49,27 @@ function addLearningMouseovers() {
     });
 }
 
+function closeTooltip() {
+    $('div.qtip:visible').hide();
+}
+
 function addCloseWordTooltipActions() {
     $('.close_tooltip').click(function() {
-        $(this).closest('div.qtip').hide();
+        closeTooltip();
     });
 }
+
+$(document).keyup(function(e) {
+    if (e.keyCode == 27) {
+        closeTooltip();
+    }
+    else if (e.keyCode == 37) {
+        closeTooltip();
+    }
+    else if (e.keyCode == 39) {
+        closeTooltip();
+    }
+});
 
 var ready;
 ready = function() {

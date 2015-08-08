@@ -1,6 +1,7 @@
 class Document::Form < Reform::Form
 
   property :file
+  property :link
   property :title
 
   property :source_id, virtual: true,

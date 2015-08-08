@@ -28,6 +28,10 @@ class Sentence::SentenceCell < Cell::Concept
     link_to "Tokenize", sentence_manage_path(model)
   end
 
+  def untokenize_sentence_link
+    link_to "Untokenize", sentence_untokenize_path(model), method: :put
+  end
+
   class ManageSentenceCell < Sentence::SentenceCell
     def show
       render :manage_sentence

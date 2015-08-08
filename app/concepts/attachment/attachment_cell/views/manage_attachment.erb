@@ -1,0 +1,4 @@
+<% if document.present? %>
+  <%= raw "<img src='#{document.file}'>" %><br>
+  [<%= link_to 'Delete', post_delete_attachment_path(attachable, model), method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>]<br/>
+<% end %>

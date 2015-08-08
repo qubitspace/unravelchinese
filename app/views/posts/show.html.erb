@@ -5,19 +5,13 @@
   <%= @post.title %>
 </p>
 
-<% article = @post.content %>
-
-<% @documents.each do |p| %>
-  <% img_tag = "<div style=\"float: #{cycle('right', 'left')}\">" + image_tag(p.avatar_url) + "</div>" %>
-  <% article = article.sub( '[[document]]', img_tag ) %>
-
-  <%= link_to "Edit Document", edit_document_path(p) %>
+<%= @post.attachments.each do |attachment| %>
+  <%= "<img src='#{attachment.document.file}'>" %><br>
 <% end %>
-
 
 <% renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true) %>
 <% markdown = Redcarpet::Markdown.new(renderer, extensions = {}) %>
-<%= raw markdown.render(article) %>
+<%= raw markdown.render(@content) %>
 
 
 <%= link_to 'Edit', edit_post_path(@post) %> |

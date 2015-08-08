@@ -1,6 +1,10 @@
 class Article < ActiveRecord::Base
   include Taggable
-  has_many :sentences, dependent: :destroy
+  has_many :sectors, dependent: :destroy
+  has_many :sentences, through: :sectors, source: :resource, source_type: Sentence
+  has_many :iframes, through: :sectors, source: :resource, source_type: Iframe
+  has_many :documents, through: :sectors, source: :resource, source_type: Document
+  has_many :snippets, through: :sectors, source: :resource, source_type: Snippet
   has_many :comments, as: :commentable, dependent: :destroy
 
   belongs_to :source

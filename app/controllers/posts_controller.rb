@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   # GET /posts
   # GET /posts.json
@@ -10,17 +9,41 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @documents = @post.documents.all
+    @post = Post.includes(:attachments, :documents).find(params[:id])
+
+    @content = @post.content
+    #while content =~ /\[\[attachment\]\]/ and atta
+      document = @post.attachments[0].document
+      #if document.type = 'image'
+        img_src = "<img src='#{document.file}'>"
+        @content = @content.gsub(/\[\[attachment\]\]/, img_src)
+      #end
+    #end
   end
 
   # GET /posts/new
   def new
     @post = Post.new
-    @document = @post.documents.build
+  end
+
+  def manage
+    @post = Post.includes(:attachments, :documents).find(params[:post_id])
+    @attachment = @post.attachments.build
+
+    @documents = Document.all
+    @content = @post.content
+    #while content =~ /\[\[attachment\]\]/ and atta
+      document = @post.attachments[0].document
+      #if document.type = 'image'
+        #img_src = "<img src='#{document.file}'>"
+        #@content = @content.gsub(/\[\[attachment\]\]/, img_src)
+      #end
+    #end
   end
 
   # GET /posts/1/edit
   def edit
+    @post = Post.includes(:attachments, :documents).find(params[:id])
   end
 
   # POST /posts
@@ -30,9 +53,9 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        params[:documents]['file'].each do |a|
-          @document = @post.documents.create!(:file => a)
-        end
+        #params[:documents]['file'].each do |a|
+        #  @document = @post.documents.create!(:file => a)
+        #end
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
       else
         format.html { render action: 'new' }
@@ -40,9 +63,32 @@ class PostsController < ApplicationController
     end
   end
 
+
+  def create_attachment
+    @post = Post.find params[:id]
+    @form = Attachment::Form.new(Attachment.new)
+    @form.attachable = @post
+
+    if @form.validate(params[:attachment])
+      @form.save
+
+      flash[:notice] = "Created attachment for \"#{@post.title}\""
+      return redirect_to post_path(@post)
+    end
+
+    redirect_to post_path(@post)
+  end
+
+  def delete_attachment
+    @attachment = Attachment.find params[:attachment_id]
+    @attachment.destroy
+    respond_to :js
+  end
+
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    @post = Post.includes(:attachments, :documents).find(params[:id])
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -57,6 +103,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    @post = Post.find(params[:id])
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
@@ -65,13 +112,4 @@ class PostsController < ApplicationController
   end
 
  private
-   def post_params
-      params.require(:post).permit(:title, :content, documents_attributes: [:id, :post_id, :file])
-   end
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
-
 end

@@ -128,11 +128,11 @@ class SentencesController < ApplicationController
 
 
 
-  # def untokenize
-  #   @sentence = Sentence.find params[:id]
-  #   @sentence.tokens.delete_all
-  #   redirect_to manage_admin_sentence_path(@sentence)
-  # end
+  def untokenize
+    @sentence = Sentence.find params[:sentence_id]
+    @sentence.tokens.delete_all
+    redirect_to sentence_manage_path(@sentence)
+  end
 
 
   private

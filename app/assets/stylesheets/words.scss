@@ -1,6 +1,8 @@
 $red: #C7272A;
 $blue: #052866;
 $black: #000000;
+$light-gray: #999999;
+$dark-gray: #333333;
 
 .read_word {
   display: inline-block;
@@ -17,7 +19,7 @@ $black: #000000;
   .top { color: $red; line-height: 30px;  }
   .top .punctuation { letter-spacing: 0px; padding-right: 0px; margin-right: 0px; }
   &.known .top { font-size: 24px; }
-  .bottom { font-size: 18px; color: $black;  }
+  .bottom { font-size: 18px; color: $dark-gray;  }
 
   &.unknown .top { font-size: 22px; }
 

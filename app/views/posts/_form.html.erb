@@ -10,12 +10,12 @@
      <%= f.text_area :content %>
    </div>
 
-   <%= f.fields_for :documents do |p| %>
+   <%#= f.fields_for :documents do |p| %>
      <div class="field">
-       <%= p.label :file %><br>
-       <%= p.file_field :file, :multiple => true, name: "documents[file][]" %>
+       <%#= p.label :file %><br>
+       <%#= p.file_field :file, :multiple => true, name: "documents[file][]" %>
      </div>
-   <% end %>
+   <%# end %>
 
    <div class="actions">
      <%= f.submit %>
