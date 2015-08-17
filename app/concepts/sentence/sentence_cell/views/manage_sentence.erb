@@ -1,37 +1,40 @@
 <div id="tokenizer">
   <div class="sentence">
 
-    <%#= render partial: 'next_token' %>
+    <br/>
 
+    <%= link_to 'Edit', edit_sentence_path(model) %> -
+    <%= tokenize_sentence_link %> -
+    <%= untokenize_sentence_link %>
+    <br/><br/>
 
+    Preview:<br/>
     <% tokens.each do |token| %>
       <div style="display:inline-block;">
         <%= concept("word/word_cell/inline_word_cell", token.word, current_user: current_user).call(:show) %>
       </div>
     <% end %>
+    <br/><br/>
 
-    <div class="toggle_translations">
-      <div class="toggle_translations_button_wrapper">
-        <%# The stupid assets are not playing nice :( %>
-        <%#= image_tag("translate.jpg", class: 'toggle_translations_button') %>
-        <img class="toggle_translations_button" src="/assets/translate.jpg" alt="Translate">
-      </div>
-    </div>
-    <div class="untokenized"><%= untokenized %></div>
-    <%= tokenize_sentence_link %>
-    <%= untokenize_sentence_link %>
-  </div>
+    Raw Value: <%= value %><br/>
+    Untokenized: <%= untokenized %><br/>
+    Translatable: <%= translatable %><br/>
+    Auto Translate: <%= auto_translate %><br/>
 
-  <div class="translations">
-    <div class="close_translation_tooltip">&#10006;</div>
+    <h3>Translations:</h3>
     <% translations.each do |translation| %>
+
+      <%= raw translation.value %>
       <% if translation.source.present? %>
-        <b><%= translation.source.name %></b><br>
+        - <%= translation.source.name %>
       <% end %>
-      <%= raw translation.value %><br/>
+      <br/>
       <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
     <% end %>
+
   </div>
 
-  <hr/>
+
+
+
 </div>

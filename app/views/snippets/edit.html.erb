@@ -1,0 +1,23 @@
+
+<div class="content">
+  <%= concept("snippet/snippet_admin_menu_cell", @snippet, current_user: current_user) %>
+
+  <h1>Editing Iframe</h1>
+
+  <%= simple_form_for @form do |snippet_form| %>
+    <%= snippet_form.error_notification %>
+
+    <%= snippet_form.input :content, placeholder: "Content", label: false %>
+    <%= snippet_form.input :format, placeholder: "Format", label: false %> <!-- TODO: make enum -->
+
+    <%= snippet_form.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+
+  <%= link_to 'Back', snippets_path %>
+</div>
+
+
+
+<%= link_to 'Show', @snippet %> |
+<%= link_to 'Back', snippets_path %>

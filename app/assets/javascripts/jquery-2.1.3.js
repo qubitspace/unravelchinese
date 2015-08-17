@@ -705,7 +705,7 @@ var i,
 				String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
 	},
 
-	// Used for iframes
+	// Used for iframe
 	// See setDocument()
 	// Removing the function wrapper causes a "Permission Denied"
 	// error in IE

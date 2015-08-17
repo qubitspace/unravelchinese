@@ -1,0 +1,5 @@
+<div class="content">
+  <%= concept("snippet/snippet_admin_menu_cell", @snippet, current_user: current_user) %>
+  <%= concept("snippet/snippet_cell", @snippet, current_user: current_user).call(:show) %>
+</div>
+

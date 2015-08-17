@@ -23,16 +23,7 @@
     <%= article.input :published, label: "Published", as: :boolean %>
     <%= article.input :commentable, label: "Commentable", as: :boolean %>
 
-
-    <h3>Source:</h3>
-
-    <%= article.input :source_id, collection: Source.all, :include_blank => "[Create New Source]" %>
-    <br/>
-    <%= article.fields_for :source do |source| %>
-      <%= source.input :name, placeholder: "Name" %>
-      <%= source.input :link, placeholder: "Link" %>
-    <% end %>
-
+    <%= article.input :source, collection: Source.all %>
 
   <%= article.button :submit, class: :expand %>
   <% end %>

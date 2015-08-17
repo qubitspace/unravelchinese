@@ -1,6 +1,9 @@
-<%= concept("article/article_admin_menu_cell", nil, current_user: current_user) %>
-<h1>Articles</h1>
+<% content_for :title do %>
+  <div class="title">Articles</div>
+<% end %>
 
-<div class='results'>
+<%= concept("article/article_admin_menu_cell", nil, current_user: current_user) %>
+
+<div id='article-list'>
   <%= concept("article/article_cell/preview_article_cell", collection: @articles, current_user: current_user ) %>
 </div>

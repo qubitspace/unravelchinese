@@ -10,6 +10,10 @@ class Article::ArticleCell < Cell::Concept
     property :name
   end
 
+  property :sections do
+    property :resource
+  end
+
   include Cell::CreatedAt
   def show
     render :show_article
@@ -20,11 +24,6 @@ class Article::ArticleCell < Cell::Concept
   end
 
   private
-
-  def sentences
-    # talk about why we don't need an Operation, yet, to collect comments here.
-    @sentences ||= model.sentences
-  end
 
   def comments
     # talk about why we don't need an Operation, yet, to collect comments here.

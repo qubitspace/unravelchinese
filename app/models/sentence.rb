@@ -1,12 +1,13 @@
 class Sentence < ActiveRecord::Base
-  belongs_to :sector, as: :resource, dependent: :destroy
-  belongs_to :article, through: :sector
+  # Can only belong to one section
+  has_one :section, as: :resource, dependent: :destroy
+  has_many :articles, through: :sections
   belongs_to :source
   has_many :tokens, dependent: :destroy
   has_many :translations, -> { order('cached_votes_score desc') }, dependent: :destroy
   has_many :words, through: :tokens
 
-  before_create :set_rank
+  # before_create :set_rank
   before_create :translate, on: :create
 
   attr_accessor :untokenized
@@ -17,12 +18,15 @@ class Sentence < ActiveRecord::Base
   # Put each translation in a try block so it will ignore failed translations (with retries)
   def translate
     self.translations.destroy
-    google_translate # free trial expire on 4/4
-    bing_translate
-    #dictionary_translate # this is just bing
+
+    # Putting this on hold for now since I removed the source reference from translations
+    # if auto_translate
+    #   google_translate
+    #   bing_translate
+    # end
   end
 
-  def dictionary_translate
+  def dictionary_translate # This is just bing
     source = Source.find_or_create_by name: "Dictionary.com", link: "http://translate.reference.com/", restricted: true
 
     url = "http://translate.reference.com/chinese-simplified/english/#{self.value}"
@@ -33,7 +37,7 @@ class Sentence < ActiveRecord::Base
   end
 
   def google_translate
-    source = Source.find_or_create_by name: "Google Translate", link: "www.google.com", restricted: true
+    source = Source.find_or_create_by name: "Google Translate", link: "http://www.google.com", restricted: true
 
     config = {
       :method => :get,
@@ -77,7 +81,7 @@ class Sentence < ActiveRecord::Base
   end
 
   def bing_translate
-    source = Source.find_or_create_by name: "Bing Translate", link: "www.bing.com", restricted: true
+    source = Source.find_or_create_by name: "Bing Translate", link: "https://www.bing.com/translator/", restricted: true
     access_token = get_bing_access_token
 
     translate_url = "http://api.microsofttranslator.com/v2/Http.svc/Translate"
@@ -110,12 +114,12 @@ class Sentence < ActiveRecord::Base
     self.translations.build value: doc.root.text, source: source
   end
 
-  def set_rank
-    self.rank = if Sentence.where(article_id: self.article_id).count > 0
-                then Sentence.where(article_id: self.article_id).maximum(:rank) + 1
-                else 0
-                end
-  end
+  # def set_rank
+  #   self.rank = if Sentence.where(article_id: self.article_id).count > 0
+  #               then Sentence.where(article_id: self.article_id).maximum(:rank) + 1
+  #               else 0
+  #               end
+  # end
 end
 
 

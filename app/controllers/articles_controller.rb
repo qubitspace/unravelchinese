@@ -22,11 +22,7 @@ class ArticlesController < ApplicationController
       article = @form.model
 
       @form.save do |form|
-        if form[:source_id].present?
-          article.source = Source.find form[:source_id]
-        else
-          article.source.update_attributes form[:source]
-        end
+        article.source = Source.find form[:source]
         article.save
       end
 
@@ -38,23 +34,53 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @form = Article::Form.new(Article.find(params[:id]))
+    @form = Article::Form.new(Article.includes(:source).find(params[:id]))
   end
 
-  def update
-    # run Article::Update do |o|
-    #   return redirect_to o.model
-    # end
 
-    #render action: :edit
+  def update
+    @article = Article.includes(:source).find(params[:id])
+    @form = Article::Form.new(@article)
+
+
+    if @form.validate(params[:article])
+      @form.sync
+      article = @form.model
+
+      @form.save do |form|
+        article.source = Source.find form[:source]
+        article.save
+      end
+
+      # Redirect to manage article to set up sentences
+      # Then have a link from the sentence cell to a manage sentence page to add tokenize?
+      return redirect_to @form.model
+    end
+
+    render :edit
   end
 
   def manage
     @article = get_article params[:article_id]
 
-    sentence = Sentence.new(:article_id => @article.id)
+    sentence = Sentence.new(:section => Section.new(:article_id => @article.id))
     sentence.translations.build
     @sentence_form = Sentence::Form.new(sentence)
+    @add_image_form = Section::Form.new(Section.new)
+    @add_iframe_form = Section::Form.new(Section.new)
+  end
+
+  def add_iframe
+    @article = Article.find params[:id]
+    @form = Section::Form.new(Section.new)
+    @form.article = @article
+    if @form.validate(params[:section])
+      @form.save
+      flash[:notice] = "Created section"
+      return redirect_to article_manage_path(@article)
+    end
+
+    render :manage
   end
 
   def create_comment
@@ -89,11 +115,13 @@ class ArticlesController < ApplicationController
 
   def get_article id
     Article.includes({
-      sentences: [
-        { words: [:definitions] },
-        { translations: [:source] },
-        :source
-      ]},
+        # sentences: [
+        #     :source,
+        #     { translations: :source },
+        #     { tokens: { word: :definitions }}
+        #   ],
+        sections: :resource
+      },
       :comments,
       :source
     ).find(id)

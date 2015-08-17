@@ -1,0 +1,23 @@
+
+<div class="content">
+  <%= concept("iframe/iframe_admin_menu_cell", @iframe, current_user: current_user) %>
+
+  <h1>Editing Iframe</h1>
+
+  <%= simple_form_for @form do |iframe_form| %>
+    <%= iframe_form.error_notification %>
+
+    <%= iframe_form.input :url, placeholder: "Url", label: false %>
+    <%= iframe_form.input :title, placeholder: "Title", label: false %>
+
+    <%= iframe_form.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+
+  <%= link_to 'Back', iframes_path %>
+</div>
+
+
+
+<%= link_to 'Show', @iframe %> |
+<%= link_to 'Back', iframes_path %>

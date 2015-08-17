@@ -1,0 +1,24 @@
+
+<div class="content">
+
+  <h1>Editing Source</h1>
+
+  <%= simple_form_for @form do |source_form| %>
+    <%= source_form.error_notification %>
+
+    <%= source_form.input :name, placeholder: "Name", label: false %>
+    <%= source_form.input :link, placeholder: "Link", label: false %>
+    <%= source_form.input :disabled, as: :boolean %>
+    <%= source_form.input :restricted, as: :boolean %>
+
+    <%= source_form.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+
+  <%= link_to 'Back', sources_path %>
+</div>
+
+
+
+<%= link_to 'Show', @source %> |
+<%= link_to 'Back', sources_path %>

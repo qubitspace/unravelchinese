@@ -1,9 +1,14 @@
+<% content_for :title do %>
+  <div class="title"><%= @article.title %></div>
+  <%= @article.source.name %><br>
+  <% unless @article.description.nil? %><%= @article.description %><% end %>
+<% end %>
+
 <div class="content">
   <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
   <%= concept("article/article_cell", @article, current_user: current_user).call(:show) %>
 
 
-  <div class="content-header">Comments</div>
   <div class="content">
     <!--%= render comments %-->
 

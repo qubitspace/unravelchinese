@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 17) do
+ActiveRecord::Schema.define(version: 27) do
 
   create_table "articles", force: :cascade do |t|
     t.integer  "source_id",   limit: 4
@@ -63,6 +63,23 @@ ActiveRecord::Schema.define(version: 17) do
   add_index "definitions", ["rank"], name: "index_definitions_on_rank", using: :btree
   add_index "definitions", ["word_id"], name: "index_definitions_on_word_id", using: :btree
 
+  create_table "iframes", force: :cascade do |t|
+    t.string   "url",         limit: 255
+    t.string   "title",       limit: 255
+    t.text     "description", limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.integer  "source_id",   limit: 4
+    t.string   "file",        limit: 255
+    t.string   "title",       limit: 255
+    t.text     "description", limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "learned_words", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
     t.integer  "word_id",    limit: 4, null: false
@@ -74,19 +91,33 @@ ActiveRecord::Schema.define(version: 17) do
   add_index "learned_words", ["user_id"], name: "index_learned_words_on_user_id", using: :btree
   add_index "learned_words", ["word_id"], name: "index_learned_words_on_word_id", using: :btree
 
-  create_table "sentences", force: :cascade do |t|
-    t.integer  "source_id",     limit: 4
-    t.integer  "article_id",    limit: 4,     null: false
-    t.integer  "rank",          limit: 4,     null: false
-    t.text     "value",         limit: 65535, null: false
-    t.boolean  "end_paragraph", limit: 1
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+  create_table "sections", force: :cascade do |t|
+    t.integer  "article_id",    limit: 4
+    t.integer  "resource_id",   limit: 4
+    t.string   "resource_type", limit: 255
+    t.integer  "rank",          limit: 4
+    t.string   "classes",       limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  add_index "sentences", ["article_id", "rank"], name: "index_sentences_on_article_id_and_rank", unique: true, using: :btree
+  create_table "sentences", force: :cascade do |t|
+    t.integer  "source_id",  limit: 4
+    t.integer  "article_id", limit: 4,     null: false
+    t.text     "value",      limit: 65535, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   add_index "sentences", ["article_id"], name: "index_sentences_on_article_id", using: :btree
   add_index "sentences", ["source_id"], name: "index_sentences_on_source_id", using: :btree
+
+  create_table "snippets", force: :cascade do |t|
+    t.text     "content",    limit: 65535
+    t.integer  "format",     limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "sources", force: :cascade do |t|
     t.integer  "post_id",    limit: 4

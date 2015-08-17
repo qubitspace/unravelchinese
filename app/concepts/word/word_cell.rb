@@ -112,7 +112,7 @@ class Word::WordCell < Cell::Concept
   end
 
   def status
-    if model.category == 'punctuation'
+    if ['alphanumeric','punctuation'].include? model.category
       status = 'known'
     else
       status = current_user.word_statuses.has_key?(id) ? current_user.word_statuses[id].status : 'unknown'

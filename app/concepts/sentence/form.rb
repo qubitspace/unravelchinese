@@ -1,8 +1,10 @@
 class Sentence::Form < Reform::Form
 
-  property :article, validates: { presence: true }
+  property :section do
+    property :article_id, validates: { presence: true }
+  end
+
   property :value, validates: { presence: true }
-  property :end_paragraph, validates: { presence: true }
 
   collection :translations do
 

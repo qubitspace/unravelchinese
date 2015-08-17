@@ -2,7 +2,6 @@ require "monban/constraints/signed_in"
 require "monban/constraints/signed_out"
 
 Rails.application.routes.draw do
-  resources :documents
 
   resource :session, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]
@@ -21,6 +20,7 @@ Rails.application.routes.draw do
     member do
       post :create_comment
       post :create_sentence
+      post :add_iframe
       get :next_comments
     end
     get :manage
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :sentences do
     get :manage
     put :untokenize
+    put :remove_last_token
     post 'add_token/:word_id', to: 'sentences#add_token', as: 'add_token'
   end
 
@@ -45,6 +46,12 @@ Rails.application.routes.draw do
     get 'show_manage_definition_cell/:definition_id', to: 'words#show_manage_definition_cell', as: 'show_manage_definition_cell'
 
   end
+
+  resources :sections
+  resources :images
+  resources :snippets
+  resources :iframes
+  resources :sources
 
   get 'dictionary/find' => 'words#find'
 

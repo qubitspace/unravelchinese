@@ -2,26 +2,27 @@
 <html>
 <head>
   <title>Unravel Chinese</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true, debug: true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true, debug: true %>
 
   <%= csrf_meta_tags %>
 
 </head>
 <body>
 
-<div class="wrapper">
+<div class="layout-wrapper">
 
-  <section class="header">
-    <div class="left"></div>
+  <section class="header-row">
+    <div class="left-column"></div>
 
-    <div class="main">
+    <div class="main-column">
       <div class="main-content">
-        <%= link_to "拆开中文<br>Unravel Chinese".html_safe, root_path %>
+        <%= link_to "拆开中文", root_path %><br/>
+        <%= link_to "Unravel Chinese", root_path %>
       </div>
     </div>
 
-    <div class="meta">
+    <div class="meta-column">
       <div class="meta-content">
         <% if signed_in? %>
           <%= link_to "Sign out", session_path, method: :delete %>
@@ -32,57 +33,57 @@
       </div>
     </div>
 
-    <div class="right"></div>
+    <div class="right-column"></div>
   </section>
 
 
-  <section class="menu">
-    <div class="left"></div>
-    <div class="main-meta">
+  <section class="menu-row">
+    <div class="left-column"></div>
+    <div class="main-meta-column">
       <div class="menu-wrapper">
         <div class="link"><%= link_to 'Articles', [:articles] %></div>
-        <div class="link"><%= link_to 'Sentences', [:sentences] %></div>
-        <div class="link"><%= link_to 'Words', [:words] %></div>
-        <div class="link"><%= link_to 'Posts', [:posts] %></div>
+        <div class="link"><%= link_to 'Dictionary', [:words] %></div>
         <% if current_user and current_user.admin? %>
           <div class="link"><span class="admin"></div>
           <div class="link"><%= link_to 'Tags', [:tags], class: 'admin' %></div>
-          <div class="link"><%= link_to 'Documents', [:documents], class: 'admin' %></div>
+          <div class="link"><%= link_to 'Sources', [:sources], class: 'admin' %></div>
+          <div class="link"><%= link_to 'Images', [:images], class: 'admin' %></div>
+          <div class="link"><%= link_to 'IFrames', [:iframes], class: 'admin' %></div>
         <% end %>
       </div>
     </div>
-    <div class="right"></div>
+    <div class="right-column"></div>
   </section>
 
-  <section class="title">
-    <div class="left"></div>
-    <div class="main-meta">
+  <section class="title-row">
+    <div class="left-column"></div>
+    <div class="main-meta-column">
       <div class="content-title">
         <%= yield :title %>
       </div>
     </div>
-    <div class="right"></div>
+    <div class="right-column"></div>
   </section>
 
-  <section class="body">
-    <div class="left"></div>
-    <div class="main">
+  <section class="main-row">
+    <div class="left-column"></div>
+    <div class="main-column">
       <div class="main-content">
         <%= yield %>
       </div>
     </div>
-    <div class="meta">
+    <div class="meta-column">
       <div class="meta-content">
         <%= yield :meta %>
       </div>
     </div>
-    <div class="right"></div>
+    <div class="right-column"></div>
   </section>
 
-  <section class="footer">
-    <div class="left"></div>
-    <div class="main-meta"></div>
-    <div class="right"></div>
+  <section class="footer-row">
+    <div class="left-column"></div>
+    <div class="main-meta-column"></div>
+    <div class="right-column"></div>
   </section>
 
 

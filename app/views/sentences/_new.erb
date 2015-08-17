@@ -1,9 +1,13 @@
-
 <div class="new_sentence_form">
-  <%= simple_form_for form, url: sentences_path, remote: true, method: :post do |f| %>
-    <%= f.input :article_id, :as => :hidden, :input_html => { :value => form.model.article_id } %>
+  <%= simple_form_for @sentence_form, url: sentences_path, remote: true, method: :post do |f| %>
+
+
+    <%= f.simple_fields_for :section  do |section_form| %>
+      <%= section_form.input :article_id, :as => :hidden, :input_html => { :value => @article.id } %>
+    <% end %>
+
+
     <%= f.input :value %>
-    <%= f.input :end_paragraph, as: :boolean %>
 
     <h3>Translation:</h3>
     <div id="new_translation">
@@ -22,5 +26,5 @@
 
     <%= f.button :submit, class: :expand %>
   <% end %>
-  <%= form.errors.messages unless form.errors.nil? %>
+  <%= @sentence_form.errors.messages unless @sentence_form.errors.nil? %>
 </div>

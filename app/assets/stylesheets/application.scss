@@ -18,91 +18,74 @@ html, body {
 
 body {
   background-color: #191919;
+  margin: 0px;
+  padding: 0px;
 }
 
 mark { background-color: #EEEEEE; font-weight: bold; }
-
 
 $red: #C7272A;
 $blue: #052866;
 $black: #000000;
 
-.wrapper {
-  min-width: 800px;
+$content-margin: 10px;
+
+.layout-wrapper {
+  min-width: 1000px;
   min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.header {
+.main-column { max-width: 800px; }
+.meta-column { max-width: 400px; }
+.main-meta-column { max-width: 1220px; } // Including padding
 
-}
-
-
-.header, .menu, .title, .body, .footer {
-  .left {
+.header-row, .menu-row, .title-row, .main-row, .footer-row {
+  .left-column {
     flex: 1 1 auto;
-    min-width: 50px;
+    min-width: 100px;
   }
 
-  .main {
+  .main-column {
     flex: 0 1 auto;
-    width: 1000px;
+    width: 60%;
+    padding: $content-margin;
   }
 
-  .meta {
+  .meta-column {
     flex: 0 1 auto;
-    width: 400px;
+    width: 40%;
+    padding: $content-margin;
   }
 
-  .main-meta {
+  .main-meta-column {
     flex: 0 1 auto;
-    width: 1400px;
+    width: 100%;
+    padding: $content-margin;
   }
 
-  .right {
+  .right-column {
     flex: 1 1 auto;
-    min-width: 50px;
-  }
-
-  .content-title {
-    margin: 25px 0 0 25px;
-
-    h1 { font-size: 30pt;}
-  }
-
-  .content-header {
-    margin: 10px 0px 10px 25px;
+    min-width: 100px;
   }
 
   .menu-wrapper {
-    margin-left: 25px;
   }
 }
-
-.main, .meta {
-  .main-content {
-    margin: 25px;
-  }
-
-  .meta-content {
-    margin: 25px 25px 25px 0;
-  }
-}
-
 
 // -------
 // Header
 // -------
-.header {
+.header-row {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
   width: 100%;
-
+  background-color: #000000;
   color: #FFFFFF;
 
-  .main { font-size: 40px; }
+  .main-column { font-size: 40px; line-height: 40px; }
 
   a {
     color: $red;
@@ -119,37 +102,36 @@ $black: #000000;
 // -------
 // Navigation
 // -------
-.menu {
+.menu-row {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
   width: 100%;
 
-  .left, .right {
+  .left-column, .right-column {
     background-color: #333333;
     border-top: 2px solid #555555;
   }
 
-  .main-meta {
+  .main-meta-column {
     background-color: #333333;
     border-top: 2px solid #555555;
   }
 
   .link {
-    span { float: left; color: #f00; padding: 10px; }
+    span { float: left; color: #f00; padding-right: 10px; }
     display: inline;
     a {
       float: left;
       text-decoration: none;
       color: #FFFFFF;
-      padding: 10px;
+      padding-right: 20px;
     }
     a:hover, a:active {
       //background-color: #BE4C39;
       background-color: $red;
     }
     a.admin { color: #f00; }
-
     font-size: 21px;
   }
 }
@@ -157,66 +139,74 @@ $black: #000000;
 // -------
 // Title
 // -------
-.title {
+.title-row {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
   width: 100%;
   line-height: 16px;
 
-  .left, .right {
+  .left-column, .right-column {
     background-color: #ffffff;
   }
 
-  .main-meta {
+  .main-meta-column {
     background-color: #ffffff;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 12px;
     color: #222222;
-    padding-top: 25px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    .title {
+      font-size: 40px;
+      line-height: 50px;
+    }
   }
 }
 
 // -------
-// Body
+// Main
 // -------
-.body {
+.main-row {
   display: flex;
   flex-direction: row;
   flex: 1 0 auto;
 
-  .left, .right {
-    background-color: #ffffff;
+  .main-column, .meta-column {
   }
-  .main, .meta {
-    background-color: #ffffff;
+
+  .meta-column {
+    border: 1px solid #aaa;
   }
 }
 
-.content {
-  //background-color: #FFFFFF;
-  //border: 2px solid #E0E0E0;
-  //-moz-border-radius: 5px;
-  //-webkit-border-radius: 5px;
-  //border-radius: 5px;
-  //padding: 30px;
-  //line-height: 24px;
+#iframe-controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 23px;
+  display: none;
 }
+
+
+
 
 // -------
 // Footer
 // -------
-.footer {
+.footer-row {
   display: flex;
   flex-direction: row;
   flex: 0 0 initial;
   min-height: 50px;
 
   color: #F0F0F0;
-
+  background-color: #000;
 }
 
 
+// -------
+// Misc
+// -------
 
 .article-title_conflicted-with-form {
   //font-family: Georgia, serif;
@@ -228,13 +218,4 @@ $black: #000000;
   margin: 0 25px;
 }
 
-.article_meta {
-  margin: 0 25px;
-  color: $blue;
-}
 
-
-
-// ---------------------
-// Forms
-// ---------------------

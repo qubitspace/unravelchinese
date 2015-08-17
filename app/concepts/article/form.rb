@@ -6,16 +6,12 @@ class Article::Form < Reform::Form
   property :published
   property :commentable
 
-  property :source_id, virtual: true,
-              validates: {
-                presence: { message: "required if a new source name and link is not specified" },
-                if: "source.name.blank? or source.link.blank?"
-              }
+  property :source, virtual: true, validates: { presence: true }
 
-  property :source do
-    property :name
-    property :link
-  end
+  # property :source do
+  #   property :name
+  #   property :link
+  # end
 
   validates :link,
             :title,

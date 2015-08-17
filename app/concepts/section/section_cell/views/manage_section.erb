@@ -1,0 +1,9 @@
+<div class="section" id="section-<%= id %>" style="border: 1px solid black; margin-top: 20px; padding: 20px 10px;">
+  <div style="float: right;"><%= delete_section_link %></div>
+
+   <h3>[<%= rank %>]: <%= resource_type %></h3>
+   Style: <%= classes %><br/>
+   <hr/>
+  <%= concept("#{resource_type}/#{resource_type}_cell/manage_#{resource_type}_cell", resource, current_user: current_user).call(:show) %>
+
+</div>

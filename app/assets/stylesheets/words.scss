@@ -8,9 +8,9 @@ $dark-gray: #333333;
   display: inline-block;
   text-align: center;
   vertical-align: top;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
-  margin-right: 5px;
+  margin-right: 2px;
   height: 60px;
   font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
   cursor: pointer;
@@ -19,13 +19,13 @@ $dark-gray: #333333;
   .top { color: $red; line-height: 30px;  }
   .top .punctuation { letter-spacing: 0px; padding-right: 0px; margin-right: 0px; }
   &.known .top { font-size: 24px; }
-  .bottom { font-size: 18px; color: $dark-gray;  }
+  .bottom { font-size: 20px; color: $dark-gray;  }
 
   &.unknown .top { font-size: 22px; }
 
   &.learning .top { font-size: 26px; font-weight: bold; }
 
-  .bottom {  line-height: 22px; }
+  .bottom {  font-size: 26px; line-height: 25px; }
   &.known .bottom.learnable { display: none; }
   //.unknown .top.learnable { color: #aaa; }
   &.unknown .bottom.learnable { display: block; }
@@ -42,7 +42,7 @@ $dark-gray: #333333;
   &.learning .mark_word_unknown { display: block; }
 
   .section_label {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 14px;
     font-weight: bold;
   }

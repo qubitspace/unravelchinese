@@ -1,5 +1,5 @@
 .sentence {
-  padding-top: 10px;
+  padding-top: 0px;
   padding-bottom: 0px;
   display: inline;
 }
@@ -36,13 +36,11 @@
   }
 }
 
-.end_paragraph {
-  height: 50px;
-}
-
 .toggle_translations_button {
-  width: 20px;
-  height: 20px;
+  margin-top: 8px;
+  margin-right: 10px;
+  width: 12px;
+  height: 12px;
   opacity: 0.4;
 
   &:hover{
@@ -52,14 +50,14 @@
 
 .toggle_translations {
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .toggle_translations_button_wrapper {
   display: inline-block;
   text-align: center;
   vertical-align: top;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 5px;
   height: 60px;

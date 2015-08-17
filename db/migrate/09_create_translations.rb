@@ -2,9 +2,10 @@ class CreateTranslations < ActiveRecord::Migration
   def change
     create_table :translations do |t|
       t.text :value, :null => false
-      t.references :source, index: true
       t.references :user, index: true
       t.references :sentence, index: true
+
+      t.boolean :tanslation_type # Enum for user/admin?/google/bing/primary
 
       t.timestamps null: false
     end

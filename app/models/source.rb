@@ -1,5 +1,5 @@
 class Source < ActiveRecord::Base
-  has_one :post
+  has_one :article
   has_many :articles, inverse_of: :source
   has_many :sentences, inverse_of: :source
   has_many :translations, inverse_of: :source

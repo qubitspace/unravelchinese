@@ -5,13 +5,14 @@ class Sentence::SentenceCell < Cell::Concept
   property :id
   property :value
   property :rank
-  property :end_paragraph
   property :untokenized
 
-  property :article
+  property :section
   property :words
   property :translations
   property :tokens
+  property :translatable
+  property :auto_translate
 
 
   def show
@@ -29,7 +30,11 @@ class Sentence::SentenceCell < Cell::Concept
   end
 
   def untokenize_sentence_link
-    link_to "Untokenize", sentence_untokenize_path(model), method: :put
+    link_to "Untokenize", sentence_untokenize_path(model), method: :put, confirm: 'Are you sure?'
+  end
+
+  def remove_last_token_link
+    link_to "Remove Last Token", sentence_remove_last_token_path(model), method: :put, confirm: 'Are you sure?'
   end
 
   class ManageSentenceCell < Sentence::SentenceCell
@@ -64,7 +69,7 @@ class Sentence::SentenceCell < Cell::Concept
 
 
     def manage_article_link
-      link_to "Manage Article", article_manage_path(model.article)
+      link_to "Manage Article", article_manage_path(model.section.article)
     end
   end
 

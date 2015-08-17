@@ -1,0 +1,20 @@
+<div class="content">
+  <%#= concept("image/image_admin_menu_cell", @form.model, current_user: current_user) %>
+
+  <h1>Create Source</h1>
+
+  <%= simple_form_for @form do |source_form| %>
+    <%= source_form.error_notification %>
+
+    <%= source_form.input :name, placeholder: "Name", label: false %>
+    <%= source_form.input :link, placeholder: "Link", label: false %>
+    <%= source_form.input :disabled, as: :boolean %>
+    <%= source_form.input :restricted, as: :boolean %>
+
+    <%= source_form.button :submit, class: :expand %>
+  <% end %>
+  <%= @form.errors.messages unless @form.errors.nil? %>
+
+  <%= link_to 'Back', sources_path %>
+</div>
+

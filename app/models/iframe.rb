@@ -1,4 +1,5 @@
 class Iframe < ActiveRecord::Base
-  belongs_to :sector, as: :resource, dependent: :destroy
-  belongs_to :article, through: :sector
+  has_many :sections, as: :resource, dependent: :destroy
+  has_many :articles, through: :sections
+  belongs_to :source
 end

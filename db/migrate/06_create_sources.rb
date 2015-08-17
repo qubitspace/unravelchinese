@@ -1,7 +1,7 @@
 class CreateSources < ActiveRecord::Migration
   def change
     create_table :sources do |t|
-      t.references :post
+      t.references :article
       t.string :name, null: false
       t.string :link, unique: true
       t.boolean :disabled, default: false

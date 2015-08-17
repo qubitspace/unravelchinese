@@ -1,4 +1,4 @@
 class Snippet < ActiveRecord::Base
-  belongs_to :sector, as: :resource, dependent: :destroy
-  belongs_to :article, through: :sector
+  has_one :section, as: :resource, dependent: :destroy
+  has_many :articles, through: :sections
 end

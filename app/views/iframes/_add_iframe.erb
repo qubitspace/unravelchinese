@@ -1,0 +1,11 @@
+<div class="add_iframe_form">
+  <%= simple_form_for @add_iframe_form, url: add_iframe_article_path(@article) do |f| %>
+
+    <%= f.input :article_id, :as => :hidden, :input_html => { :value => @article.id } %>
+    <%= f.input :resource_id, collection: Iframe.all %>
+    <%= f.input :resource_type, :as => :hidden, :input_html => { :value => 'Iframe' } %>
+
+    <%= f.button :submit, class: :expand %>
+  <% end %>
+  <%= @add_iframe_form.errors.messages unless @add_iframe_form.errors.nil? %>
+</div>

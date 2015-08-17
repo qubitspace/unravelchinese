@@ -11,6 +11,8 @@
       <%= translation.value %><br/>
     <% end %>
     <br>
+
+    <%= untokenize_sentence_link %> | <%= remove_last_token_link %>
     <br>
     <% tokens.each do |token| %>
       <%= concept("word/word_cell/inline_word_cell", token.word, current_user: current_user).call(:show) %>
@@ -19,7 +21,6 @@
 
 
     <div class="untokenized"><%= untokenized %></div>
-    <%= untokenize_sentence_link %>
 
   </div>
 

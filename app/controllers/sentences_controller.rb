@@ -12,6 +12,22 @@ class SentencesController < ApplicationController
     @form = Sentence::Form.new(Sentence.new)
   end
 
+  def edit
+    @sentence_form = Sentence::Form.new(Sentence.find(params[:id]))
+  end
+
+  def update
+    @sentence = Sentence.find(params[:id])
+    @form = Sentence::Form.new(@sentence)
+
+    if @form.validate(params[:sentence])
+      @form.save
+      return redirect_to sentence_manage_path(@sentence)
+    end
+    render :edit
+  end
+
+
   # def create
   #   run Sentence::Create do |op|
   #     flash[:notice] = "Created sentence for \"#{op.sentence.name}\""
@@ -23,9 +39,9 @@ class SentencesController < ApplicationController
 
 
   def create
-    @article = Article.find params[:sentence][:article_id]
+    @article = Article.find params[:sentence][:section_attributes][:article_id]
 
-    sentence = Sentence.new(:article_id => @article.id)
+    sentence = Sentence.new(:section => Section.new(:article_id => @article.id))
     sentence.translations.build(source: Source.new)
 
     @form = Sentence::Form.new(sentence)
@@ -50,6 +66,7 @@ class SentencesController < ApplicationController
       respond_to do |format|
         @sentence = Sentence.new
         @sentence.translations.build
+        @sentence.section.build
         @new_form = Sentence::Form.new(@sentence)
         format.js   { render :action => "show_new_sentence"}
       end
@@ -131,6 +148,12 @@ class SentencesController < ApplicationController
   def untokenize
     @sentence = Sentence.find params[:sentence_id]
     @sentence.tokens.delete_all
+    redirect_to sentence_manage_path(@sentence)
+  end
+
+  def remove_last_token
+    @sentence = Sentence.find params[:sentence_id]
+    @sentence.tokens.order("rank desc").first.delete
     redirect_to sentence_manage_path(@sentence)
   end
 

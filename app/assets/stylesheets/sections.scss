@@ -1,0 +1,4 @@
+.s-end-paragraph:after {
+    content: '\A';
+    white-space: pre;
+}

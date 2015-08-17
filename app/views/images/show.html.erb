@@ -1,0 +1,5 @@
+<div class="content">
+  <%= concept("image/image_admin_menu_cell", @image, current_user: current_user) %>
+  <%= concept("image/image_cell", @image, current_user: current_user).call(:show) %>
+</div>
+
