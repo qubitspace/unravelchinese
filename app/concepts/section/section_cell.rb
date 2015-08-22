@@ -13,6 +13,20 @@ class Section::SectionCell < Cell::Concept
     render :show_section
   end
 
+
+  def hide
+    %{
+      $('#section-#{id}').hide();
+    }
+  end
+
+
+  def add_new_section
+    %{
+      $('#sections').append('#{ j(show) }');
+    }
+  end
+
   private
 
   def current_user
@@ -26,7 +40,7 @@ class Section::SectionCell < Cell::Concept
     end
 
     def delete_section_link
-      link_to 'Delete Section', model, method: :delete, data: { confirm: 'Are you sure?' }
+      link_to 'Delete Section', model, method: :delete, data: { confirm: 'Are you sure?' }, remote: true
     end
   end
 

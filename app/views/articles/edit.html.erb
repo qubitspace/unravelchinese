@@ -18,13 +18,13 @@
 
   <%= simple_form_for @form do |article| %>
 
-    <%= article.input :link, placeholder: "Link", label: false %>
     <%= article.input :title, placeholder: "Title", label: false %>
-    <%= article.input :description, placeholder: "Description", label: false %>
     <%= article.input :published, label: "Published", as: :boolean %>
     <%= article.input :commentable, label: "Commentable", as: :boolean %>
 
     <%= article.input :source, collection: Source.all, selected: @form.source %>
+    <%= article.input :description, as: :text, placeholder: "Description", label: false,
+          input_html: { :style => 'width: 100%; height: 300px;' } %>
 
   <%= article.button :submit, class: :expand %>
   <% end %>

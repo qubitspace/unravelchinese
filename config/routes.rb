@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     member do
       post :create_comment
       post :create_sentence
+      #post :add_image
       post :add_iframe
       get :next_comments
     end
@@ -47,7 +48,10 @@ Rails.application.routes.draw do
 
   end
 
-  resources :sections
+  resources :sections do
+    post :create_image, on: :collection
+  end
+
   resources :images
   resources :snippets
   resources :iframes

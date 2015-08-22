@@ -9,6 +9,7 @@ class Section < ActiveRecord::Base
   # Sentences and Snippets can't be shared between sections.
   validates :resource_id, :uniqueness => { :scope => [:resource_type, :resource_id] }, if: lambda { |section| ['Sentence','Snippet'].include? section.resource_type }
 
+
   private
   def cleanup
     if ['Sentence','Snippet'].include? self.resource_type

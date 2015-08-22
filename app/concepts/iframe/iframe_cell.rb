@@ -9,17 +9,14 @@ class Iframe::IframeCell < Cell::Concept
     render :show_iframe
   end
 
+  def nested
+    render :nested_iframe
+  end
+
   private
 
   def current_user # could be used in the view
     @options[:current_user]
-  end
-
-
-  class InlineIframeCell < Iframe::IframeCell
-    def show
-      render :inline_iframe
-    end
   end
 
   class ManageIframeCell < Iframe::IframeCell

@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
+//= require jquery_nested_form
 
 function pauseVideo() {
     document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
@@ -34,31 +34,31 @@ function updatePinnedIframeSize() {
 }
 
 
-function sizeIframe() {
-  updatePinnedIframeSize();
-  window.addEventListener("resize", function(e) {
+function addYouTubeControls() {
+  if (document.getElementById('iframe') != null)
+  {
+    window.addEventListener("resize", function(e) {
+      updatePinnedIframeSize();
+    });
     updatePinnedIframeSize();
-  });
+
+    var topofDiv = $("#iframe").offset().top; //gets offset of header
+    var height = $("#iframe").outerHeight(); //gets height of header
+    $(window).scroll(function() {
+      if($(window).scrollTop() > (topofDiv + height)){
+        $("#iframe-controls").show();
+      }
+      else{
+        $("#iframe-controls").hide();
+      }
+    });
+  }
 }
 
 
 var ready;
 ready = function() {
-  sizeIframe();
-
-  var topofDiv = $("#iframe").offset().top; //gets offset of header
-  var height = $("#iframe").outerHeight(); //gets height of header
-  $(window).scroll(function() {
-    if($(window).scrollTop() > (topofDiv + height)){
-      $("#iframe-controls").show();
-    }
-    else{
-      $("#iframe-controls").hide();
-    }
-  });
-
-
-
+  addYouTubeControls();
 };
 
 $(document).ready(ready);

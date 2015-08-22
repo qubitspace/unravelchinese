@@ -1,14 +1,13 @@
-<div class="manage-article">
+<div id="manage-article">
   <h1><%= title %></h1>
   <%= source.name %><br>
-  <% unless description.nil? %><%= description %><% end %>
+  <%= description %><br>
   <br><br>
   <hr>
   <br>
-  <div class="resources">
+  <div id="sections">
 
     <% sections.each do |section| %>
-      <%#= link_to 'Manage', sentence_manage_path(sentence) %>
       <%= concept("section/section_cell/manage_section_cell", section, current_user: current_user).call(:show) %>
     <% end %>
   </div>

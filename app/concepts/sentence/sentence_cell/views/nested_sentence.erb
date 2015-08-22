@@ -1,4 +1,8 @@
-<span class="sentence">
+
+<div class="sentence">
+
+  <a id="copy-sentence-text" style="cursor:pointer;" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter", "<%= j value %>");'>Copy</a>
+
 
   <% tokens.each do |token| %>
     <div style="display:inline-block;">
@@ -8,13 +12,11 @@
 
   <div class="toggle_translations">
     <div class="toggle_translations_button_wrapper">
-      <%# The stupid assets are not playing nice :( %>
-      <%#= image_tag("translate.jpg", class: 'toggle_translations_button') %>
       <img class="toggle_translations_button" src="/assets/translate.jpg" alt="Translate">
     </div>
   </div>
 
-</span>
+</div>
 
 <div class="translations">
   <div class="close_translation_tooltip">&#10006;</div>
@@ -23,3 +25,4 @@
     <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
   <% end %>
 </div>
+

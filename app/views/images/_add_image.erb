@@ -1,5 +1,5 @@
 <div class="add_section_form">
-  <%= simple_form_for @add_image_form, url: sections_path, remote: true, method: :post do |f| %>
+  <%= simple_form_for @add_image_form, url: add_image_article_path(@article) do |f| %>
 
     <%= f.input :article_id, :as => :hidden, :input_html => { :value => @article.id } %>
     <%= f.input :resource_id, collection: Image.all %>

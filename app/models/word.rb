@@ -10,7 +10,7 @@ class Word < ActiveRecord::Base
   has_many :tags, through: :taggings, dependent: :destroy, :source => :taggable, :source_type => "Word"
   has_many :definitions, -> { order 'rank asc' }, dependent: :destroy
 
-  enum category: [:uncategorized, :punctuation, :alphanumeric, :word, :character, :radical, ]
+  enum category: [:uncategorized, :punctuation, :alphanumeric, :word, :character, :radical]
   validates :simplified, length: { minimum: 1 }
 
   def self.find_words simplified, traditional, pinyin

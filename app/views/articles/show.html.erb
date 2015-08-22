@@ -1,7 +1,5 @@
 <% content_for :title do %>
-  <div class="title"><%= @article.title %></div>
-  <%= @article.source.name %><br>
-  <% unless @article.description.nil? %><%= @article.description %><% end %>
+  <%= concept("article/article_cell", @article, current_user: current_user).call(:show_header) %>
 <% end %>
 
 <div class="content">
@@ -13,10 +11,10 @@
     <!--%= render comments %-->
 
     <h2>Add a comment:</h2>
-    <%= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
-      <%= f.input :body %>
-      <%= f.button :submit, class: :expand %>
-    <% end %>
+    <%#= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
+      <%#= f.input :body %>
+      <%#= f.button :submit, class: :expand %>
+    <%# end %>
 
     <%= @form.errors.messages %>
   </div>

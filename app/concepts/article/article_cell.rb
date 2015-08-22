@@ -1,12 +1,12 @@
 class Article::ArticleCell < Cell::Concept
   property :title
-  property :created_at
   property :description
+
+  property :created_at
 
   property :source_id
   property :source do
     property :id
-    property :link
     property :name
   end
 
@@ -19,8 +19,8 @@ class Article::ArticleCell < Cell::Concept
     render :show_article
   end
 
-  def for_title
-    render(:title).html_safe
+  def show_header
+    render :show_header
   end
 
   private

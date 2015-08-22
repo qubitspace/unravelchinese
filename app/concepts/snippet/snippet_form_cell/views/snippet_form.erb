@@ -1,0 +1,13 @@
+<%= nested_form_for model, remote: true do |f| %>
+
+  <%= f.fields_for :section do |section_form| %>
+    <%= section_form.hidden_field :article_id %>
+  <% end %>
+
+  <%= f.label :sentence %>
+  <%= f.text_field :content %><br>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>
+<%= model.errors.messages unless model.errors.nil? %>
+

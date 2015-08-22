@@ -18,6 +18,10 @@ class Image::ImageCell < Cell::Concept
     render :show_image
   end
 
+  def nested
+    render :nested_image
+  end
+
   private
 
   def current_user # could be used in the view

@@ -2,7 +2,6 @@
   <div class="sentence">
 
     <br/>
-
     <%= link_to 'Edit', edit_sentence_path(model) %> -
     <%= tokenize_sentence_link %> -
     <%= untokenize_sentence_link %>
@@ -25,9 +24,6 @@
     <% translations.each do |translation| %>
 
       <%= raw translation.value %>
-      <% if translation.source.present? %>
-        - <%= translation.source.name %>
-      <% end %>
       <br/>
       <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
     <% end %>

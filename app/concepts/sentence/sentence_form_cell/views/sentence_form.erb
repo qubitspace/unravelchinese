@@ -1,0 +1,23 @@
+<%= nested_form_for model, remote: true do |f| %>
+
+  <%= f.fields_for :section  do |section_form| %>
+    <%= section_form.hidden_field  :article_id %>
+  <% end %>
+
+  <%= f.label :sentence %>
+  <%= f.text_field :value %><br>
+
+  <%= f.fields_for :translations do |ff| %>
+
+    <%= ff.label :translation %>
+    <%= ff.text_field :value %><br>
+
+    <%= ff.label :category %>
+    <%= ff.collection_select :category, Translation.display_categories, :to_s, :to_s %>
+
+  <% end %>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>
+<%= model.errors.messages unless model.errors.nil? %>
+

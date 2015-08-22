@@ -1,6 +1,5 @@
 class Article::Form < Reform::Form
 
-  property :link
   property :title, validates: { uniqueness: true }
   property :description
   property :published
@@ -8,13 +7,7 @@ class Article::Form < Reform::Form
 
   property :source, virtual: true, validates: { presence: true }
 
-  # property :source do
-  #   property :name
-  #   property :link
-  # end
-
-  validates :link,
-            :title,
+  validates :title,
             :description,
             :published,
             :commentable,

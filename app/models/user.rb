@@ -1,7 +1,7 @@
 
 class User < ActiveRecord::Base
   acts_as_voter
-  has_many :learned_words, dependent: :destroy
+  has_many :learned_words, -> { includes({ word: :definitions }) }#, dependent: :destroy, -> { includes: { word: :definitions } }
   has_many :words, :through => :learned_words
   has_many :translations
 

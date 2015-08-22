@@ -1,5 +1,4 @@
 class Sentence::SentenceCell < Cell::Concept
-
   include ActionView::Helpers::JavaScriptHelper
 
   property :id
@@ -17,6 +16,10 @@ class Sentence::SentenceCell < Cell::Concept
 
   def show
     render :show_sentence
+  end
+
+  def nested
+    render :nested_sentence
   end
 
   private
@@ -41,12 +44,7 @@ class Sentence::SentenceCell < Cell::Concept
     def show
       render :manage_sentence
     end
-  end
 
-  class InlineSentenceCell < Sentence::SentenceCell
-    def show
-      render :inline_sentence
-    end
   end
 
   class TokenizeSentenceCell < Sentence::SentenceCell
@@ -67,10 +65,10 @@ class Sentence::SentenceCell < Cell::Concept
       }
     end
 
-
     def manage_article_link
       link_to "Manage Article", article_manage_path(model.section.article)
     end
   end
+
 
 end

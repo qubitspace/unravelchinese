@@ -23,18 +23,38 @@ class SnippetsController < ApplicationController
     @form = Snippet::Form.new(@snippet)
   end
 
-  # POST /snippets
-  # POST /snippets.json
+
   def create
-    @form = Snippet::Form.new(Snippet.new)
+    article = Article.find params[:snippet][:section_attributes][:article_id]
+    snippet = Snippet.new(:section => Section.new(:article_id => article.id))
+    snippet_form = Snippet::Form.new(snippet)
 
-    if @form.validate(params[:snippet])
-      @form.save
+    # New Snippet Form
+    new_snippet = Snippet.new(:section => Section.new(:article_id => article.id))
+    blank_snippet_form = Snippet::Form.new(new_snippet)
 
-      return redirect_to @form.model
+    if snippet_form.validate(params[:snippet])
+      snippet_form.save
+      respond_to do |format|
+        format.js {
+          render js:
+            concept("section/section_cell/manage_section_cell", snippet_form.model.section, current_user: current_user).call(:add_new_section) +
+            concept("snippet/snippet_form_cell", blank_snippet_form).call(:refresh_form)
+
+        }
+      end
+    else
+      respond_to do |format|
+        format.js {
+          render js: concept("snippet/snippet_form_cell", snippet_form, current_user: current_user).call(:refresh_form)
+        }
+      end
     end
-    render action: :new
   end
+
+
+
+
 
   # PATCH/PUT /snippets/1
   # PATCH/PUT /snippets/1.json

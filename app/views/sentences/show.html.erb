@@ -9,7 +9,6 @@
     <% @sentence.translations.each do |translation| %>
       <div class="translation">
         <%= translation.value %>
-        <% if translation.source.present? %> - <i><%= translation.source.name %></i><% end %>
         <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %>
 
         <!-- TODO: move to partial -->

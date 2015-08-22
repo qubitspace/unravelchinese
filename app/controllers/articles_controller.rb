@@ -66,10 +66,16 @@ class ArticlesController < ApplicationController
     sentence = Sentence.new(:section => Section.new(:article_id => @article.id))
     sentence.translations.build
     @sentence_form = Sentence::Form.new(sentence)
+
+    snippet = Snippet.new(:section => Section.new(:article_id => @article.id))
+    @snippet_form = Snippet::Form.new(snippet)
+
     @add_image_form = Section::Form.new(Section.new)
     @add_iframe_form = Section::Form.new(Section.new)
   end
 
+  # add_image and add_iframe can probably be merged into a single action.
+  # Should i move them to the sections controller
   def add_iframe
     @article = Article.find params[:id]
     @form = Section::Form.new(Section.new)
@@ -82,6 +88,7 @@ class ArticlesController < ApplicationController
 
     render :manage
   end
+
 
   def create_comment
     @article = Article.find params[:id]
@@ -103,6 +110,18 @@ class ArticlesController < ApplicationController
     render js: concept("comment/comment_cell/comment_grid", @article, page: params[:page]).(:append)
   end
 
+  def view_raw_content
+    # iterate through sentences and collect raw chinese
+      # check if it's an end of a paragraph
+    # display this somewhere
+  end
+
+  def view_raw_translation
+    # iterate through sentences and collect primary translations
+      # check if it's an end of a paragraph
+    # display this somewhere
+  end
+
   private
 
   def new_article
@@ -114,14 +133,9 @@ class ArticlesController < ApplicationController
   end
 
   def get_article id
-    Article.includes({
-        # sentences: [
-        #     :source,
-        #     { translations: :source },
-        #     { tokens: { word: :definitions }}
-        #   ],
-        sections: :resource
-      },
+    Article.includes(
+      { sentences: { tokens: { word: :definitions } } },
+      { sections: :resource },
       :comments,
       :source
     ).find(id)

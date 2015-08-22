@@ -3,8 +3,6 @@ class CreateArticles < ActiveRecord::Migration
     create_table :articles do |t|
       t.references :source, index: true
       t.references :category, index: true
-      t.text :link
-      t.text :translation_link
       t.text :title, null: false
       t.text :description
       t.boolean :published, null: false, default: false

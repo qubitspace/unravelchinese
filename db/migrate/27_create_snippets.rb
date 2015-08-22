@@ -2,7 +2,7 @@ class CreateSnippets < ActiveRecord::Migration
   def change
     create_table :snippets do |t|
       t.text :content
-      t.integer :format #redcloth, html, raw, etc...
+      t.integer :category, null: false
 
       t.timestamps null: false
     end

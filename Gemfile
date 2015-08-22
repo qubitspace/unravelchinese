@@ -53,13 +53,15 @@ gem 'mysql2'
 gem 'typhoeus'
 gem 'json'
 gem 'nokogiri'
-gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'acts_as_votable'
 
 #gem 'trailblazer', git: 'https://github.com/apotonick/trailblazer'
 gem "cells", '~> 4.0.2'
 gem "reform"#, git: 'https://github.com/apotonick/reform', branch: 'reform-2'
+gem "nested_form"
+#gem 'simple_form'
+
 gem 'cells-erb'#, git: 'https://github.com/trailblazer/cells-erb'
 gem "rails-timeago"
 

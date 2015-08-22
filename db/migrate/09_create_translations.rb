@@ -5,7 +5,7 @@ class CreateTranslations < ActiveRecord::Migration
       t.references :user, index: true
       t.references :sentence, index: true
 
-      t.boolean :tanslation_type # Enum for user/admin?/google/bing/primary
+      t.boolean :category
 
       t.timestamps null: false
     end

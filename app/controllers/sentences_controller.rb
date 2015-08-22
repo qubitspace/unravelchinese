@@ -39,40 +39,31 @@ class SentencesController < ApplicationController
 
 
   def create
-    @article = Article.find params[:sentence][:section_attributes][:article_id]
+    article = Article.find params[:sentence][:section_attributes][:article_id]
+    sentence = Sentence.new(:section => Section.new(:article_id => article.id))
+    sentence.translations.build
+    sentence_form = Sentence::Form.new(sentence)
 
-    sentence = Sentence.new(:section => Section.new(:article_id => @article.id))
-    sentence.translations.build(source: Source.new)
+    # New Sentence Form
+    new_sentence = Sentence.new(:section => Section.new(:article_id => article.id))
+    new_sentence.translations.build
+    blank_sentence_form = Sentence::Form.new(new_sentence)
 
-    @form = Sentence::Form.new(sentence)
-
-    if @form.validate(params[:sentence])
-      @form.sync
-      @sentence = @form.model
-
-      @form.save do |form|
-        translation_form = form[:translations][0]
-        translation = @sentence.translations[0]
-
-        if translation_form[:source_id].present?
-          translation.source = Source.find(translation_form[:source_id])
-        else
-          translation.source.update_attributes translation_form[:source]
-        end
-        @sentence.save
-      end
-
-      flash[:notice] = "Created sentence for \"#{@article.title}\""
+    if sentence_form.validate(params[:sentence])
+      sentence_form.save
       respond_to do |format|
-        @sentence = Sentence.new
-        @sentence.translations.build
-        @sentence.section.build
-        @new_form = Sentence::Form.new(@sentence)
-        format.js   { render :action => "show_new_sentence"}
+        format.js {
+          render js:
+            concept("section/section_cell/manage_section_cell", sentence_form.model.section, current_user: current_user).call(:add_new_section) +
+            concept("sentence/sentence_form_cell", blank_sentence_form).call(:refresh_form)
+
+        }
       end
     else
       respond_to do |format|
-        format.js   { render :action => "refresh_new_form"}
+        format.js {
+          render js: concept("sentence/sentence_form_cell", sentence_form, current_user: current_user).call(:refresh_form)
+        }
       end
     end
   end
@@ -92,7 +83,7 @@ class SentencesController < ApplicationController
       @sentence.untokenized.slice! token.word.simplified
     end
 
-    @words = Word.all
+    @words = Word.includes(:definitions).all
     @candidate_tokens = get_candidate_tokens @sentence.untokenized
   end
 
@@ -121,15 +112,6 @@ class SentencesController < ApplicationController
     end
 
   end
-
-  # def copy_text
-  #   sentence = Sentence.find params[:sentence_id]
-  #   @text = sentence.value
-
-  #   respond_to do |format|
-  #     format.js
-  #   end
-  # end
 
   # def update_word_status
   #   @word = Word.find(params[:word_id])

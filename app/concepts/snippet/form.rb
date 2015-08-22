@@ -1,8 +1,10 @@
 class Snippet::Form < Reform::Form
 
-  property :content
-  property :format
+  property :section do
+    property :article_id, validates: { presence: true }
+  end
 
-  validates :content, :format, presence: true
+  property :content, validates: { presence: true }
+  #property :category, validates: { presence: true }
 
 end

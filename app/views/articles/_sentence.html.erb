@@ -15,9 +15,6 @@
 <div class="translations">
   <div class="close_translation_tooltip">&#10006;</div>
   <% sentence.translations.each do |translation| %>
-    <% if translation.source.present? %>
-      <b><%= translation.source.name %></b><br>
-    <% end %>
     <%= raw translation.value %><br/>
     <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
   <% end %>
