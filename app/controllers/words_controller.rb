@@ -22,7 +22,9 @@ class WordsController < ApplicationController
       .first(3)
     @synonyms = Word.where(pinyin: @word.pinyin).first(3)
     @sentences = Sentence.where(['value LIKE ?', "%#{@word.simplified}%"]).first(3)
-    @articles = @sentences.collect { |sentence| sentence.article }.uniq{ |article| article.id }.first(3)
+    @articles = @sentences.collect { |sentence| sentence.section.present? and sentence.section.article }
+      .uniq{ |article| article.id }
+      .first(3)
   end
 
   def new
@@ -30,7 +32,6 @@ class WordsController < ApplicationController
   end
 
   def create
-
   end
 
   def edit
@@ -91,6 +92,7 @@ class WordsController < ApplicationController
     @form = Definition::Form.new(Definition.new(:word_id => @word.id))
 
     if @form.validate(params[:definition])
+      byebug
       @form.sync
       @definition = @form.model
 
@@ -98,19 +100,28 @@ class WordsController < ApplicationController
         @definition.set_rank @word, form[:rank]
         @definition.save
       end
+
       flash[:notice] = "Created definition for \"#{@word.simplified}\""
       respond_to do |format|
         @new_form = Definition::Form.new(Definition.new(:word_id => @word.id))
+
+        # TODO: First make the form hidden until you click add definition
+        # TODO: show new word in the correct order and hide the form (replace it with a new form)
         format.js { render :action => "show_new_definition" }
       end
     else
       respond_to do |format|
+
+        # TODO: update the failed form
         format.js   { render :action => "show_new_definition_form" }
       end
     end
   end
 
 
+  #TODO: Then make it so clicking edit will pop up the form to edit a definition
+    # Render the form first but hide it
+  # add a cancel button to hide the form (and clear it)
   def update_definition
     @definition = Definition.find(params[:definition][:id])
     @form = Definition::Form.new(@definition)

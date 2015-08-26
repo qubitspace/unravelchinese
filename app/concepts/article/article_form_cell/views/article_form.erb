@@ -1,0 +1,30 @@
+<h2>Create Article:</h2>
+<% if model.errors.count > 0 %>
+  <h3>Problem:</h3>
+  <ul>
+    <%= model.errors.each do |k, v| %>
+      <li class='error'>
+        <%= k %>
+        <%= v %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= nested_form_for model do |f| %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title %><br>
+  <%= f.label :description %>
+  <%= f.text_field :description %><br>
+  <%= f.label :published %>
+  <%= f.check_box :published %><br>
+  <%= f.label :commentable %>
+  <%= f.check_box :commentable %><br>
+
+  <%= f.collection_select :source, Source.all, :id, :name %>
+
+  <%= f.submit %>
+<% end %>
+<%= model.errors.messages unless model.errors.nil? %>
+

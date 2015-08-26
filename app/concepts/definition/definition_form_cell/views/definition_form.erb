@@ -1,0 +1,14 @@
+<h2>Create Definition:</h2>
+  <%= nested_form_for model, url: word_create_definition_path, remote: true do |f| %>
+
+  <%#= f.input :word_id, :as => :hidden, :input_html => { :value => form.model.word_id } %>
+
+  <%= f.label :definition %>
+  <%= f.text_field :value %><br>
+  <%= f.label :rank %>
+  <%= f.text_field :rank %><br>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>
+<%= model.errors.messages unless model.errors.nil? %>
+

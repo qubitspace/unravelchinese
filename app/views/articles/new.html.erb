@@ -2,30 +2,7 @@
   <%= concept("article/article_admin_menu_cell", @form.model, current_user: current_user) %>
 
   <h2>Create Article</h2>
+  <%= concept("article/article_form_cell", @form, current_user: current_user).call(:show) %>
 
-  <% if @form.errors.count > 0 %>
-    <h3>Problem:</h3>
-    <ul>
-      <%= @form.errors.each do |k, v| %>
-        <li class='error'>
-          <%= k %>
-          <%= v %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
 
-  <%= simple_form_for @form do |article| %>
-
-    <%= article.input :link, placeholder: "Link", label: false %>
-    <%= article.input :title, placeholder: "Title", label: false %>
-    <%= article.input :description, placeholder: "Description", label: false, as: :text, width: '300px', height: '100px' %>
-    <%= article.input :published, label: "Published", as: :boolean %>
-    <%= article.input :commentable, label: "Commentable", as: :boolean %>
-
-    <%= article.input :source, collection: Source.all %>
-
-  <%= article.button :submit, class: :expand %>
-  <% end %>
-  <%= @form.errors.messages unless @form.errors.nil? %>
 </div>

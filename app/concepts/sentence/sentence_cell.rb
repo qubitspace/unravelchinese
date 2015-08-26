@@ -24,6 +24,10 @@ class Sentence::SentenceCell < Cell::Concept
 
   private
 
+  def article
+    section.article
+  end
+
   def current_user
     @options[:current_user]
   end
@@ -40,6 +44,7 @@ class Sentence::SentenceCell < Cell::Concept
     link_to "Remove Last Token", sentence_remove_last_token_path(model), method: :put, confirm: 'Are you sure?'
   end
 
+  # Derived Classes
   class ManageSentenceCell < Sentence::SentenceCell
     def show
       render :manage_sentence
