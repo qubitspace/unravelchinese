@@ -52,9 +52,21 @@ Rails.application.routes.draw do
     post :create_image, on: :collection
   end
 
-  resources :images
+  resources :images, only: [:index, :create, :update, :destroy] do
+    get :manage
+    put 'show_new_form/:display_type', to: 'images#show_new_form', as: 'show_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'images#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'images#cancel_edit_form', as: 'cancel_edit_form'
+  end
+
+  resources :iframes, only: [:index, :create, :update, :destroy] do
+    get :manage
+    put 'show_new_form/:display_type', to: 'iframes#show_new_form', as: 'show_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'iframes#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'iframes#cancel_edit_form', as: 'cancel_edit_form'
+  end
+
   resources :snippets
-  resources :iframes
   resources :sources
 
   get 'dictionary/find' => 'words#find'

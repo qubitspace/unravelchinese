@@ -15,15 +15,8 @@
   <section class="header-row">
     <div class="left-column"></div>
 
-    <div class="main-column">
-      <div class="main-content">
-        <%= link_to "拆开中文", root_path %><br/>
-        <%= link_to "Unravel Chinese", root_path %>
-      </div>
-    </div>
-
-    <div class="meta-column">
-      <div class="meta-content">
+    <div class="main-meta-column">
+      <div class="user-menu">
         <% if signed_in? %>
           <%= link_to "Sign out", session_path, method: :delete %>
         <% else %>
@@ -31,6 +24,9 @@
           <%= link_to "Sign up", new_user_path %>
         <% end %>
       </div>
+      <%= link_to "拆开中文", root_path %><br/>
+      <%= link_to "Unravel Chinese", root_path %>
+
     </div>
 
     <div class="right-column"></div>
@@ -41,10 +37,9 @@
     <div class="left-column"></div>
     <div class="main-meta-column">
       <div class="menu-wrapper">
-        <div class="link"><%= link_to 'Articles', [:articles] %></div>
+        <div class="link <%= 'current-page' if params[:controller] == 'articles' %>"><%= link_to 'Articles', [:articles] %></div>
         <div class="link"><%= link_to 'Dictionary', [:words] %></div>
         <% if current_user and current_user.admin? %>
-          <div class="link"><span class="admin"></div>
           <div class="link"><%= link_to 'Tags', [:tags], class: 'admin' %></div>
           <div class="link"><%= link_to 'Sources', [:sources], class: 'admin' %></div>
           <div class="link"><%= link_to 'Images', [:images], class: 'admin' %></div>
@@ -57,26 +52,39 @@
 
   <section class="title-row">
     <div class="left-column"></div>
-    <div class="main-meta-column">
-      <div class="content-title">
-        <%= yield :title %>
+    <% title = yield(:title) %>
+    <% if !title.empty? %>
+      <div class="main-meta-column">
+          <%= yield :title %>
       </div>
-    </div>
+    <% end %>
     <div class="right-column"></div>
   </section>
 
   <section class="main-row">
     <div class="left-column"></div>
-    <div class="main-column">
-      <div class="main-content">
-        <%= yield %>
+
+    <% meta = yield(:meta) %>
+    <% if meta.empty? %>
+      <div class="main-meta-column">
+        <div class="main-content">
+          <%= yield %>
+        </div>
       </div>
-    </div>
-    <div class="meta-column">
-      <div class="meta-content">
-        <%= yield :meta %>
+
+    <% else %>
+      <div class="main-column">
+        <div class="main-content">
+          <%= yield %>
+        </div>
       </div>
-    </div>
+
+      <div class="meta-column">
+        <div class="meta-content">
+          <%= yield :meta %>
+        </div>
+      </div>
+    <% end %>
     <div class="right-column"></div>
   </section>
 

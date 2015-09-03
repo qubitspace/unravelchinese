@@ -1,67 +1,64 @@
 class IframesController < ApplicationController
 
-  # GET /iframes
-  # GET /iframes.json
   def index
-    @iframes = Iframe.all
+    @iframes = Iframe.order(created_at: :desc).all
   end
 
-  # GET /iframes/1
-  # GET /iframes/1.json
-  def show
-    @iframe = Iframe.find(params[:id])
+  def manage
+    @iframe = Iframe.find(params[:iframe_id])
   end
 
-  # GET /iframes/new
-  def new
-    @form = Iframe::Form.new(Iframe.new)
-  end
-
-  # GET /iframes/1/edit
-  def edit
-    @iframe = Iframe.find(params[:id])
-    @form = Iframe::Form.new(@iframe)
-  end
-
-  # POST /iframes
-  # POST /iframes.json
   def create
-    @form = Iframe::Form.new(Iframe.new)
+    display_type = params[:iframe][:display_type]
+    form = Iframe::Form.new(Iframe.new)
 
-    if @form.validate(params[:iframe])
-      @form.save
-
-      return redirect_to @form.model
+    if form.validate(params[:iframe])
+      form.save
+      render js: concept("iframe/iframe_cell/#{display_type}", form.model, current_user: current_user).(:add_iframe)
+    else
+      render js: concept("iframe/iframe_form_cell/new", form, current_user: current_user, display_type: display_type).(:show)
     end
-    render action: :new
   end
 
-  # PATCH/PUT /iframes/1
-  # PATCH/PUT /iframes/1.json
   def update
-    @iframe = Iframe.find(params[:id])
-    @form = Iframe::Form.new(@iframe)
-    if @form.validate(params[:iframe])
-      @form.save
-      flash[:notice] = "Created comment for \"#{@iframe.title}\""
-      return redirect_to iframe_path(@iframe)
-    end
+    display_type = params[:iframe][:display_type]
+    iframe = Iframe.find(params[:id])
+    form = Iframe::Form.new(iframe)
 
-    render :show
+    if form.validate(params[:iframe])
+      form.save
+      render js: concept("iframe/iframe_cell/#{display_type}", iframe, current_user: current_user, display_type: display_type).(:refresh_iframe)
+    else
+      render js: concept("iframe/iframe_form_cell/edit", form, current_user: current_user, display_type: display_type).(:show)
+    end
   end
 
-
-  # DELETE /iframes/1
-  # DELETE /iframes/1.json
   def destroy
-    @iframe = Iframe.find(params[:id])
-    @iframe.destroy
-    respond_to do |format|
-      format.html { redirect_to iframes_url, notice: 'Iframe was successfully destroyed.' }
-      format.json { head :no_content }
+    iframe = Iframe.find(params[:id])
+    iframe.destroy
+
+    if params[:display_type] == 'manage'
+      render :js => "window.location = '#{iframes_path}'"
+    else
+      render js: concept("iframe/iframe_cell", iframe).(:remove_iframe)
     end
   end
 
-  private
+  def show_new_form
+    form = Iframe::Form.new(Iframe.new)
+    render js: concept("iframe/iframe_form_cell/new", form, current_user: current_user, display_type: params[:display_type]).(:show)
+  end
+
+  def show_edit_form
+    iframe = Iframe.find(params[:iframe_id])
+    form = Iframe::Form.new(iframe)
+    render js: concept("iframe/iframe_form_cell/edit", form, current_user: current_user, display_type: params[:display_type]).(:show)
+  end
+
+  def cancel_edit_form
+    display_type = params[:display_type]
+    iframe = Iframe.find(params[:iframe_id])
+    render js: concept("iframe/iframe_cell/#{display_type}", iframe, current_user: current_user).(:refresh_iframe)
+  end
 
 end

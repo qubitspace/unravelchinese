@@ -1,16 +1,12 @@
 class Article::Form < Reform::Form
 
-  property :title, validates: { uniqueness: true }
+  property :title, validates: { uniqueness: true, presence: true }
   property :description
+  property :iframe_id
+  property :image_id
+
   property :published
   property :commentable
-
-  property :source, virtual: true, validates: { presence: true }
-
-  validates :title,
-            :description,
-            :published,
-            :commentable,
-            :source, presence: true
+  property :source, virtual: true
 
 end

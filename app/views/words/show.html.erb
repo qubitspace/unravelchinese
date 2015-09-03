@@ -1,5 +1,8 @@
-<div class="content">
+<% content_for :admin_menu do %>
   <%= concept("word/word_admin_menu_cell", @word, current_user: current_user) %>
+<% end %>
+
+<div class="content">
   <%= concept("word/word_cell", @word, current_user: current_user).call(:show) %>
 
   <h1>Sub Words:</h1>

@@ -16,7 +16,8 @@ ActiveRecord::Schema.define(version: 27) do
   create_table "articles", force: :cascade do |t|
     t.integer  "source_id",   limit: 4
     t.integer  "category_id", limit: 4
-    t.text     "link",        limit: 65535
+    t.integer  "iframe_id",   limit: 4
+    t.integer  "image_id",    limit: 4
     t.text     "title",       limit: 65535,                 null: false
     t.text     "description", limit: 65535
     t.boolean  "published",   limit: 1,     default: false, null: false
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 27) do
   add_index "definitions", ["word_id"], name: "index_definitions_on_word_id", using: :btree
 
   create_table "iframes", force: :cascade do |t|
+    t.integer  "source_id",   limit: 4
     t.string   "url",         limit: 255
     t.string   "title",       limit: 255
     t.text     "description", limit: 65535
@@ -102,25 +104,22 @@ ActiveRecord::Schema.define(version: 27) do
   end
 
   create_table "sentences", force: :cascade do |t|
-    t.integer  "source_id",  limit: 4
-    t.integer  "article_id", limit: 4,     null: false
-    t.text     "value",      limit: 65535, null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "value",          limit: 65535,                 null: false
+    t.boolean  "translatable",   limit: 1,     default: false, null: false
+    t.boolean  "auto_translate", limit: 1,     default: false, null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
   end
-
-  add_index "sentences", ["article_id"], name: "index_sentences_on_article_id", using: :btree
-  add_index "sentences", ["source_id"], name: "index_sentences_on_source_id", using: :btree
 
   create_table "snippets", force: :cascade do |t|
     t.text     "content",    limit: 65535
-    t.integer  "format",     limit: 4
+    t.integer  "category",   limit: 4,     null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
 
   create_table "sources", force: :cascade do |t|
-    t.integer  "post_id",    limit: 4
+    t.integer  "article_id", limit: 4
     t.string   "name",       limit: 255,                 null: false
     t.string   "link",       limit: 255
     t.boolean  "disabled",   limit: 1,   default: false
@@ -139,7 +138,7 @@ ActiveRecord::Schema.define(version: 27) do
     t.datetime "updated_at",                null: false
   end
 
-  add_index "taggings", ["tag_id"], name: "fk_rails_62e4c44513", using: :btree
+  add_index "taggings", ["tag_id"], name: "fk_rails_1d6e877cf1", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -163,9 +162,9 @@ ActiveRecord::Schema.define(version: 27) do
 
   create_table "translations", force: :cascade do |t|
     t.text     "value",                   limit: 65535,               null: false
-    t.integer  "source_id",               limit: 4
     t.integer  "user_id",                 limit: 4
     t.integer  "sentence_id",             limit: 4
+    t.boolean  "category",                limit: 1
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
     t.integer  "cached_votes_total",      limit: 4,     default: 0
@@ -185,7 +184,6 @@ ActiveRecord::Schema.define(version: 27) do
   add_index "translations", ["cached_weighted_score"], name: "index_translations_on_cached_weighted_score", using: :btree
   add_index "translations", ["cached_weighted_total"], name: "index_translations_on_cached_weighted_total", using: :btree
   add_index "translations", ["sentence_id"], name: "index_translations_on_sentence_id", using: :btree
-  add_index "translations", ["source_id"], name: "index_translations_on_source_id", using: :btree
   add_index "translations", ["user_id"], name: "index_translations_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -251,12 +249,9 @@ ActiveRecord::Schema.define(version: 27) do
   add_foreign_key "definitions", "words"
   add_foreign_key "learned_words", "users"
   add_foreign_key "learned_words", "words"
-  add_foreign_key "sentences", "articles"
-  add_foreign_key "sentences", "sources"
   add_foreign_key "taggings", "tags"
   add_foreign_key "tokens", "sentences"
   add_foreign_key "tokens", "words"
   add_foreign_key "translations", "sentences"
-  add_foreign_key "translations", "sources"
   add_foreign_key "translations", "users"
 end

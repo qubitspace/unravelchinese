@@ -27,6 +27,10 @@ class Word::WordCell < Cell::Concept
     render :show_word
   end
 
+  def show_header
+    render :show_header
+  end
+
   def refresh
     %{
       $('.word.#{type}[word-id="#{id}"]').each(function() {

@@ -1,3 +1,7 @@
+<%# content_for :admin_menu do %>
+  <%#= concept("tags/tags_admin_menu_cell", @tag, current_user: current_user) %>
+<%# end %>
+
 <h3><%= @tag.name %></h3>
 <% @tag.taggings.each do |tagging| %>
   <%= tagging.taggable.taggable_type %><br/>

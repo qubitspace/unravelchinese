@@ -1,3 +1,17 @@
 <div class="title"><%= title %></div>
-<% if source.present? %><%= source.name %><br><% end %>
-<% if description.present? %><%= description %><% end %>
+
+<div class="source">
+  <% if source.present? %><%= link_to source.name, source %><br><% end %>
+</div>
+
+<div class="tags">
+  <div class="tag">word,</div>
+  <div class="tag">misc,</div>
+  <div class="tag">computer programming,</div>
+  <div class="tag">test,</div>
+   <%#= concept("tagging/tagging_cell/show_tagging_cell", collection: taggings, current_user: current_user) %>
+</div>
+
+<div class="description">
+  <% if description.present? %><%= description %><% end %>
+</div>

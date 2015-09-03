@@ -1,5 +1,8 @@
+<% content_for :admin_menu do %>
+  <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
+<% end %>
+
 <div class="content">
-  <%= concept("article/article_admin_menu_cell", @form.model, current_user: current_user) %>
 
   <h2>Create Article</h2>
   <%= concept("article/article_form_cell", @form, current_user: current_user).call(:show) %>

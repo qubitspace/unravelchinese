@@ -1,6 +1,8 @@
+<% content_for :admin_menu do %>
+  <%= concept("snippet/snippet_admin_menu_cell", @snippet, current_user: current_user) %>
+<% end %>
 
 <div class="content">
-  <%= concept("snippet/snippet_admin_menu_cell", @snippet, current_user: current_user) %>
 
   <h1>Editing Iframe</h1>
 

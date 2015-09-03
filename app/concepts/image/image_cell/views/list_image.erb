@@ -1,7 +1,7 @@
 <div class="image <%= display_type %>" image-id="<%= id %>">
-  <h3><%= title %></h3>
+  <%= link_to title, image_manage_path(model) %><br>
   <%= file %><br/>
-  <%= image_tag file %><br/> <%# if it's an image %>
+  <%= image_tag file %><br/>
   <%= source.name %><br>
 
   <%= edit_link %> -

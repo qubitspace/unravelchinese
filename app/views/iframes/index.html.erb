@@ -1,30 +1,12 @@
 <h1>Iframes</h1>
 
+<%= link_to 'New Iframe', show_new_form_iframes_path(display_type: :list), remote: true, method: :put %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Url</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="iframes">
+  <% @iframes.each do |iframe| %>
+    <%= concept("iframe/iframe_cell/list", iframe, current_user: current_user).call(:show) %>
+  <% end %>
+</div>
 
-  <tbody>
-    <% @iframes.each do |iframe| %>
-      <tr>
-        <td><%= iframe.url %></td>
-        <td><%= iframe.title %></td>
-        <td><%= iframe.description %></td>
-        <td><%= link_to 'Show', iframe %></td>
-        <td><%= link_to 'Edit', edit_iframe_path(iframe) %></td>
-        <td><%= link_to 'Destroy', iframe, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
 
-<%= link_to 'New Iframe', new_iframe_path %>

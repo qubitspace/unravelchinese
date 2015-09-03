@@ -1,9 +1,12 @@
+<% content_for :admin_menu do %>
+  <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
+<% end %>
+
 <% content_for :title do %>
   <%= concept("article/article_cell", @article, current_user: current_user).call(:show_header) %>
 <% end %>
 
 <div class="content">
-  <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
   <%= concept("article/article_cell", @article, current_user: current_user).call(:show) %>
 
 

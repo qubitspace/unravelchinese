@@ -1,0 +1,30 @@
+
+
+.title-row {
+  .main-meta-column {
+    .title {
+      font-family: FranklinITCProBold, HelveticaNeue, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+      font-size: 40px;
+      line-height: 50px;
+    }
+
+    .tags {
+      margin-top: 10px;
+      .tag {
+        font-family: 'Open Sans', sans-serif;
+        display: inline;
+        font-size: 16px;
+      }
+    }
+
+    .source {
+      margin-top: 10px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 18px;
+    }
+
+    .description {
+      margin-top: 10px;
+    }
+  }
+}

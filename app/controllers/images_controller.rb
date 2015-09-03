@@ -1,78 +1,64 @@
 class ImagesController < ApplicationController
-
-  # GET /images
-  # GET /images.json
+  #skip_before_filter  :verify_authenticity_token, only: [:create]
   def index
-    @images = Image.all
+    @images = Image.order(created_at: :desc).all
   end
 
-  # GET /images/1
-  # GET /images/1.json
-  def show
-    @image = Image.find(params[:id])
+  def manage
+    @image = Image.find(params[:image_id])
   end
 
-  # GET /images/new
-  def new
-    @form = Image::Form.new(new_image)
-  end
-
-  # GET /images/1/edit
-  def edit
-    @image = Image.find(params[:id])
-    @form = Image::Form.new(@image)
-  end
-
-  # POST /images
-  # POST /images.json
   def create
-    @form = Image::Form.new(new_image)
+    display_type = params[:image][:display_type]
+    form = Image::Form.new(Image.new)
 
-    if @form.validate(params[:image])
-      @form.sync
-      image = @form.model
-
-      @form.save do |form|
-        if form[:source_id].present?
-          image.source = Source.find form[:source_id]
-        else
-          image.source.update_attributes form[:source]
-        end
-        image.save
-      end
-
-      return redirect_to @form.model
+    if form.validate(params[:image])
+      form.save
+      render js: concept("image/image_cell/#{display_type}", form.model, current_user: current_user).(:add_image)
+    else
+      render js: concept("image/image_form_cell/new", form, current_user: current_user, display_type: display_type).(:show)
     end
-    render action: :new
   end
 
-  # PATCH/PUT /images/1
-  # PATCH/PUT /images/1.json
   def update
-    @image = Image.find(params[:id])
-    @form = Image::Form.new(@source)
+    display_type = params[:image][:display_type]
+    image = Image.find(params[:id])
+    form = Image::Form.new(image)
 
-    if @form.validate(params[:image])
-      @form.save
-      return redirect_to image_show_path(@image)
+    if form.validate(params[:image])
+      form.save
+      render js: concept("image/image_cell/#{display_type}", image, current_user: current_user, display_type: display_type).(:refresh_image)
+    else
+      render js: concept("image/image_form_cell/edit", form, current_user: current_user, display_type: display_type).(:show)
     end
-    render :edit
   end
 
-  # DELETE /images/1
-  # DELETE /images/1.json
   def destroy
-    @image = Image.find(params[:id])
-    @image.destroy
-    respond_to do |format|
-      format.html { redirect_to images_url, notice: 'Image was successfully destroyed.' }
-      format.json { head :no_content }
+    image = Image.find(params[:id])
+    image.destroy
+
+    if params[:display_type] == 'manage'
+      render :js => "window.location = '#{images_path}'"
+    else
+      render js: concept("image/image_cell", iframe).(:remove_image)
     end
   end
 
-  private
+  def show_new_form
+    form = Image::Form.new(Image.new)
+    render js: concept("image/image_form_cell/new", form, current_user: current_user, display_type: params[:display_type]).(:show)
+  end
 
-    def new_image
-      Image.new(source: Source.new)
-    end
+  def show_edit_form
+    image = Image.find(params[:image_id])
+    form = Image::Form.new(image)
+    render js: concept("image/image_form_cell/edit", form, current_user: current_user, display_type: params[:display_type]).(:show)
+  end
+
+  def cancel_edit_form
+    display_type = params[:display_type]
+    iframe = Image.find(params[:iframe_id])
+    render js: concept("image/image_cell/#{display_type}", image, current_user: current_user).(:refresh_image)
+  end
+
 end

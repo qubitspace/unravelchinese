@@ -2,7 +2,9 @@
   <div class="title">Articles</div>
 <% end %>
 
-<%= concept("article/article_admin_menu_cell", nil, current_user: current_user) %>
+<% content_for :admin_menu do %>
+  <%= concept("article/article_admin_menu_cell", nil, current_user: current_user) %>
+<% end %>
 
 <div id='article-list'>
   <%= concept("article/article_cell/preview_article_cell", collection: @articles, current_user: current_user ) %>

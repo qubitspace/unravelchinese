@@ -4,12 +4,11 @@ class CreateTranslations < ActiveRecord::Migration
       t.text :value, :null => false
       t.references :user, index: true
       t.references :sentence, index: true
-
       t.boolean :category
 
       t.timestamps null: false
     end
-    add_foreign_key :translations, :sources
+
     add_foreign_key :translations, :users
     add_foreign_key :translations, :sentences
   end

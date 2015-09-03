@@ -12,6 +12,6 @@ class Comment::CommentCell < Cell::Concept
     render :comment_show
   end
 
-private
+  private
 
 end

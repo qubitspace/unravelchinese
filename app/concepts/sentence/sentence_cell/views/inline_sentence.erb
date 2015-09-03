@@ -1,7 +1,7 @@
 
 <div class="sentence">
 
-  <%#= render partial: 'next_token' %>
+  <!--a id="copy-sentence-text" style="cursor:pointer;" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter", "<%= j value %>");'>.</a>-->
 
 
   <% tokens.each do |token| %>
@@ -21,9 +21,6 @@
 <div class="translations">
   <div class="close_translation_tooltip">&#10006;</div>
   <% translations.each do |translation| %>
-    <% if translation.source.present? %>
-      <b><%= translation.source.name %></b><br>
-    <% end %>
     <%= raw translation.value %><br/>
     <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
   <% end %>

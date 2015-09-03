@@ -1,7 +1,5 @@
-
-<div class="show_word <%=type%>" word-id="<%=id%>" type="show">
-
-  <span class="title"><%= simplified %></span>
+<div class="show_word" word-id="<%=id%>" type="show">
+  <div class="word_title"><%= simplified %></div>
 
   <h4>Definitions:</h4>
   <div id="definitions">
@@ -14,7 +12,11 @@
 
   <h4>Tags:</h4>
   <div class="tags">
-    <%#= concept("tagging/tagging_cell/show_tagging_cell", collection: taggings, current_user: current_user) %>
+    <div class="tag">word</div>
+    <div class="tag">misc</div>
+    <div class="tag">computer programming</div>
+    <div class="tag">test</div>
+     <%#= concept("tagging/tagging_cell/show_tagging_cell", collection: taggings, current_user: current_user) %>
   </div>
 
   <h4>Actions:</h4>

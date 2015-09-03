@@ -1,5 +1,8 @@
-<div class="content">
+<% content_for :admin_menu do %>
   <%= concept("snippet/snippet_admin_menu_cell", @snippet, current_user: current_user) %>
+<% end %>
+
+<div class="content">
   <%= concept("snippet/snippet_cell", @snippet, current_user: current_user).call(:show) %>
 </div>
 

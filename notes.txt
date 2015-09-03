@@ -1,0 +1,1 @@
+Article can have a title_sentence (or a regular sentence?) and a resource.

@@ -1,6 +1,8 @@
-<div class="content">
+<% content_for :admin_menu do %>
   <%= concept("snippet/snippet_admin_menu_cell", @snippet, current_user: current_user) %>
+<% end %>
 
+<div class="content">
   <h1>Create Iframe</h1>
 
   <%= simple_form_for @form do |snippet_form| %>

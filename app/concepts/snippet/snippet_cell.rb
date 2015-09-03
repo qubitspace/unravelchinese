@@ -8,8 +8,8 @@ class Snippet::SnippetCell < Cell::Concept
     render :show_snippet
   end
 
-  def nested
-    render :nested_snippet
+  def inline
+    render :inline_snippet
   end
 
   private

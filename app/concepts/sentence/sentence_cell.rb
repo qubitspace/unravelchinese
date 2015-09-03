@@ -18,8 +18,8 @@ class Sentence::SentenceCell < Cell::Concept
     render :show_sentence
   end
 
-  def nested
-    render :nested_sentence
+  def inline
+    render :inline_sentence
   end
 
   private

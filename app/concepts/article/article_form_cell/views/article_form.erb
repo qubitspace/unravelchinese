@@ -17,12 +17,20 @@
   <%= f.text_field :title %><br>
   <%= f.label :description %>
   <%= f.text_field :description %><br>
+
+  <%= f.label :iframe %>
+  <%= f.collection_select :iframe_id, Iframe.all, :id, :title, include_blank: "" %><br>
+
+  <%= f.label :image %>
+  <%= f.collection_select :image_id, Image.all, :id, :title, include_blank: "" %><br>
+
   <%= f.label :published %>
   <%= f.check_box :published %><br>
   <%= f.label :commentable %>
   <%= f.check_box :commentable %><br>
 
-  <%= f.collection_select :source, Source.all, :id, :name %>
+  <%= f.label :source %>
+  <%= f.collection_select :source, Source.all, :id, :name, include_blank: "" %><br>
 
   <%= f.submit %>
 <% end %>

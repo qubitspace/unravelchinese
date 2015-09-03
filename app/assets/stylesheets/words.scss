@@ -5,6 +5,8 @@ $light-gray: #999999;
 $dark-gray: #333333;
 
 .read_word {
+
+
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -48,9 +50,6 @@ $dark-gray: #333333;
   }
 }
 
-.show_word {
-  .title { font-size: 50px; }
-}
 
 .close_button {
   margin-top: -11px;
@@ -84,7 +83,7 @@ $dark-gray: #333333;
   .top {
     font-size: 40px; text-align: center; line-height: 45px;
     a { text-decoration: none; color: $red; }
-    a:hover { border-bottom: 2px solid $red;  }
+    a:hover, a:active { border-bottom: 2px solid $red;  }
   }
   .bottom { font-size: 30px; text-align: center; line-height: 40px; color: #000; }
 }
@@ -98,7 +97,8 @@ $dark-gray: #333333;
 .word_title {
   color: $blue;
   font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
-  font-size: 46pt;
+  font-size: 60pt;
+  margin-top: 20px;
 }
 
 .word_title_traditional {

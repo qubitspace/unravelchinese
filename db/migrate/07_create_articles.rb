@@ -3,8 +3,12 @@ class CreateArticles < ActiveRecord::Migration
     create_table :articles do |t|
       t.references :source, index: true
       t.references :category, index: true
+      t.references :iframe
+      t.references :image
+
       t.text :title, null: false
       t.text :description
+
       t.boolean :published, null: false, default: false
       t.boolean :commentable, null: false, default: true
 
