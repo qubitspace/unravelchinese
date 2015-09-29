@@ -17,21 +17,46 @@ Rails.application.routes.draw do
   resources :articles do
     #resources :comments
     get :manage
+
+    post :add_sentence_section
     member do
       post :create_comment
-      post :create_sentence
-      #post :add_image
-      post :add_iframe
+      #post :add_photo
+      #post :add_iframe
       get :next_comments
     end
-    get :manage
+
+    # manageable
+    put 'show_new_form/:display_type', to: 'articles#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'articles#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'articles#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'articles#cancel_edit_form', as: 'cancel_edit_form'
   end
 
   resources :sentences do
     get :manage
+    get :show_manage_cell
+    get :show_tokenize_cell
+
     put :untokenize
     put :remove_last_token
+    put :retranslate
+
     post 'add_token/:word_id', to: 'sentences#add_token', as: 'add_token'
+
+    # manageable
+    put 'show_new_form/:display_type', to: 'sentences#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'sentences#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'sentences#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'sentences#cancel_edit_form', as: 'cancel_edit_form'
+  end
+
+  resources :snippets do
+    get :manage
+    put 'show_new_form/:display_type', to: 'sentences#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'sentences#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'sentences#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'sentences#cancel_edit_form', as: 'cancel_edit_form'
   end
 
   resources :words do
@@ -46,28 +71,54 @@ Rails.application.routes.draw do
     get 'show_edit_definition_form/:definition_id', to: 'words#show_edit_definition_form', as: 'show_edit_definition_form'
     get 'show_manage_definition_cell/:definition_id', to: 'words#show_manage_definition_cell', as: 'show_manage_definition_cell'
 
+    # manageable
+    put 'show_new_form/:display_type', to: 'words#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'words#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'words#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'words#cancel_edit_form', as: 'cancel_edit_form'
   end
 
   resources :sections do
-    post :create_image, on: :collection
+    put 'show_new_form/:display_type', to: 'sections#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'sections#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'sections#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'sections#cancel_edit_form', as: 'cancel_edit_form'
+
+    put 'move_up'
+    put 'move_down'
   end
 
-  resources :images, only: [:index, :create, :update, :destroy] do
+  resources :photos, only: [:show, :index, :create, :update, :destroy] do
     get :manage
-    put 'show_new_form/:display_type', to: 'images#show_new_form', as: 'show_new_form', on: :collection
-    put 'show_edit_form/:display_type', to: 'images#show_edit_form', as: 'show_edit_form'
-    put 'cancel_edit_form/:display_type', to: 'images#cancel_edit_form', as: 'cancel_edit_form'
+    put 'show_new_form/:display_type', to: 'photos#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'photos#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'photos#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'photos#cancel_edit_form', as: 'cancel_edit_form'
   end
 
-  resources :iframes, only: [:index, :create, :update, :destroy] do
+  resources :iframes, only: [:show, :index, :create, :update, :destroy] do
     get :manage
     put 'show_new_form/:display_type', to: 'iframes#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'iframes#cancel_new_form', as: 'cancel_new_form', on: :collection
     put 'show_edit_form/:display_type', to: 'iframes#show_edit_form', as: 'show_edit_form'
     put 'cancel_edit_form/:display_type', to: 'iframes#cancel_edit_form', as: 'cancel_edit_form'
   end
 
-  resources :snippets
-  resources :sources
+  resources :sources, only: [:show, :index, :create, :update, :destroy] do
+    get :manage
+    put 'show_new_form/:display_type', to: 'sources#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'sources#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'sources#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'sources#cancel_edit_form', as: 'cancel_edit_form'
+  end
+
+  resources :tags, only: [:show, :index, :create, :update, :destroy] do
+    get :manage
+    put 'show_new_form/:display_type', to: 'tags#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'tags#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'tags#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'tags#cancel_edit_form', as: 'cancel_edit_form'
+  end
 
   get 'dictionary/find' => 'words#find'
 
@@ -76,7 +127,6 @@ Rails.application.routes.draw do
     post 'untag/:taggable_type/:tagging_id', to: 'taggables#untag', as: 'untag'
   end
 
-  resources :tags
 
   resources :translations do
     member do

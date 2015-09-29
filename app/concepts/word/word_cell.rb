@@ -4,14 +4,12 @@
   # Instead of using link and highlight methods, just call Simplified/Traditional/Pinyin and each class knows what to do.
 
 class Word::WordCell < Cell::Concept
+  include Cell::ManageableCell
 
-  include ActionView::Helpers::JavaScriptHelper
-
-  property :id
   property :simplified
   property :traditional
   property :pinyin
-  property :category
+  property :type
   property :strokes
   property :radical_number
   property :word_frequency
@@ -23,17 +21,9 @@ class Word::WordCell < Cell::Concept
   property :tags
   property :taggings
 
-  def show
-    render :show_word
-  end
-
-  def show_header
-    render :show_header
-  end
-
   def refresh
     %{
-      $('.word.#{type}[word-id="#{id}"]').each(function() {
+      $('.word.#{display_type}[word-id="#{id}"]').each(function() {
         $(this).replaceWith('#{j(show)}');
       });
       function addWordTooltip(word) {
@@ -107,16 +97,8 @@ class Word::WordCell < Cell::Concept
 
   private
 
-  def type
-    'show'
-  end
-
-  def current_user
-    @options[:current_user]
-  end
-
   def status
-    if ['alphanumeric','punctuation'].include? model.category
+    if ['alphanumeric','punctuation'].include? model.type
       status = 'known'
     else
       status = current_user.word_statuses.has_key?(id) ? current_user.word_statuses[id].status : 'unknown'
@@ -139,7 +121,6 @@ class Word::WordCell < Cell::Concept
     return links
   end
 
-
   def update_status_link status
     link_to "Mark as #{status.capitalize}", update_status_path(status), remote: true, method: :put
   end
@@ -148,71 +129,74 @@ class Word::WordCell < Cell::Concept
     word_update_status_path word_id: id, status: status
   end
 
-  # add a helper method (enumeration?)
-  # which will lookup through all the status this is not and give the links
-  # unless it's a punctionation of course...
-  # either collect the links in a list, or yield some values to generate the link... like the text and the path...
+  # Show
+  class Show < Word::WordCell
+  end
 
+  # Manage
+  class Manage < Word::WordCell
+  end
 
-  class ManageWordCell < Word::WordCell
+  # Preview
+  class Preview < Word::WordCell
+  end
 
-    def show
-      render :manage_word
+  # Inline
+  class Inline < Word::WordCell
+  end
+
+  # List
+  class List < Word::WordCell
+
+    private
+
+    def simplified
+      link(model.simplified)
     end
 
-    def type
-      'manage'
+    def traditional
+      link(model.traditional)
+    end
+
+    def pinyin
+      link(model.pinyin)
     end
 
   end
 
-
-  class PreviewWordCell < Word::WordCell
+  # List > Search
+  class Search < Word::WordCell::List
 
     def show
       render :preview_word
     end
 
-    def type
-      'preview'
+    private
+
+    def query
+      @options[:query]
     end
 
-  end
-
-  class WordSearchResultCell < Word::WordCell
-
-    def show
-      render :word_search_result
+    def simplified
+      link(highlight model.simplified)
     end
 
-    def type
-      'search_result'
+    def traditional
+      link(highlight model.traditional)
+    end
+
+    def pinyin
+      link(highlight model.pinyin)
     end
 
     def highlight value
       Word.highlight(value, query)
     end
 
-    def query
-      @options[:query]
-    end
-
     def update_status_path status
       word_update_status_path word_id: id, status: status, query: query
     end
-
   end
 
-  class InlineWordCell < Word::WordCell
-
-    def show
-      render :inline_word
-    end
-
-    def type
-      'inline'
-    end
-
-  end
 
 end

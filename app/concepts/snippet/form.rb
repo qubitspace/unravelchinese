@@ -5,6 +5,6 @@ class Snippet::Form < Reform::Form
   end
 
   property :content, validates: { presence: true }
-  #property :category, validates: { presence: true }
+  property :render_type, validates: { presence: true }
 
 end

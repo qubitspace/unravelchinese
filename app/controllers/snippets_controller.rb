@@ -1,23 +1,18 @@
 class SnippetsController < ApplicationController
+  #include Concerns::Manageable
 
-  # GET /snippets
-  # GET /snippets.json
   def index
     @snippets = Snippet.all
   end
 
-  # GET /snippets/1
-  # GET /snippets/1.json
   def show
     @snippet = Snippet.find(params[:id])
   end
 
-  # GET /snippets/new
   def new
     @form = Snippet::Form.new(Snippet.new)
   end
 
-  # GET /snippets/1/edit
   def edit
     @snippet = Snippet.find(params[:id])
     @form = Snippet::Form.new(@snippet)
@@ -52,12 +47,6 @@ class SnippetsController < ApplicationController
     end
   end
 
-
-
-
-
-  # PATCH/PUT /snippets/1
-  # PATCH/PUT /snippets/1.json
   def update
     @snippet = Snippet.find(params[:id])
     @form = Snippet::Form.new(@snippet)
@@ -70,9 +59,6 @@ class SnippetsController < ApplicationController
     render :show
   end
 
-
-  # DELETE /snippets/1
-  # DELETE /snippets/1.json
   def destroy
     @snippet = Snippet.find(params[:id])
     @snippet.destroy

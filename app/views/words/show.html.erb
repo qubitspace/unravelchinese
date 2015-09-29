@@ -1,21 +1,17 @@
-<% content_for :admin_menu do %>
-  <%= concept("word/word_admin_menu_cell", @word, current_user: current_user) %>
-<% end %>
-
 <div class="content">
-  <%= concept("word/word_cell", @word, current_user: current_user).call(:show) %>
+  <%= concept("word/word_cell/show", @word, current_user: current_user).call(:show) %>
 
   <h1>Sub Words:</h1>
-  <%= concept("word/word_cell/preview_word_cell", collection: @sub_words, current_user: current_user ) %>
+  <%= concept("word/word_cell/preview", collection: @sub_words, current_user: current_user ) %>
 
   <h1>Related Words:</h1>
-  <%= concept("word/word_cell/preview_word_cell", collection: @derived_words, current_user: current_user ) %>
+  <%= concept("word/word_cell/preview", collection: @derived_words, current_user: current_user ) %>
 
   <h1>Homophones:</h1>
-  <%= concept("word/word_cell/preview_word_cell", collection: @synonyms, current_user: current_user ) %>
+  <%= concept("word/word_cell/preview", collection: @synonyms, current_user: current_user ) %>
 
   <h1>Sentences:</h1>
-  <%= concept("sentence/sentence_cell", collection: @sentences, current_user: current_user ) %>
+  <%= concept("sentence/sentence_cell/preview", collection: @sentences, current_user: current_user ) %>
 
   <h1>Articles:</h1>
   <!--%= @articles.count %-->

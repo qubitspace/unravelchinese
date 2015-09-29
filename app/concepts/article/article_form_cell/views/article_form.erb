@@ -1,38 +1,53 @@
-<h2>Create Article:</h2>
-<% if model.errors.count > 0 %>
-  <h3>Problem:</h3>
-  <ul>
-    <%= model.errors.each do |k, v| %>
-      <li class='error'>
-        <%= k %>
-        <%= v %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+<div class="article <%= display_type %>" article-id="<%= id %>">
+  <h2>Create Article:</h2>
+  <% if model.errors.count > 0 %>
+    <h3>Problem:</h3>
+    <ul>
+      <%= model.errors.each do |k, v| %>
+        <li class='error'>
+          <%= k %>
+          <%= v %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<%= nested_form_for model do |f| %>
 
-  <%= f.label :title %>
-  <%= f.text_field :title %><br>
-  <%= f.label :description %>
-  <%= f.text_field :description %><br>
+  <%= nested_form_for model, :remote => true, :html => { :class => "style-me", :action => "javascript:;" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
 
-  <%= f.label :iframe %>
-  <%= f.collection_select :iframe_id, Iframe.all, :id, :title, include_blank: "" %><br>
+    <%= f.label :title %>
+    <%= f.text_field :title %><br>
+    <%= f.label :description %>
+    <%= f.text_field :description %><br>
 
-  <%= f.label :image %>
-  <%= f.collection_select :image_id, Image.all, :id, :title, include_blank: "" %><br>
+    <%= f.label :iframe %>
+    <%= f.collection_select :iframe_id, Iframe.all, :id, :title, include_blank: "" %><br>
 
-  <%= f.label :published %>
-  <%= f.check_box :published %><br>
-  <%= f.label :commentable %>
-  <%= f.check_box :commentable %><br>
+    <%= f.label :photo %>
+    <%= f.collection_select :photo_id, Photo.all, :id, :title, include_blank: "" %><br>
 
-  <%= f.label :source %>
-  <%= f.collection_select :source, Source.all, :id, :name, include_blank: "" %><br>
+    <%= f.label :content_source_name, "Content Source Name" %>
+    <%= f.text_field :content_source_name %><br>
+    <%= f.label :content_source_link, "Content Source Link" %>
+    <%= f.text_field :content_source_link %><br>
 
-  <%= f.submit %>
-<% end %>
-<%= model.errors.messages unless model.errors.nil? %>
+    <%= f.label :translation_source_name, "Translation Source Name" %>
+    <%= f.text_field :translation_source_name %><br>
+    <%= f.label :translation_source_link, "Translation Source Link" %>
+    <%= f.text_field :translation_source_link %><br>
+
+    <%= f.label :published %>
+    <%= f.check_box :published %><br>
+    <%= f.label :commentable %>
+    <%= f.check_box :commentable %><br>
+
+    <%= f.label :source %>
+    <%= f.collection_select :source, Source.all, :id, :name, include_blank: "" %><br>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.nil? %>
+
+</div>
 

@@ -3,8 +3,8 @@ class CreateTranslations < ActiveRecord::Migration
     create_table :translations do |t|
       t.text :value, :null => false
       t.references :user, index: true
+      t.references :source, index: true
       t.references :sentence, index: true
-      t.boolean :category
 
       t.timestamps null: false
     end

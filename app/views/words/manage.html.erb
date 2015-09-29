@@ -1,5 +1,4 @@
 <div class="content">
-  <%= concept("word/word_admin_menu_cell", @word, current_user: current_user) %>
   <%= concept("word/word_cell/manage_word_cell", @word, current_user: current_user).call(:show) %>
 
   <%= concept("definition/definition_form_cell", @definition_form, current_user: current_user).call(:show) %>

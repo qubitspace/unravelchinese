@@ -1,47 +1,36 @@
 class Section::SectionCell < Cell::Concept
+  include Cell::ManageableCell
 
-  include ActionView::Helpers::JavaScriptHelper
-
-  property :id
   property :article
   property :resource
   property :resource_type
-  property :classes
-  property :rank
-
-  def show
-    render :show_section
-  end
-
-
-  def hide
-    %{
-      $('#section-#{id}').hide();
-    }
-  end
-
-
-  def add_new_section
-    %{
-      $('#sections').append('#{ j(show) }');
-    }
-  end
+  property :sort_order
+  property :container
+  property :alignment
 
   private
 
-  def current_user
-    @options[:current_user]
+  def style
+
+    case
+    when model.block? then 'section-block'
+    when model.inline? then 'section-inline'
+    when model.float_left? then 'section-float-left'
+    when model.float_right? then 'section-float-right'
+    end
+
   end
 
+  # Manage
+  class Manage < Section::SectionCell
+  end
 
-  class ManageSectionCell < Section::SectionCell
-    def show
-      render :manage_section
-    end
+  # List
+  class List < Section::SectionCell
+  end
 
-    def delete_section_link
-      link_to 'Delete Section', model, method: :delete, data: { confirm: 'Are you sure?' }, remote: true
-    end
+  # Inline
+  class Inline < Section::SectionCell
   end
 
 end

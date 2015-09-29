@@ -1,7 +1,7 @@
 class CreateWords < ActiveRecord::Migration
   def change
     create_table :words do |t|
-      t.integer :category, null: false, index: true
+      t.integer :type, null: false, index: true
       t.string :simplified, null: false, index: true
       t.string :traditional, index: true
       t.string :pinyin, index: true

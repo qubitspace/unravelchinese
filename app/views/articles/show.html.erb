@@ -1,29 +1,10 @@
-<% content_for :admin_menu do %>
-  <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
-<% end %>
-
-<% content_for :title do %>
-  <%= concept("article/article_cell", @article, current_user: current_user).call(:show_header) %>
-<% end %>
-
-<div class="content">
-  <%= concept("article/article_cell", @article, current_user: current_user).call(:show) %>
+<%= concept("article/article_cell/show", @article, current_user: current_user) %>
 
 
-  <div class="content">
-    <!--%= render comments %-->
-
-    <h2>Add a comment:</h2>
     <%#= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
       <%#= f.input :body %>
       <%#= f.button :submit, class: :expand %>
     <%# end %>
 
-    <%= @form.errors.messages %>
-  </div>
-
-
-  <div class='comments'>
-    <%= concept "comment/comment_grid_cell", @article %>
-  </div>
-</div>
+    <%#= @form.errors.messages %>
+    <%#= concept "comment/comment_grid_cell", @article %>

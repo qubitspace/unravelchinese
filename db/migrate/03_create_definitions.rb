@@ -3,7 +3,7 @@ class CreateDefinitions < ActiveRecord::Migration
     create_table :definitions do |t|
       t.references :word, null: false, index: true
       t.text :value
-      t.integer :rank, index: true
+      t.integer :sort_order, index: true
 
       t.timestamps null: false
     end

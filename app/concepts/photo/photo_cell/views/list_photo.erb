@@ -1,0 +1,11 @@
+<div class="photo <%= display_type %>" photo-id="<%= id %>">
+  <%= image_tag file %>
+  <%= link_to title, photo_manage_path(model) %><br>
+  <%= file %><br/>
+  <%= description %><br/>
+  <%= source_name %><br>
+  <%= source_link %><br>
+
+  <%= edit_link %> -
+  <%= delete_link %>
+</div>

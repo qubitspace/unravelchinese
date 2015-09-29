@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require turbolinks
 //= require_tree .
 //= require jquery_nested_form
@@ -23,6 +24,7 @@ function playVideo() {
     document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 }
 
+// This can be done with just CSS
 function updatePinnedIframeSize() {
   var iframe = document.getElementById('iframe');
   var iframeWrapper = document.getElementById('iframewrapper');

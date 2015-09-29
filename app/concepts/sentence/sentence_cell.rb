@@ -1,9 +1,8 @@
 class Sentence::SentenceCell < Cell::Concept
-  include ActionView::Helpers::JavaScriptHelper
+  include Cell::ManageableCell
 
-  property :id
   property :value
-  property :rank
+  property :sort_order
   property :untokenized
 
   property :section
@@ -12,47 +11,66 @@ class Sentence::SentenceCell < Cell::Concept
   property :tokens
   property :translatable
   property :auto_translate
-
-
-  def show
-    render :show_sentence
-  end
-
-  def inline
-    render :inline_sentence
-  end
+  property :has_traditional_characters
 
   private
+
 
   def article
     section.article
   end
 
-  def current_user
-    @options[:current_user]
+  # It's named like this to avoid confusion with the non ajax link to go to the manage
+  def show_manage_cell_link
+    link_to "Manage", sentence_show_manage_cell_path(model), remote: true
   end
 
-  def tokenize_sentence_link
-    link_to "Tokenize", sentence_manage_path(model)
+  def retranslate_link
+    link_to "Retranslate", sentence_retranslate_path(model), remote: true, method: :put
   end
 
-  def untokenize_sentence_link
-    link_to "Untokenize", sentence_untokenize_path(model), method: :put, confirm: 'Are you sure?'
+  def tokenize_link
+    link_to "Tokenize", sentence_show_tokenize_cell_path(model), remote: true
+  end
+
+  def untokenize_link
+    link_to "Untokenize", sentence_untokenize_path(model), method: :put, remote: true, confirm: 'Are you sure?'
   end
 
   def remove_last_token_link
-    link_to "Remove Last Token", sentence_remove_last_token_path(model), method: :put, confirm: 'Are you sure?'
+    link_to "Remove Last Token", sentence_remove_last_token_path(model), remote: true, method: :put, confirm: 'Are you sure?'
   end
 
-  # Derived Classes
-  class ManageSentenceCell < Sentence::SentenceCell
-    def show
-      render :manage_sentence
+  # Manage
+  class Manage < Sentence::SentenceCell
+    def show_manage_cell
+      %{
+        $('.sentence.tokenize[sentence-id="#{id}"]').each(function() {
+          $(this).replaceWith('#{j(show)}');
+        });
+      }
     end
-
   end
 
-  class TokenizeSentenceCell < Sentence::SentenceCell
+  # Preview
+  class Preview < Sentence::SentenceCell
+  end
+
+  # Show
+  class Show < Sentence::SentenceCell
+  end
+
+  # List
+  class List < Sentence::SentenceCell
+  end
+
+  # Inline
+  class Inline < Sentence::SentenceCell
+  end
+
+  # Manage
+  class Tokenize < Sentence::SentenceCell
+
     def show
       render :tokenize_sentence
     end
@@ -61,19 +79,21 @@ class Sentence::SentenceCell < Cell::Concept
       @options[:candidate_tokens]
     end
 
-
-    def refresh
+    def show_tokenize_cell
       %{
-        $('#tokenizer').each(function() {
+        $('.sentence.manage[sentence-id="#{id}"]').each(function() {
           $(this).replaceWith('#{j(show)}');
         });
       }
     end
 
-    def manage_article_link
-      link_to "Manage Article", article_manage_path(model.section.article)
+    def refresh
+      %{
+        $('.sentence.tokenize[sentence-id="#{id}"]').each(function() {
+          $(this).replaceWith('#{j(show)}');
+        });
+      }
     end
+
   end
-
-
 end

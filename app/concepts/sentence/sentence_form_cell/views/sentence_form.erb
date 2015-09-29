@@ -1,23 +1,28 @@
-<%= nested_form_for model, remote: true do |f| %>
+<div class="sentence <%= display_type %>" sentence-id="<%= id %>">
+  <%# # TODO: add an retranslate button to re-apply the google/bing translations %>
+  <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
 
-  <%= f.fields_for :section  do |section_form| %>
-    <%= section_form.hidden_field  :article_id %>
+    <%= f.fields_for :section  do |section_form| %>
+      <%= section_form.hidden_field  :article_id %>
+    <% end %>
+
+    <%= f.label :sentence %>
+    <%= f.text_field :value %><br>
+
+    <%= f.label :translatable %>
+    <%= f.check_box :translatable %><br>
+
+    <%= f.label :auto_translate %>
+    <%= f.check_box :auto_translate %><br>
+
+    <%= f.fields_for :translations do |ff| %>
+      <%= ff.label :translation %>
+      <%= ff.text_field :value %><br>
+    <% end %>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
   <% end %>
+  <%= model.errors.messages unless model.errors.nil? %>
 
-  <%= f.label :sentence %>
-  <%= f.text_field :value %><br>
-
-  <%= f.fields_for :translations do |ff| %>
-
-    <%= ff.label :translation %>
-    <%= ff.text_field :value %><br>
-
-    <%= ff.label :category %>
-    <%= ff.collection_select :category, Translation.display_categories, :to_s, :to_s %>
-
-  <% end %>
-
-  <p><%= f.submit "Submit" %></p>
-<% end %>
-<%= model.errors.messages unless model.errors.nil? %>
-
+</div>

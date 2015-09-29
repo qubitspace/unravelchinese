@@ -3,6 +3,7 @@ module Cell
     def self.included(base)
       base.send :include, ActionView::Helpers::DateHelper
       base.send :include, Rails::Timeago::Helper
+      base.property :created_at
     end
 
   private

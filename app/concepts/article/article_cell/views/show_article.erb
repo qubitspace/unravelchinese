@@ -1,7 +1,25 @@
-<div class="content">
-  <div class="sentences">
-    <% sections.each do |section| %>
-      <%= concept("section/section_cell", section, current_user: current_user).call(:show) %>
-    <% end %>
+<div class="article <%= display_type %>" article-id="<%= id %>">
+
+  <div class="title"><%= title %></div>
+
+  <div class="source">
+    <% if source.present? %><%= link_to source.name, source %><br><% end %>
   </div>
+
+  <div class="tags">
+     <%#= concept("tagging/tagging_cell/show_tagging_cell", collection: taggings, current_user: current_user) %>
+  </div>
+
+  <div class="description">
+    <% if description.present? %><%= description %><% end %>
+  </div>
+
+
+  <%= manage_link %> - <%= edit_link %> - <%= delete_link %><br/>
+
+
+  <div class="sections">
+    <%= concept("section/section_cell/inline", collection: sections, current_user: current_user ) %>
+  </div>
+
 </div>

@@ -1,11 +1,10 @@
 <h1>Iframes</h1>
 
 <%= link_to 'New Iframe', show_new_form_iframes_path(display_type: :list), remote: true, method: :put %>
+<br/><br/>
 
 <div class="iframes">
-  <% @iframes.each do |iframe| %>
-    <%= concept("iframe/iframe_cell/list", iframe, current_user: current_user).call(:show) %>
-  <% end %>
+  <%= concept("iframe/iframe_cell/list", collection: @iframes, current_user: current_user ) %>
 </div>
 
 

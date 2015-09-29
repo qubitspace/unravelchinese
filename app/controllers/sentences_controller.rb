@@ -1,4 +1,5 @@
 class SentencesController < ApplicationController
+  include Concerns::Manageable
 
   def index
     @sentences = Sentence.all
@@ -8,137 +9,131 @@ class SentencesController < ApplicationController
     @sentence = get_sentence params[:id]#Sentence.find params[:id]
   end
 
-  def new
-    @form = Sentence::Form.new(Sentence.new)
-  end
-
-  def edit
-    @sentence_form = Sentence::Form.new(Sentence.find(params[:id]))
-  end
-
+  # Overwrite manageable function for tokenization
   def update
-    @sentence = Sentence.find(params[:id])
-    @form = Sentence::Form.new(@sentence)
+    display_type = params[:sentence][:display_type]
+    sentence = Sentence.find(params[:id])
+    sentence.setup_tokenizer
+    form = Sentence::Form.new(sentence)
 
-    if @form.validate(params[:sentence])
-      @form.save
-      return redirect_to sentence_manage_path(@sentence)
-    end
-    render :edit
-  end
+    if form.validate(params[:sentence])
+      form.save
+      sentence.reload
 
-
-  # def create
-  #   run Sentence::Create do |op|
-  #     flash[:notice] = "Created sentence for \"#{op.sentence.name}\""
-  #     return redirect_to article_path(@article)
-  #   end
-  #   @article = Article.find(params[:article_id])
-  #   render :new
-  # end
-
-
-  def create
-    article = Article.find params[:sentence][:section_attributes][:article_id]
-    sentence = Sentence.new(:section => Section.new(:article_id => article.id))
-    sentence.translations.build
-    sentence_form = Sentence::Form.new(sentence)
-
-    # New Sentence Form
-    new_sentence = Sentence.new(:section => Section.new(:article_id => article.id))
-    new_sentence.translations.build
-    blank_sentence_form = Sentence::Form.new(new_sentence)
-
-    if sentence_form.validate(params[:sentence])
-      sentence_form.save
-      respond_to do |format|
-        format.js {
-          render js:
-            concept("section/section_cell/manage_section_cell", sentence_form.model.section, current_user: current_user).call(:add_new_section) +
-            concept("sentence/sentence_form_cell", blank_sentence_form).call(:refresh_form)
-
-        }
+      if display_type == "tokenize'"
+        candidate_tokens = get_candidate_tokens sentence.untokenized
+        render js: concept("sentence/sentence_cell/tokenize", sentence,
+          current_user: current_user,
+          display_type: 'tokenize',
+          candidate_tokens: candidate_tokens).(:refresh)
+      else
+        render js: concept("#{model_type}/#{model_type}_cell/#{display_type}", form.model, current_user: current_user, display_type: display_type).(:refresh)
       end
     else
-      respond_to do |format|
-        format.js {
-          render js: concept("sentence/sentence_form_cell", sentence_form, current_user: current_user).call(:refresh_form)
-        }
-      end
+      render js: concept("#{model_type}/#{model_type}_form_cell", form, current_user: current_user, display_type: display_type).(:show_edit_form)
     end
   end
 
-  # def destroy
-  #   @sentence = Sentence.find params[:id]
-  #   @sentence.destroy
+  def cancel_edit_form
+    display_type = params[:display_type]
 
-  #   redirect_to [:admin, @sentence.article]
-  # end
 
-  def manage
+    if display_type != 'tokenize'
+      super
+    else
+
+      sentence = Sentence.find(params[:sentence_id])
+      sentence.setup_tokenizer
+      candidate_tokens = get_candidate_tokens sentence.untokenized
+
+      sentence = Sentence.find(params[:sentence_id])
+        render js: concept("sentence/sentence_cell/tokenize", sentence,
+          current_user: current_user,
+          display_type: 'tokenize',
+          candidate_tokens: candidate_tokens).(:refresh)
+    end
+  end
+
+
+  def tokenize
     @sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
 
-    @sentence.untokenized = @sentence.value.dup
-    @sentence.tokens.each do |token|
-      @sentence.untokenized.slice! token.word.simplified
-    end
+    @sentence.setup_tokenizer
 
     @words = Word.includes(:definitions).all
     @candidate_tokens = get_candidate_tokens @sentence.untokenized
   end
 
   def add_token
-    @sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
+    sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
     word = Word.find params[:word_id]
 
-    @sentence.untokenized = @sentence.value.dup
-    @sentence.tokens.each do |token|
-      @sentence.untokenized.slice! token.word.simplified
-    end
+    sentence.setup_tokenizer
 
-    if @sentence.untokenized.present? or @sentence.untokenized =~ /^#{word.simplified}/
-      token_rank = @sentence.tokens.size == 0 ? 0 : @sentence.tokens.map(&:rank).max + 1
-      token = Token.create sentence: @sentence, word: word, rank: token_rank
-      @sentence.reload
-      @sentence.untokenized.slice! token.word.simplified
-      @candidate_tokens = get_candidate_tokens @sentence.untokenized
+    if sentence.untokenized.present? or sentence.untokenized =~ /^#{word.simplified}/
+      token_sort_order = sentence.tokens.size == 0 ? 0 : sentence.tokens.map(&:sort_order).max + 1
+      token = Token.create sentence: sentence, word: word, sort_order: token_sort_order
+      sentence.reload
+      sentence.untokenized.slice! token.word.simplified
+      candidate_tokens = get_candidate_tokens sentence.untokenized
 
-      render js: concept("sentence/sentence_cell/tokenize_sentence_cell", @sentence, candidate_tokens: @candidate_tokens, current_user: current_user).(:refresh)
+      render js: concept("sentence/sentence_cell/tokenize", sentence, candidate_tokens: candidate_tokens, current_user: current_user).(:refresh)
     else
-      @candidate_tokens = get_candidate_tokens @sentence.untokenized
+      candidate_tokens = get_candidate_tokens sentence.untokenized
       flash[:alert] = "Error adding token. Token word didn't match untokenized text."
-      render js: "window.location = '#{tokenize_sentence_path(@sentence)}'"
+      render js: "window.location = '#{tokenize_sentence_path(sentence)}'"
       return
     end
 
   end
 
-  # def update_word_status
-  #   @word = Word.find(params[:word_id])
-  #   @word.update_status current_user, params[:status]
-
-  #   @sentence = Article.find(params[:sentence_id])
-  #   #@stats = @sentence.get_stats current_user
-
-  #   respond_to do |format|
-  #     format.js
-  #   end
-  # end
-
-
-
   def untokenize
-    @sentence = Sentence.find params[:sentence_id]
-    @sentence.tokens.delete_all
-    redirect_to sentence_manage_path(@sentence)
+    sentence = get_sentence params[:sentence_id]
+    sentence.tokens.delete_all
+    sentence.setup_tokenizer
+    candidate_tokens = get_candidate_tokens sentence.untokenized
+    render js: concept("sentence/sentence_cell/tokenize", sentence,
+      current_user: current_user,
+      candidate_tokens: candidate_tokens,
+      current_user: current_user).(:refresh)
   end
 
   def remove_last_token
-    @sentence = Sentence.find params[:sentence_id]
-    @sentence.tokens.order("rank desc").first.delete
-    redirect_to sentence_manage_path(@sentence)
+    sentence = get_sentence params[:sentence_id]
+    sentence.tokens.order("sort_order desc").first.delete
+    sentence.setup_tokenizer
+    candidate_tokens = get_candidate_tokens sentence.untokenized
+    render js: concept("sentence/sentence_cell/tokenize", sentence,
+      current_user: current_user,
+      candidate_tokens: candidate_tokens,
+      current_user: current_user).(:refresh)
   end
 
+  def show_tokenize_cell
+    sentence = get_sentence params[:sentence_id]
+    sentence.setup_tokenizer
+    candidate_tokens = get_candidate_tokens sentence.untokenized
+    render js: concept("sentence/sentence_cell/tokenize", sentence,
+      current_user: current_user,
+      candidate_tokens: candidate_tokens,
+      current_user: current_user).(:show_tokenize_cell)
+  end
+
+  def show_manage_cell
+    sentence = get_sentence params[:sentence_id]
+
+    render js: concept("sentence/sentence_cell/manage", sentence,
+      current_user: current_user,
+      current_user: current_user).(:show_manage_cell)
+  end
+
+  def retranslate
+    sentence = get_sentence params[:sentence_id]
+    sentence.retranslate force_translation: true
+    render js: concept("sentence/sentence_cell/manage", sentence,
+      current_user: current_user,
+      current_user: current_user).(:refresh)
+  end
 
   private
 
@@ -147,15 +142,15 @@ class SentencesController < ApplicationController
     matches = []
     return matches unless untokenized.present?
 
-    potential_matches = untokenized.empty? ? [] : Word.where("simplified LIKE :prefix", prefix: "#{untokenized[0]}%")
+    potential_matches = untokenized.empty? ? [] : Word.includes(:definitions).where("simplified LIKE :prefix", prefix: "#{untokenized[0]}%")
     potential_matches.each do |word|
       matches << word if word.simplified == untokenized[0...word.simplified.length]
     end
     if matches.empty?
       if untokenized[/^([a-zA-Z0-9_.-]*)/,1].length > 0
-        word = Word.find_or_create_by simplified: untokenized[/^([a-zA-Z0-9_.-]*)/,1], category: :alphanumeric
+        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[/^([a-zA-Z0-9_.-]*)/,1], type: :alphanumeric
       else
-        word = Word.find_or_create_by simplified: untokenized[0], category: :alphanumeric
+        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[0], type: :alphanumeric
       end
       matches << word
     end

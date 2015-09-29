@@ -1,6 +1,6 @@
 class Word::Form < Reform::Form
 
-  property :category, validates: { presence: true }
+  property :type, validates: { presence: true }
   property :simplified, validates: { presence: true }
   property :traditional, validates: { presence: true }
   property :pinyin, validates: { presence: true }
@@ -15,7 +15,7 @@ class Word::Form < Reform::Form
   # This method is called per incoming nested definition hash when the params are deserialized in validate.
   collection :definitions, skip_if: :skip_user?, populate_if_empty: lambda { |fragment, args| Definition.new } do
     property :value, validates: { presence: true }
-    property :rank, validates: { presence: true }
+    property :sort_order, validates: { presence: true }
     property :remove, virtual: true
 
     def removeable?

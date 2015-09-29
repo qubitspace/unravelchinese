@@ -1,0 +1,13 @@
+<div class="tag <%= display_type %>" tag-id="<%= id %>">
+
+  <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name %><br>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.empty? %><br>
+
+</div>

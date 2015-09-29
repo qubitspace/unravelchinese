@@ -1,38 +1,15 @@
-<% content_for :admin_menu do %>
-  <%= concept("article/article_admin_menu_cell", @article, current_user: current_user) %>
-<% end %>
+<%= concept("article/article_cell/manage", @article, current_user: current_user) %>
 
-
-
-<div class="content">
-  <%= concept("article/article_cell/manage_article_cell", @article, current_user: current_user).call(:show) %>
-
-
-  <!-- TODO: need some way of ordering sections -->
-
-  <h2>Create Sentence:</h2>
-  <div id="create_sentence">
-    <%= concept("sentence/sentence_form_cell", @sentence_form, current_user: current_user).call(:show) %>
-  </div>
-
-  <h2>Create Snippet:</h2>
-  <div id="create_snippet">
-    <%= concept("snippet/snippet_form_cell", @snippet_form, current_user: current_user).call(:show) %>
-  </div>
-
-  <h2>Add Image:</h2>
-  <div id="add_image">
-    <%#= concept("image/image_form_cell", @add_image_form, current_user: current_user).call(:add_image) %>
-  </div>
-
-  <h2>Add Iframe:</h2>
-  <div id="add_iframe">
-    <%#= render partial: "iframes/add_iframe", locals: { form: @add_iframe_form, article: @article }  %>
-  </div>
-
-  <h3>Comments</h3>
-  <div class='comments'>
-    <%#= concept "comment/comment_grid_cell", @article %>
-  </div>
-
-</div>
+<%=
+  concept(
+    "section/section_form_cell",
+    @section_form,
+    current_user: current_user,
+    article: @article,
+    display_type: 'manage'
+  ).(:add_section)
+%>
+<%#= concept("snippet/snippet_form_cell", @snippet_form, current_user: current_user).call(:show) %>
+<%#= concept("photo/photo_form_cell", @add_photo_form, current_user: current_user).call(:add_photo) %>
+<%#= render partial: "iframes/add_iframe", locals: { form: @add_iframe_form, article: @article }  %>
+<%#= concept "comment/comment_grid_cell", @article %>

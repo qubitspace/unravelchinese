@@ -1,0 +1,22 @@
+<div class="source <%= display_type %>" source-id="<%= id %>">
+
+  <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name %><br>
+
+    <%= f.label :link %>
+    <%= f.text_field :link %><br>
+
+    <%= f.label :disabled %>
+    <%= f.check_box :disabled %><br>
+
+    <%= f.label :restricted %>
+    <%= f.check_box :restricted %><br>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.empty? %><br>
+
+</div>

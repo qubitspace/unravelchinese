@@ -4,9 +4,7 @@ $black: #000000;
 $light-gray: #999999;
 $dark-gray: #333333;
 
-.read_word {
-
-
+.word.inline {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -50,6 +48,64 @@ $dark-gray: #333333;
   }
 }
 
+.word.list, .word.search {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #000;
+  overflow: auto;
+
+  .status {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .status.known {
+    color: green;
+  }
+  .status.learning {
+    color: orange;
+  }
+  .status.unknown {
+    color: red;
+  }
+  .word-left {
+    float: left;
+    min-width: 100px;
+    height: 100%;
+    text-align: center;
+    flex: 0 1 auto;
+  }
+  .word-center {
+    flex: 1 1 auto;
+    margin-left: 20px;
+  }
+  .word-right {
+    flex: 0 1 auto;
+    width: 800px;
+  }
+  .definitions {
+
+  }
+  .simplified, .traditional {
+    font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-size: 38px;
+    text-align: center;
+  }
+  .simplified {
+  }
+  .traditional {
+    font-size: 22px;
+  }
+
+  .pinyin {
+    font-size: 22px;
+    text-align: center;
+  }
+}
+
 
 .close_button {
   margin-top: -11px;
@@ -88,37 +144,47 @@ $dark-gray: #333333;
   .bottom { font-size: 30px; text-align: center; line-height: 40px; color: #000; }
 }
 
-.word_title_wrapper {
-  text-align: center;
-  float: left;
-  margin: 0 25px;
-}
+.word.show {
+  .word_title_wrapper {
+    text-align: center;
+    float: left;
+    margin: 0 25px;
+  }
 
-.word_title {
-  color: $blue;
-  font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
-  font-size: 60pt;
-  margin-top: 20px;
-}
+  .word_title {
+    //color: $blue;
+    font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-size: 50pt;
+    margin-top: 20px;
+  }
 
-.word_title_traditional {
-  font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
-  font-size: 30pt;
-  padding-bottom: 40px;
-  color: #444444;
-}
+  .word_pinyin {
+    //color: $blue;
+    font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-size: 26pt;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 
-.word_title_pinyin {
-  font-family: "TiemposHeadline-Medium","Tiempos Headline Medium",Georgia,"Times New Roman",Times,serif;
-  line-height: 60px;
-  font-size: 36pt;
-  margin-top: 30px;
-  color: $blue;
-}
+  .word_title_traditional {
+    font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-size: 30pt;
+    padding-bottom: 40px;
+    color: #444444;
+  }
 
-.word_definition {
-  font-size: 16pt;
-  margin-bottom: 5px;
+  .word_title_pinyin {
+    font-family: "TiemposHeadline-Medium","Tiempos Headline Medium",Georgia,"Times New Roman",Times,serif;
+    line-height: 60px;
+    font-size: 36pt;
+    margin-top: 30px;
+    color: $blue;
+  }
+
+  .word_definition {
+    font-size: 16pt;
+    margin-bottom: 5px;
+  }
 }
 
 /*********************/

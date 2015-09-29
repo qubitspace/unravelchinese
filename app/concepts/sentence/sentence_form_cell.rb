@@ -1,24 +1,19 @@
 class Sentence::SentenceFormCell < Cell::Concept
-  include ActionView::RecordIdentifier
-  include ActionView::Helpers::FormHelper
-  include ActionView::Helpers::FormOptionsHelper
-  include NestedForm::ViewHelper
-  include ActionView::Helpers::JavaScriptHelper
+  include Cell::ManageableForm
 
-  property :id
-  property :translations
+  #property :translations
 
-  def show
-    render :sentence_form
+  def add_sentence
+    render :add_sentence_form
   end
 
-  def test_show
-    render :test_sentence_form
+  def article
+    options[:article]
   end
 
   def refresh_form
     %{
-      $('#create_sentence').html('#{j(show)}');
+      $('.add_#{model_type}').html('#{j(add_sentence)}');
     }
   end
 

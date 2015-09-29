@@ -1,7 +1,15 @@
+<div class="snippet <%= display_type %>" snippet-id="<%= id %>">
 
-<div class="content">
+  <div class="menu">
+    <%= edit_link %>
+  </div>
+
   <%= content %><br/>
   <%= html_content %><br/>
-  <%= category %><br/>
-  <br>
+  Render Type <%= render_type %><br/>
+  Redcloth: <%= redcloth? %><br/>
+  HTML: <%= html? %><br/>
+  Raw: <%= raw? %><br/>
+
 </div>
+

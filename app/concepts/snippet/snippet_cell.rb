@@ -1,16 +1,12 @@
 class Snippet::SnippetCell < Cell::Concept
+  include Cell::ManageableCell
   include Escaped
-  include Cell::CreatedAt
+
   property :content
-  property :category
-
-  def show
-    render :show_snippet
-  end
-
-  def inline
-    render :inline_snippet
-  end
+  property :render_type
+  property :html?
+  property :redcloth?
+  property :raw?
 
   private
 
@@ -18,14 +14,10 @@ class Snippet::SnippetCell < Cell::Concept
     content(escape: false)
   end
 
-  def current_user # could be used in the view
-    @options[:current_user]
+  class Manage < Snippet::SnippetCell
   end
 
-  class ManageSnippetCell < Snippet::SnippetCell
-    def show
-      render :manage_snippet
-    end
+  class Inline < Snippet::SnippetCell
   end
 
 end

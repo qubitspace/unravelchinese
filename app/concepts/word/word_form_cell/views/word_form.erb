@@ -1,0 +1,49 @@
+<div class="word <%= display_type %>" word-id="<%= id %>">
+
+  <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
+
+    <%= f.label :simplified %>
+    <%= f.text_field :simplified %><br>
+
+    <%= f.label :traditional %>
+    <%= f.text_field :traditional %><br>
+
+    <%= f.label :pinyin %>
+    <%= f.text_field :pinyin %><br>
+
+    <%= f.label :hsk_character_level %>
+    <%= f.text_field :hsk_character_level %><br>
+
+    <%= f.label :hsk_word_level %>
+    <%= f.text_field :hsk_word_level %><br>
+
+    <%= f.label :character_frequency %>
+    <%= f.text_field :character_frequency %><br>
+
+    <%= f.label :word_frequency %>
+    <%= f.text_field :word_frequency %><br>
+
+    <%= f.label :radical_number %>
+    <%= f.text_field :radical_number %><br>
+
+    <%= f.label :strokes %>
+    <%= f.text_field :strokes %><br>
+
+
+    <%= f.fields_for :definitions do |definition_form| %>
+      <%= definition_form.label :value %>
+      <%= definition_form.text_field :value %><br>
+
+      <%= definition_form.label :sort_order, "Sort Order" %>
+      <%= definition_form.text_field :sort_order %><br>
+
+      <%= definition_form.label :remove %>
+      <%= definition_form.text_field :remove %><br>
+    <% end %>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.empty? %><br>
+
+</div>

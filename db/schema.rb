@@ -65,21 +65,11 @@ ActiveRecord::Schema.define(version: 27) do
   add_index "definitions", ["word_id"], name: "index_definitions_on_word_id", using: :btree
 
   create_table "iframes", force: :cascade do |t|
-    t.integer  "source_id",   limit: 4
-    t.string   "url",         limit: 255
-    t.string   "title",       limit: 255
-    t.text     "description", limit: 65535
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
-  create_table "images", force: :cascade do |t|
-    t.integer  "source_id",   limit: 4
-    t.string   "file",        limit: 255
-    t.string   "title",       limit: 255
-    t.text     "description", limit: 65535
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "source_id",  limit: 4
+    t.string   "url",        limit: 255
+    t.string   "title",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "learned_words", force: :cascade do |t|
@@ -92,6 +82,15 @@ ActiveRecord::Schema.define(version: 27) do
 
   add_index "learned_words", ["user_id"], name: "index_learned_words_on_user_id", using: :btree
   add_index "learned_words", ["word_id"], name: "index_learned_words_on_word_id", using: :btree
+
+  create_table "photos", force: :cascade do |t|
+    t.integer  "source_id",   limit: 4
+    t.string   "file",        limit: 255
+    t.string   "title",       limit: 255
+    t.text     "description", limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "sections", force: :cascade do |t|
     t.integer  "article_id",    limit: 4

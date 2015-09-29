@@ -1,4 +1,5 @@
 class TagsController < ApplicationController
+  include Concerns::Manageable
 
   def index
     @tags = Tag.with_taggable_count params
@@ -6,13 +7,6 @@ class TagsController < ApplicationController
 
   def show
     @tag = Tag.find(params[:id])
-  end
-
-  def destroy
-    @tag = Tag.find(params[:id])
-    @tag.destroy
-
-    redirect_to tags_path
   end
 
 end

@@ -3,8 +3,9 @@ class CreateSections < ActiveRecord::Migration
     create_table :sections do |t|
       t.references :article
       t.references :resource, polymorphic: true
-      t.integer :rank
-      t.string :classes
+      t.integer :sort_order
+      t.integer :container
+      t.integer :alignment
 
       t.timestamps null: false
     end

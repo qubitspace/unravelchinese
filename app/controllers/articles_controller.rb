@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  include Concerns::Manageable
 
   def index
     authorize :articles, :index?
@@ -22,7 +23,11 @@ class ArticlesController < ApplicationController
       article = @form.model
 
       @form.save do |form|
-        article.source = Source.find form[:source]
+        if form[:article_source].present?
+          article.source = Source.find form[:source]
+        else
+          article.source = nil
+        end
         article.save
       end
 
@@ -37,44 +42,85 @@ class ArticlesController < ApplicationController
     @form = Article::Form.new(Article.includes(:source).find(params[:id]))
   end
 
-
   def update
-    @article = Article.includes(:source).find(params[:id])
-    @form = Article::Form.new(@article)
+    display_type = params[:article][:display_type]
+    article = Article.find(params[:id])
+    form = Article::Form.new(article)
 
-
-    if @form.validate(params[:article])
-      @form.sync
-      article = @form.model
-
-      @form.save do |form|
-        article.source = Source.find form[:source]
-        article.save
+    if form.validate(params[:article])
+      form.sync
+      article = form.model
+      form.save do |f|
+        unless f[:source].empty?
+          article.source = Source.find f[:source]
+          article.save
+        end
       end
-
-      # Redirect to manage article to set up sentences
-      # Then have a link from the sentence cell to a manage sentence page to add tokenize?
-      return redirect_to @form.model
+      render js: concept("article/article_cell/#{display_type}", article, current_user: current_user, display_type: display_type).(:refresh)
+    else
+      render js: concept("article/article_form_cell", form, current_user: current_user, display_type: display_type).(:show_edit_form)
     end
-
-    render :edit
   end
 
   def manage
     @article = get_article params[:article_id]
 
-    sentence = Sentence.new(:section => Section.new(:article_id => @article.id))
+    sentence = Sentence.new
     sentence.translations.build
-    @sentence_form = Sentence::Form.new(sentence)
 
-    snippet = Snippet.new(:section => Section.new(:article_id => @article.id))
-    @snippet_form = Snippet::Form.new(snippet)
-
-    @add_image_form = Section::Form.new(Section.new)
-    @add_iframe_form = Section::Form.new(Section.new)
+    section = Section.new(
+      article: @article,
+      sentence: sentence,
+      snippet: Snippet.new
+    )
+    @section_form = Section::Form.new(section)
   end
 
-  # add_image and add_iframe can probably be merged into a single action.
+  def add_sentence_section
+    article = Article..includes(:sentences).find(params[:sentence][:section_attributes][:article_id])
+    section = Section.new
+    article.sentences.each do |s|
+      if s.value == sentence.value and s.
+        section.sentence = s
+      end
+    end
+
+    if section.sentence.nil?
+      sentence = Sentence.new(:section => Section.new(:article_id => article.id))
+      sentence.translations.build unless params[:sentence][:translations_attributes]['0'][:value].empty?
+      section.sentence = sentence
+    end
+
+    sentence_form = Section::Form.new(sentence)
+
+    # New Sentence Form
+    new_sentence = Sentence.new(:section => Section.new(:article_id => article.id))
+
+    new_sentence.translations.build
+    blank_sentence_form = Sentence::Form.new(new_sentence)
+
+    article.sentences
+    if sentence_form.validate(params[:sentence])
+
+      sentence_form.save
+      respond_to do |format|
+        format.js {
+          render js:
+            concept("section/section_cell/manage", sentence_form.model.section, current_user: current_user).call(:append) +
+            concept("sentence/sentence_form_cell", blank_sentence_form, current_user: current_user, article: article, display_type: 'manage').call(:refresh_form)
+        }
+      end
+    else
+      respond_to do |format|
+        format.js {
+            concept("sentence/sentence_form_cell", blank_sentence_form, current_user: current_user, article: article, display_type: 'manage').call(:refresh_form)
+        }
+      end
+    end
+  end
+
+
+  # add_photo and add_iframe can probably be merged into a single action.
   # Should i move them to the sections controller
   def add_iframe
     @article = Article.find params[:id]
@@ -133,11 +179,54 @@ class ArticlesController < ApplicationController
   end
 
   def get_article id
-    Article.includes(
-      { sentences: { tokens: { word: :definitions } } },
-      { sections: :resource },
+    article = Article.includes(
+      { sentences: [
+          { tokens: { word: :definitions } },
+          :translations
+        ]
+      },
+      :iframes,
+      :photos,
+      :snippets,
+      :sections,
       :comments,
       :source
     ).find(id)
+
+    article.sections.each do |section|
+      case section.resource_type
+      when 'Sentence'
+        article.sentences.each do |sentence|
+          if sentence.id == section.resource_id
+            section.resource = sentence
+            break
+          end
+        end
+      when 'Snippet'
+        article.snippets.each do |snippet|
+          if snippet.id == section.resource_id
+            section.resource = snippet
+            break
+          end
+        end
+      when 'Iframe'
+        article.iframes.each do |iframe|
+          if iframe.id == section.resource_id
+            section.resource = iframe
+            break
+          end
+        end
+      when 'Photo'
+        article.photos.each do |photo|
+          if photo.id == section.resource_id
+            section.resource = photo
+            break
+          end
+        end
+      end
+    end
+
+    return article
   end
+
 end

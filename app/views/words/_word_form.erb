@@ -15,7 +15,7 @@
   <%= word_form.simple_fields_for :definitions do |definition_form| %>
     <div class="word_definition_inputs">
       <%= definition_form.input :value %>
-      <%= definition_form.input :rank %>
+      <%= definition_form.input :sort_order %>
       <%= definition_form.input :remove, as: :boolean, input_html: { checked: false } %>
     </div><br/>
   <% end %>

@@ -16,18 +16,18 @@ class Definition < ActiveRecord::Base
     end
   end
 
-  def set_rank word, rank
+  def set_sort_order word, sort_order
 
-    if rank.present?
-      self.rank = rank
-      shift_definitions = word.definitions.where( "rank > ?", rank).order( 'rank desc')
+    if sort_order.present?
+      self.sort_order = sort_order
+      shift_definitions = word.definitions.where( "sort_order > ?", sort_order).order( 'sort_order desc')
       shift_definitions.each do |definition|
-        definition.rank += 1
+        definition.sort_order += 1
         definition.save
       end
     else
-      self.rank = if word.definitions.count > 0
-                then word.definitions.maximum(:rank) + 1
+      self.sort_order = if word.definitions.count > 0
+                then word.definitions.maximum(:sort_order) + 1
                 else 0
                 end
     end

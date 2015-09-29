@@ -6,7 +6,7 @@
 
   <% tokens.each do |token| %>
     <div style="display:inline-block;">
-      <%= concept("word/word_cell/inline_word_cell", token.word, current_user: current_user).call(:show) %>
+      <%= concept("word/word_cell/inline", token.word, current_user: current_user).call(:show) %>
     </div>
   <% end %>
 

@@ -10,7 +10,7 @@ class Definition::DefinitionCell < Cell::Concept
 
   property :id
   property :value
-  property :rank
+  property :sort_order
 
   property :word
 

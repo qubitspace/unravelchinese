@@ -1,4 +1,25 @@
-.s-end-paragraph:after {
-    content: '\A';
+.section.manage {
+  .header {
+    border: 1px solid #000;
+    padding: 10px;
+  }
+  .menu {
+    float: right;
+  }
+}
+
+.end-paragraph:after {
+    content: '\A\A\A';
     white-space: pre;
+}
+
+// .end-paragraph {
+//   display: inline-block;
+//   margin-bottom: 20px;
+// }
+
+.add_section {
+  border-top: 2px solid #000;
+  margin-top: 10px;
+  padding-top: 10px;
 }

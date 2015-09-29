@@ -1,0 +1,20 @@
+<div class="word <%= display_type %> <%= status %>" word-id="<%=id%>">
+  <div class="word-left">
+    <div class="simplified"><%= simplified %></div>
+    <div class="pinyin"><%= pinyin %></div>
+  </div>
+
+  <div class="word-center">
+    <% definitions.each do |definition| %>
+      <div> • <%= definition.value %></div>
+    <% end %>
+  </div>
+
+  <div class="links">
+    <div class="status <%= status %>"><%= status %></div>
+    <% status_links.each do |link| %>
+      <div><%= link %></div>
+    <% end %><br>
+    <%= edit_link %> - <%= delete_link %><br/>
+  </div>
+</div>

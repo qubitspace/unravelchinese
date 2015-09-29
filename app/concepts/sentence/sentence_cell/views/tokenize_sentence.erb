@@ -1,21 +1,29 @@
-<div id="tokenizer">
-  <%= manage_article_link %>
-  <div id="tokenized">
+<div class="sentence <%= display_type %>" sentence-id="<%= id %>">
 
-    <div>
-      <%= value %>
-    </div>
-    Translation Count: <%= translations.count %><br/>
-    <% translations.each do |translation| %>
-      <br/><strong><%= translation.source.name %>:</strong>
-      <%= translation.value %><br/>
-    <% end %>
+  <div class="menu">
+    <%= edit_link %> -
+    <%= show_manage_cell_link %>
+  </div>
+
+  <div class="tokenized">
+
+
+  <h4>Translations:</h4>
+  <% translations.each do |translation| %>
+    Translation: <%= translation.value %><br>
+    <% if translation.user.present? %>
+      User: <%= translation.user.username %>
+    <% elsif translation.source.present? %>
+      Source: <%= translation.source.name %>
+    <% end %><br>
+  <% end %>
     <br>
 
-    <%= untokenize_sentence_link %> | <%= remove_last_token_link %>
+    <h4>Tokenizer:</h4>
+    <%= untokenize_link %> | <%= remove_last_token_link %>
     <br>
     <% tokens.each do |token| %>
-      <%= concept("word/word_cell/inline_word_cell", token.word, current_user: current_user).call(:show) %>
+      <%= concept("word/word_cell/inline", token.word, current_user: current_user).call(:show) %>
       <%#= render partial: 'admin/words/word', locals: { article: article, word: token.word } %>
     <% end %>
 
@@ -24,11 +32,12 @@
 
   </div>
 
-  <div id="next_token">
-    <div id="add-next-token-form" style="display:none;"></div>
+  <div class="next_token">
+    <h4>Next Token:</h4>
+    <div class="add-next-token-form" style="display:none;"></div>
     <% candidate_tokens.each do |word| %>
       <h2>
-        <%= link_to "'#{word.simplified}'", sentence_add_token_path(word_id: word.id), remote: true, method: :post %>
+        <%= link_to "'#{word.simplified}'", sentence_add_token_path(model, word_id: word.id), remote: true, method: :post %>
         <%= word.pinyin %>
       </h2>
       <% word.definitions.each do |definition| %>

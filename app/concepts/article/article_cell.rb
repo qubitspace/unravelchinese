@@ -1,9 +1,9 @@
 class Article::ArticleCell < Cell::Concept
+  include Cell::ManageableCell
+  include Cell::CreatedAt
+
   property :title
   property :description
-
-  property :created_at
-
   property :source_id
   property :source do
     property :id
@@ -14,16 +14,32 @@ class Article::ArticleCell < Cell::Concept
     property :resource
   end
 
-  include Cell::CreatedAt
-  def show
-    render :show_article
-  end
+  property :commentable
+  property :published
 
-  def show_header
-    render :show_header
-  end
+  property :content_source_link
+  property :content_source_name
+  property :translation_source_link
+  property :translation_source_name
+
 
   private
+
+  # Show
+  class Show < Article::ArticleCell
+  end
+
+  # Manage
+  class Manage < Article::ArticleCell
+  end
+
+  # List
+  class List < Article::ArticleCell
+  end
+
+  # Inline
+  class Inline < Article::ArticleCell
+  end
 
   def comments
     # talk about why we don't need an Operation, yet, to collect comments here.
@@ -38,45 +54,8 @@ class Article::ArticleCell < Cell::Concept
     link_to(source.name, source.link)# if source
   end
 
-  def commentable
-    model.commentable
-  end
-
-  def current_user # could be used in the view
-    @options[:current_user]
-  end
-
-  class PreviewArticleCell < Article::ArticleCell
-
-    # include Kaminari::Cells
-    # include ActionView::Helpers::JavaScriptHelper
-
-    #property :title
-    #property :created_at
-
-    def show
-      render :preview_article
-    end
-
-    #include Cell::GridCell
-    #self.classes = ["box", "large-3", "columns"]
-
-    #include Cell::CreatedAt
-
-
-    private
-
-
-    def name_link
-      link_to title, article_path(model)
-    end
-
-  end
-
-  class ManageArticleCell < Article::ArticleCell
-    def show
-      render :manage_article
-    end
+  def sentence_form
+    @options[:sentence_form]
   end
 
 end

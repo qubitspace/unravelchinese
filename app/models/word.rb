@@ -8,9 +8,9 @@ class Word < ActiveRecord::Base
 
   has_many :taggings, :class_name => 'Tagging', :foreign_key => 'taggable_id'
   has_many :tags, through: :taggings, dependent: :destroy, :source => :taggable, :source_type => "Word"
-  has_many :definitions, -> { order 'rank asc' }, dependent: :destroy
+  has_many :definitions, -> { order 'sort_order asc' }, dependent: :destroy
 
-  enum category: [:uncategorized, :punctuation, :alphanumeric, :word, :character, :radical]
+  enum type: { uncategorized: 0, punctuation: 1, alphanumeric: 2, word: 3, character: 4, radical: 5 }
   validates :simplified, length: { minimum: 1 }
 
   def self.find_words simplified, traditional, pinyin
@@ -30,12 +30,12 @@ class Word < ActiveRecord::Base
     end
   end
 
-  def self.search term, match_accents = 0
+  def self.search term, exact_match = 0
 
     if term and term != ''
       term = term.split(' ').map { |t| self.pinyinize t }.join('')
 
-      if match_accents
+      if exact_match
         results = self.case_sensitive_search term
       else
         results = self.case_insensitive_search term

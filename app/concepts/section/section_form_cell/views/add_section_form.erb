@@ -1,0 +1,61 @@
+<div class="add_section <%= display_type %>" section-id="<%= id %>">
+  <h3>Add Section:</h3>
+  <%= nested_form_for model, remote: true do |f| %>
+
+
+    <legend>Section</legend>
+    <%= f.hidden_field :display_type, value: display_type %>
+    <%= f.hidden_field :article_id %>
+
+    <%= f.label :container %>
+    <%= f.select :container, [['Block', :block], ['Inline', :inline], ['Float Left', :float_left], ['Float Right', :float_right]] %><br>
+
+    <%= f.label :alignment %>
+    <%= f.select :alignment, [['Left', :left], ['Center', :center], ['Right', :right]] %><br>
+
+    <%= f.label :resource_type %>
+    <%= f.select :resource_type, [ 'Sentence', 'Snippet', 'Photo', 'Iframe'  ] %><br>
+
+
+    <fieldset>
+      <legend>Sentence</legend>
+      <%= f.fields_for :sentence do |f| %>
+        <%= f.label :sentence %>
+        <%= f.text_field :value %><br>
+
+        <%= f.fields_for :translations do |ff| %>
+          <%= ff.label :translation %>
+          <%= ff.text_field :value %><br/>
+        <% end %>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Snippet</legend>
+      <%= f.fields_for :snippet do |f| %>
+        <%= f.label :snippet %>
+        <%= f.text_field :content %><br>
+
+        <%= f.label :render_type %>
+        <%= f.select :render_type, [[ "HTML", 0 ], ["RedCloth", 1], ["Raw", 2]] %><br>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Photo</legend>
+      <%= f.label :photo %>
+      <%= f.collection_select :photo_id, Photo.all, :id, :title, include_blank: "" %><br>
+    </fieldset>
+
+    <fieldset>
+      <legend>Iframe</legend>
+      <%= f.label :iframe %>
+      <%= f.collection_select :iframe_id, Iframe.all, :id, :title, include_blank: "" %><br>
+    </fieldset>
+
+
+    <%= f.submit "Submit", class: :submit %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.nil? %>
+
+</div>

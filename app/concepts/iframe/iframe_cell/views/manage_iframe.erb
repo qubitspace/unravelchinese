@@ -1,7 +1,9 @@
-<div class="iframe <%= display_type %>" iframe-id="<%= id %>">
+<div class="iframe <%= display_type %> scalable scalable-16-9" iframe-id="<%= id %>">
   <h3><%= title %></h3>
-  <%= url %><br/>
-  <iframe src="<%= url %>" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br/>
+  <div class="scalable-content">
+    <iframe src="<%= url %>" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br/>
+  </div>
+  <td><%= url %></td><br/>
 
   <%= edit_link %> -
   <%= delete_link %>

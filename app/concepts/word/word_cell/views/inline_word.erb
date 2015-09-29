@@ -1,6 +1,5 @@
-<div class="read_word <%=type%> <%= category %> <%= status %>" word-id="<%=id%>">
-
-    <% if status == 'known' || category == 'punctuation' %>
+<div class="word <%= display_type %> <%= status %>" word-id="<%=id%>">
+    <% if status == 'known' || type == 'punctuation' %>
       <span class='top learnable'>
         <%= simplified %><br/>
       </span>

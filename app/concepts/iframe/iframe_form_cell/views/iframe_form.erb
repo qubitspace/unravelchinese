@@ -1,6 +1,5 @@
 <div class="iframe <%= display_type %>" iframe-id="<%= id %>">
-
-  <%= nested_form_for model, :remote => true, :html => { :class => "style-me" } do |f| %>
+  <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
     <%= f.hidden_field :display_type, value: display_type %>
 
     <%= f.label :title %>

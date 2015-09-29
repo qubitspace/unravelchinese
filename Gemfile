@@ -56,11 +56,10 @@ gem 'nokogiri'
 gem 'newrelic_rpm'
 gem 'acts_as_votable'
 
-#gem 'trailblazer', git: 'https://github.com/apotonick/trailblazer'
-gem "cells", '~> 4.0.2'
+#gem 'trailblazer'
+gem "cells"
 gem "reform"#, git: 'https://github.com/apotonick/reform', branch: 'reform-2'
 gem "nested_form"
-#gem 'simple_form'
 
 gem 'cells-erb'#, git: 'https://github.com/trailblazer/cells-erb'
 gem "rails-timeago"
@@ -68,6 +67,7 @@ gem "rails-timeago"
 gem "kaminari-cells"#, git: 'https://github.com/apotonick/kaminari-cells'
 
 gem 'carrierwave'
+gem 'remotipart'
 gem 'redcarpet'
 
 # gem 'spring',        group: :development

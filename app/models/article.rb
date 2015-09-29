@@ -1,16 +1,17 @@
 class Article < ActiveRecord::Base
   include Taggable
+  belongs_to :category
   has_many :sections, dependent: :destroy
   has_many :sentences, through: :sections, source: :resource, source_type: Sentence
-  #has_many :iframes, through: :sections, source: :resource, source_type: Iframe
-  #has_many :images, through: :sections, source: :resource, source_type: Image
-  #has_many :snippets, through: :sections, source: :resource, source_type: Snippet
+  has_many :iframes, through: :sections, source: :resource, source_type: Iframe
+  has_many :photos, through: :sections, source: :resource, source_type: Photo
+  has_many :snippets, through: :sections, source: :resource, source_type: Snippet
   has_many :comments, as: :commentable, dependent: :destroy
 
   belongs_to :source
 
-  def next_rank
-    sentences.count == 0 ? 0 : sentences.maximum('rank') + 1
+  def next_sort_order
+    sentences.count == 0 ? 0 : sentences.maximum('sort_order') + 1
   end
 
   def get_stats current_user

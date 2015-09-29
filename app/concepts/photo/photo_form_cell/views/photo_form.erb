@@ -1,0 +1,25 @@
+<div class="photo <%= display_type %>" photo-id="<%= id %>">
+
+  <%= nested_form_for model, :remote => true, :html => { :class => "style-me", :action => "javascript:;" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
+
+    <%= f.label :title, 'Title' %>
+    <%= f.text_field :title %><br>
+
+    <%= f.label :file, 'Image' %>
+    <%= f.file_field :file %><br>
+
+    <%= f.label :source_name, 'Source Name' %>
+    <%= f.text_field :source_name %><br>
+
+    <%= f.label :source_link, 'Source Link' %>
+    <%= f.text_field :source_link %><br>
+
+    <%= f.label :description, 'Description' %>
+    <%= f.text_field :description %><br>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.empty? %><br>
+
+</div>

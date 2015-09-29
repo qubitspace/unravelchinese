@@ -1,0 +1,12 @@
+<h1>Photos</h1>
+
+<%= link_to 'New Photo', show_new_form_photos_path(display_type: :list), remote: true, method: :put %>
+
+<div class="photos">
+  <% @photos.each do |photo| %>
+    <%= concept("photo/photo_cell/list", photo, current_user: current_user).call(:show) %>
+  <% end %>
+</div>
+
+
+

@@ -7,11 +7,54 @@ class Sentence < ActiveRecord::Base
   has_many :translations, -> { order('cached_votes_score desc') }, dependent: :destroy
   has_many :words, through: :tokens
 
-  # before_create :set_rank
+  # before_create :set_sort_order
   before_create :translate, on: :create
 
   attr_accessor :untokenized
   attr_accessor :tokenized
+
+  before_save do
+    # Check for traditional_characters
+    character_check
+
+    # Retranslate
+    retranslate
+  end
+
+  after_save do
+    # Set untokenized strings
+    setup_tokenizer
+
+  end
+
+  def setup_tokenizer
+    self.untokenized = self.value.dup
+    self.tokens.each do |token|
+      self.untokenized.slice! token.word.simplified
+    end
+  end
+
+  def character_check
+    trad_to_simp_map = Hash[Word.where("char_length(simplified) = 1 and simplified != traditional").map { |w| [w.traditional, w.simplified] } ]
+    trad_chars = trad_to_simp_map.keys
+
+    self.has_traditional_characters = false
+    value.each_char do |c|
+      self.has_traditional_characters = true if trad_chars.include? c
+    end
+  end
+
+  def retranslate force_translation = false
+    if force_translation or auto_translate
+      self.translations.includes(:source).each do |translation|
+        if translation.source.present? and ['Google Translate', 'Bing Translate'].include? translation.source.name
+          translation.destroy
+        end
+      end
+      google_translate
+      bing_translate
+    end
+  end
 
   protected
 
@@ -19,11 +62,10 @@ class Sentence < ActiveRecord::Base
   def translate
     self.translations.destroy
 
-    # Putting this on hold for now since I removed the source reference from translations
-    # if auto_translate
-    #   google_translate
-    #   bing_translate
-    # end
+    if auto_translate
+      google_translate
+      bing_translate
+    end
   end
 
   def dictionary_translate # This is just bing
@@ -114,9 +156,9 @@ class Sentence < ActiveRecord::Base
     self.translations.build value: doc.root.text, source: source
   end
 
-  # def set_rank
-  #   self.rank = if Sentence.where(article_id: self.article_id).count > 0
-  #               then Sentence.where(article_id: self.article_id).maximum(:rank) + 1
+  # def set_sort_order
+  #   self.sort_order = if Sentence.where(article_id: self.article_id).count > 0
+  #               then Sentence.where(article_id: self.article_id).maximum(:sort_order) + 1
   #               else 0
   #               end
   # end

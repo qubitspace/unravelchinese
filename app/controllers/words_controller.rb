@@ -1,8 +1,9 @@
 class WordsController < ApplicationController
+  include Concerns::Manageable
 
   def index
     if params[:query].present?
-      @results = Word.search(params[:query], params[:match_accents])
+      @results = Word.search(params[:query], params[:exact_match])
     elsif params[:simplified].present?
        @results = Word.find_word(params[:simplified], params[:traditional], params[:pinyin])
     else
@@ -27,28 +28,6 @@ class WordsController < ApplicationController
       .first(3)
   end
 
-  def new
-    @form = Word::Form.new(Word.new)
-  end
-
-  def create
-  end
-
-  def edit
-    @form = Word::Form.new(Word.find(params[:id]))
-  end
-
-  def update
-    @word = Word.find(params[:id])
-    @form = Word::Form.new(@word)
-
-    if @form.validate(params[:word])
-      @form.save
-      return redirect_to word_manage_path(@word)
-    end
-    render :edit
-  end
-
   def manage
     @word = Word.find(params[:word_id])
     @definition_form = Definition::Form.new(Definition.new)
@@ -68,14 +47,12 @@ class WordsController < ApplicationController
       learned_word.destroy
     end
 
-    # TODO: Combine these to a single call and load all the js to reload all.
     render js:
-      concept("word/word_cell", @word, current_user: current_user).(:refresh) +
-      concept("word/word_cell/preview_word_cell", @word, current_user: current_user).(:refresh) +
-      concept("word/word_cell/word_search_result_cell", @word, current_user: current_user, query: params[:query]).(:refresh) +
-      concept("word/word_cell/manage_word_cell", @word, current_user: current_user, query: params[:query]).(:refresh) +
-      concept("word/word_cell/inline_word_cell", @word, current_user: current_user, query: params[:query]).(:refresh)
-    # add logic to check if the update suceeded and if it failed, then javascript to say failure.
+      concept("word/word_cell/show", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/list", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/manage", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/inline", @word, current_user: current_user).(:refresh) +
+      concept("word/word_cell/search", @word, current_user: current_user, query: params[:query]).(:refresh)
   end
 
   def split_word word
@@ -86,18 +63,16 @@ class WordsController < ApplicationController
     }.uniq
   end
 
-
   def create_definition
     @word = Word.find params[:word_id]
     @form = Definition::Form.new(Definition.new(:word_id => @word.id))
 
     if @form.validate(params[:definition])
-      byebug
       @form.sync
       @definition = @form.model
 
       @form.save do |form|
-        @definition.set_rank @word, form[:rank]
+        @definition.set_sort_order @word, form[:sort_order]
         @definition.save
       end
 
@@ -105,23 +80,16 @@ class WordsController < ApplicationController
       respond_to do |format|
         @new_form = Definition::Form.new(Definition.new(:word_id => @word.id))
 
-        # TODO: First make the form hidden until you click add definition
-        # TODO: show new word in the correct order and hide the form (replace it with a new form)
         format.js { render :action => "show_new_definition" }
       end
     else
       respond_to do |format|
 
-        # TODO: update the failed form
         format.js   { render :action => "show_new_definition_form" }
       end
     end
   end
 
-
-  #TODO: Then make it so clicking edit will pop up the form to edit a definition
-    # Render the form first but hide it
-  # add a cancel button to hide the form (and clear it)
   def update_definition
     @definition = Definition.find(params[:definition][:id])
     @form = Definition::Form.new(@definition)
@@ -161,11 +129,9 @@ class WordsController < ApplicationController
     respond_to :js
   end
 
-  private
-
-
   def process_params!(params)
     params.merge!(current_user: current_user)
   end
+
 
 end

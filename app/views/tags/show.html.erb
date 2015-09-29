@@ -1,12 +1,6 @@
-<%# content_for :admin_menu do %>
-  <%#= concept("tags/tags_admin_menu_cell", @tag, current_user: current_user) %>
-<%# end %>
+<%= concept("tag/tag_cell/show", @tag, current_user: current_user).call(:show) %>
 
-<h3><%= @tag.name %></h3>
 <% @tag.taggings.each do |tagging| %>
-  <%= tagging.taggable.taggable_type %><br/>
-
   <% taggable_type = tagging.taggable.taggable_type.downcase %>
-  <%= concept("#{taggable_type}/#{taggable_type}_cell", taggable: tagging.taggable) %>
-
+  <%= concept("#{taggable_type}/#{taggable_type}_cell/list", tagging.taggable, current_user: current_user) %>
 <% end %>
