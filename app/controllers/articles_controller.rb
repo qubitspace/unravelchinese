@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
 
   def index
     authorize :articles, :index?
-    @articles = policy_scope(Article).order('created_at desc').all
+    @articles = policy_scope(Article).order('created_at desc').where('? is null or category_id = ?', params[:category_id], params[:category_id]).all
   end
 
   def show
@@ -53,8 +53,8 @@ class ArticlesController < ApplicationController
       form.save do |f|
         unless f[:source].empty?
           article.source = Source.find f[:source]
-          article.save
         end
+        article.save
       end
       render js: concept("article/article_cell/#{display_type}", article, current_user: current_user, display_type: display_type).(:refresh)
     else
@@ -168,6 +168,12 @@ class ArticlesController < ApplicationController
     # display this somewhere
   end
 
+  def resort
+    article = Article.includes(:sections).find(params[:id])
+    article.resort
+    redirect_to article_manage_path(article)
+  end
+
   private
 
   def new_article
@@ -178,11 +184,12 @@ class ArticlesController < ApplicationController
     Sentence.new(translation: Translation.new)
   end
 
+
   def get_article id
     article = Article.includes(
       { sentences: [
           { tokens: { word: :definitions } },
-          :translations
+          { translations: :source }
         ]
       },
       :iframes,

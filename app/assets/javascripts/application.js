@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require turbolinks
@@ -18,40 +19,132 @@
 //= require jquery_nested_form
 
 function pauseVideo() {
-    document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+  document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
 }
 function playVideo() {
-    document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+  document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 }
 
-// This can be done with just CSS
-function updatePinnedIframeSize() {
-  var iframe = document.getElementById('iframe');
-  var iframeWrapper = document.getElementById('iframewrapper');
-  var iframeWidth = iframe.offsetWidth;
-  var iframeWrapperWidth = iframeWrapper.offsetWidth;
 
-  iframe.height = (iframeWidth * 9) / 16;
-  iframeWrapper.height = (iframeWrapperWidth * 9) / 16;
+
+var player;
+var timerCheckPlaybackTime;
+var previousSection;
+var currentSection;
+
+function checkPlaybackTime() {
+  if (player) {
+    //record('video player at ' + player.getCurrentTime());
+  }
+}
+
+function getPlaybackTime() {
+  if (player) {
+    return player.getCurrentTime();
+  }
+  return 0.0;
+}
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player( 'iframe', {
+     events: {
+      'onReady': onPlayerReady,
+      'onPlaybackQualityChange': onPlayerPlaybackQualityChange,
+      'onStateChange': onPlayerStateChange,
+      'onError': onPlayerError }
+  });
+}
+
+function onPlayerReady() {
+
+  $(document).keypress(function( event ) {
+    var currentTime = getPlaybackTime();
+    if(!currentSection) {
+      currentSection = $('.section').first();
+    }
+    if (event.which == 115) {
+      if (currentSection.hasClass('section')) {
+        sectionId = currentSection.attr('section-id');
+        $.ajax({
+          url: "/sections/" + sectionId + "/set_start_time",
+          type: "POST",
+          data: { start_time: currentTime }
+        });
+        previousSection = currentSection;
+        currentSection = currentSection.next();
+      }
+    }
+    else if (event.which == 101) {
+      if (previousSection.hasClass('section')) {
+        sectionId = previousSection.attr('section-id');
+        $.ajax({
+          url: "/sections/" + sectionId + "/set_end_time",
+          type: "POST",
+          data: { end_time: currentTime }
+        });
+        previousSection = currentSection;
+        currentSection = currentSection.next();
+      }
+    }
+  });
+
+}
+
+function onPlayerPlaybackQualityChange() {
+}
+
+function onPlayerError() {
+}
+
+function onPlayerStateChange(event) {
+  switch(event.data) {
+    case YT.PlayerState.ENDED:
+      clearInterval(timerCheckPlaybackTime);
+      break;
+    case YT.PlayerState.PLAYING:
+      timerCheckPlaybackTime = setInterval(checkPlaybackTime, 250);
+      break;
+    case YT.PlayerState.PAUSED:
+      clearInterval(timerCheckPlaybackTime);
+      break;
+    case YT.PlayerState.BUFFERING:
+      clearInterval(timerCheckPlaybackTime);
+      break;
+    case YT.PlayerState.CUED:
+      clearInterval(timerCheckPlaybackTime);
+      break;
+  }
+}
+
+
+function record(data){
+    // Do what you want with your data
+  var p = document.createElement("p");
+  p.appendChild(document.createTextNode(data));
+  document.body.appendChild(p);
 }
 
 
 function addYouTubeControls() {
-  if (document.getElementById('iframe') != null)
-  {
-    window.addEventListener("resize", function(e) {
-      updatePinnedIframeSize();
-    });
-    updatePinnedIframeSize();
+  // $("#iframe").bind("durationchange", function() {
+  //    alert("Current duration is: " + this.duration);
+  // });
 
-    var topofDiv = $("#iframe").offset().top; //gets offset of header
-    var height = $("#iframe").outerHeight(); //gets height of header
+  if ($('#iframe'))
+  {
     $(window).scroll(function() {
-      if($(window).scrollTop() > (topofDiv + height)){
+      var topOfDiv = $("#iframe-container").offset().top(); //gets offset of header
+      var height = $("#iframe-container").outerHeight(); //gets height of header
+
+      if($(window).scrollTop() > (topOfDiv + height)){
         $("#iframe-controls").show();
+        $("#iframe").removeClass("iframe-full-size");
+        $("#iframe").addClass("iframe-float-right");
       }
-      else{
+      else {
         $("#iframe-controls").hide();
+        $("#iframe").removeClass("iframe-float-right");
+        $("#iframe").addClass("iframe-full-size");
       }
     });
   }

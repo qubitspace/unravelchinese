@@ -1,3 +1,11 @@
+.article.show {
+    .title {
+      font-family: FranklinITCProBold, HelveticaNeue, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+      font-size: 40px;
+      line-height: 50px;
+    }
+}
+
 .article.manage {
   .menu {
     float: right;
@@ -6,11 +14,7 @@
 
 .title-row {
   .main-meta-column {
-    .title {
-      font-family: FranklinITCProBold, HelveticaNeue, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-      font-size: 40px;
-      line-height: 50px;
-    }
+
 
     .tags {
       margin-top: 10px;
@@ -34,3 +38,42 @@
 }
 
 
+
+
+#iframe-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+#iframe-dummy {
+    margin-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+#iframe-background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: silver /* show me! */
+}
+
+#iframe-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.iframe-full-size {
+  width: 100%;
+  height: 100%;
+}
+
+.iframe-float-right {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 480px;
+  height: 270px;
+  z-index: 999;
+}

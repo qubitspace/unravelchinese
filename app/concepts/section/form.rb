@@ -5,6 +5,10 @@ class Section::Form < Reform::Form
   property :resource_type
   property :container
   property :alignment
+  property :end_paragraph
+  property :start_time
+  property :end_time
+  property :offsets, virtual: true
 
   property :sentence, skip_if: :all_blank, populate_if_empty: Sentence do
     property :value

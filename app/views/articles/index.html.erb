@@ -1,8 +1,11 @@
 <h1>Articles</h1>
 
 <%= link_to 'New Article', show_new_form_articles_path(display_type: :list), remote: true, method: :put %>
-<br/><br/>
-
+<br/>
+<% Category.all.each do |category| %>
+  <%= link_to category.name, articles_path(category_id: category.id) %>
+<% end %>
+<br/>
 <div class='articles'>
   <%= concept("article/article_cell/list", collection: @articles, current_user: current_user ) %>
 </div>

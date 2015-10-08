@@ -1,10 +1,6 @@
+<% content_for :meta do %>
+  <div class="title">
+    Article Stats
+  </div>
+<% end %>
 <%= concept("article/article_cell/show", @article, current_user: current_user) %>
-
-
-    <%#= simple_form_for @form, url: create_comment_article_path(@article) do |f| %>
-      <%#= f.input :body %>
-      <%#= f.button :submit, class: :expand %>
-    <%# end %>
-
-    <%#= @form.errors.messages %>
-    <%#= concept "comment/comment_grid_cell", @article %>

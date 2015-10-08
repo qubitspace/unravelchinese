@@ -1,7 +1,10 @@
 <div class="article <%= display_type %>" article-id="<%= id %>">
-  <div class="menu">
-    <%= show_link %> - <%= edit_link %> - <%= delete_link %><br/>
-  </div>
+  <% if iframe.present? %>
+    <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
+  <% elsif photo.present? %>
+    <%= concept("iframe/photo_cell/inline", photo, current_user: current_user ) %>
+  <% end %>
+
   <h1><%= title %></h1>
   <% if source.present? %>
     <%= source.name %><br>
@@ -9,11 +12,12 @@
   <% end %>
 
   <%= edit_link %> -
-  <%= delete_link %><br/><br/>
+  <%= delete_link %> -
+  <%= resort_link %><br/><br/>
   <div id="sections">
-    <% sections.each do |section| %>
-      <%= concept("section/section_cell/manage", section, current_user: current_user) %>
-    <% end %>
+    <%# sections.each do |section| %>
+      <%= concept("section/section_cell/manage", collection: sections, current_user: current_user) %>
+    <%# end %>
   </div>
 
 </div>

@@ -1,7 +1,9 @@
 class Section < ActiveRecord::Base
+  default_scope { order('sort_order') }
   after_destroy :cleanup
   enum container: { block: 0, inline: 1, float_left: 2, float_right: 3 }
   enum alignment: { left: 0, center: 1, right: 2 }
+  serialize :token_offsets, Array
 
   belongs_to :article
   #has_many :photos #can I do this?
@@ -17,7 +19,6 @@ class Section < ActiveRecord::Base
   #validates :resource_id, presence: true
 
   def set_sort_order article, sort_order = nil
-
     if sort_order.present?
       self.sort_order = sort_order
       shift_sections = article.sections.where( "sort_order > ?", sort_order).order( 'sort_order desc')
@@ -31,7 +32,34 @@ class Section < ActiveRecord::Base
                         else 0
                         end
     end
+  end
 
+  def move_down
+    next_section = self.article.sections.where( "sort_order = ?", sort_order + 1 ).first
+    if next_section.present?
+      ActiveRecord::Base.transaction do
+        next_section.sort_order = self.sort_order
+        next_section.save
+
+        self.sort_order = self.sort_order + 1
+        self.save
+      end
+    end
+    return next_section
+  end
+
+  def move_up
+    prev_section = self.article.sections.where( "sort_order = ?", sort_order - 1 ).first
+    if prev_section.present?
+      ActiveRecord::Base.transaction do
+        prev_section.sort_order = self.sort_order
+        prev_section.save
+
+        self.sort_order = self.sort_order - 1
+        self.save
+      end
+    end
+    return prev_section
   end
 
   private

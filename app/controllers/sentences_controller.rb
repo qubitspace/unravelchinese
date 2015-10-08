@@ -105,8 +105,7 @@ class SentencesController < ApplicationController
     candidate_tokens = get_candidate_tokens sentence.untokenized
     render js: concept("sentence/sentence_cell/tokenize", sentence,
       current_user: current_user,
-      candidate_tokens: candidate_tokens,
-      current_user: current_user).(:refresh)
+      candidate_tokens: candidate_tokens).(:refresh)
   end
 
   def show_tokenize_cell
@@ -115,15 +114,13 @@ class SentencesController < ApplicationController
     candidate_tokens = get_candidate_tokens sentence.untokenized
     render js: concept("sentence/sentence_cell/tokenize", sentence,
       current_user: current_user,
-      candidate_tokens: candidate_tokens,
-      current_user: current_user).(:show_tokenize_cell)
+      candidate_tokens: candidate_tokens).(:show_tokenize_cell)
   end
 
   def show_manage_cell
     sentence = get_sentence params[:sentence_id]
 
     render js: concept("sentence/sentence_cell/manage", sentence,
-      current_user: current_user,
       current_user: current_user).(:show_manage_cell)
   end
 
@@ -131,7 +128,6 @@ class SentencesController < ApplicationController
     sentence = get_sentence params[:sentence_id]
     sentence.retranslate force_translation: true
     render js: concept("sentence/sentence_cell/manage", sentence,
-      current_user: current_user,
       current_user: current_user).(:refresh)
   end
 

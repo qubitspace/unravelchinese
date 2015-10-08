@@ -4,7 +4,7 @@ class Sentence < ActiveRecord::Base
   has_many :articles, through: :sections
   belongs_to :source
   has_many :tokens, dependent: :destroy
-  has_many :translations, -> { order('cached_votes_score desc') }, dependent: :destroy
+  has_many :translations, dependent: :destroy#, -> { order('cached_votes_score desc') }
   has_many :words, through: :tokens
 
   # before_create :set_sort_order

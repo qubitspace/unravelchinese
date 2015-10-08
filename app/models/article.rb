@@ -8,10 +8,20 @@ class Article < ActiveRecord::Base
   has_many :snippets, through: :sections, source: :resource, source_type: Snippet
   has_many :comments, as: :commentable, dependent: :destroy
 
+  belongs_to :iframe
+  belongs_to :photo
+
   belongs_to :source
 
   def next_sort_order
     sentences.count == 0 ? 0 : sentences.maximum('sort_order') + 1
+  end
+
+  def resort
+    self.sections.each_with_index do |section, i|
+      section.sort_order = i
+      section.save
+    end
   end
 
   def get_stats current_user

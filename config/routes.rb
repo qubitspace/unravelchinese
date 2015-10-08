@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       #post :add_photo
       #post :add_iframe
       get :next_comments
+      put :resort
     end
 
     # manageable
@@ -79,6 +80,9 @@ Rails.application.routes.draw do
   end
 
   resources :sections do
+    post :set_start_time
+    post :set_end_time
+    post :set_section_offsets
     put 'show_new_form/:display_type', to: 'sections#show_new_form', as: 'show_new_form', on: :collection
     put 'cancel_new_form/:display_type', to: 'sections#cancel_new_form', as: 'cancel_new_form', on: :collection
     put 'show_edit_form/:display_type', to: 'sections#show_edit_form', as: 'show_edit_form'
@@ -118,6 +122,14 @@ Rails.application.routes.draw do
     put 'cancel_new_form/:display_type', to: 'tags#cancel_new_form', as: 'cancel_new_form', on: :collection
     put 'show_edit_form/:display_type', to: 'tags#show_edit_form', as: 'show_edit_form'
     put 'cancel_edit_form/:display_type', to: 'tags#cancel_edit_form', as: 'cancel_edit_form'
+  end
+
+  resources :categories, only: [:show, :index, :create, :update, :destroy] do
+    get :manage
+    put 'show_new_form/:display_type', to: 'categories#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'categories#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'categories#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'categories#cancel_edit_form', as: 'cancel_edit_form'
   end
 
   get 'dictionary/find' => 'words#find'

@@ -4,8 +4,6 @@ class CreateTokens < ActiveRecord::Migration
       t.references :sentence, null: false, index: true
       t.references :word, null: false, index: true
       t.integer :sort_order, null: false
-      t.decimal :start_time
-      t.decimal :end_time
 
       t.timestamps null: false
     end

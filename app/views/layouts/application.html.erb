@@ -4,6 +4,7 @@
   <title>Unravel Chinese</title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true, debug: true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true, debug: true %>
+  <script src="https://www.youtube.com/iframe_api"></script>
 
   <%= csrf_meta_tags %>
 
@@ -40,10 +41,11 @@
         <div class="link <%= 'current-page' if params[:controller] == 'articles' %>"><%= link_to 'Articles', [:articles] %></div>
         <div class="link"><%= link_to 'Dictionary', [:words] %></div>
         <% if current_user and current_user.admin? %>
-          <div class="link"><%= link_to 'Tags', [:tags], class: 'admin' %></div>
-          <div class="link"><%= link_to 'Sources', [:sources], class: 'admin' %></div>
           <div class="link"><%= link_to 'Photos', [:photos], class: 'admin' %></div>
           <div class="link"><%= link_to 'IFrames', [:iframes], class: 'admin' %></div>
+          <div class="link"><%= link_to 'Categories', [:categories], class: 'admin' %></div>
+          <div class="link"><%= link_to 'Sources', [:sources], class: 'admin' %></div>
+          <div class="link"><%= link_to 'Tags', [:tags], class: 'admin' %></div>
         <% end %>
       </div>
     </div>
@@ -62,7 +64,7 @@
   </section>
 
   <section class="main-row">
-    <div class="left-column"></div>
+    <div class="left-column"><div id="left-iframe-wrapper"></div></div>
 
     <% meta = yield(:meta) %>
     <% if meta.empty? %>

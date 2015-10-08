@@ -2,8 +2,13 @@ class Article::ArticleCell < Cell::Concept
   include Cell::ManageableCell
   include Cell::CreatedAt
 
+  property :category_id
+
   property :title
   property :description
+  property :iframe
+  property :photo
+
   property :source_id
   property :source do
     property :id
@@ -52,6 +57,10 @@ class Article::ArticleCell < Cell::Concept
 
   def source_link
     link_to(source.name, source.link)# if source
+  end
+
+  def resort_link
+    link_to "Resort", resort_article_path(model), method: :put
   end
 
   def sentence_form

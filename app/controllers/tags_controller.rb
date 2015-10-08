@@ -9,4 +9,8 @@ class TagsController < ApplicationController
     @tag = Tag.find(params[:id])
   end
 
+  def manage
+    @tag = Tag.find(params[:id])
+  end
+
 end

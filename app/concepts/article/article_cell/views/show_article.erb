@@ -14,9 +14,11 @@
     <% if description.present? %><%= description %><% end %>
   </div>
 
-
-  <%= manage_link %> - <%= edit_link %> - <%= delete_link %><br/>
-
+  <% if iframe.present? %>
+    <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
+  <% elsif photo.present? %>
+    <%= concept("iframe/photo_cell/inline", photo, current_user: current_user ) %>
+  <% end %>
 
   <div class="sections">
     <%= concept("section/section_cell/inline", collection: sections, current_user: current_user ) %>

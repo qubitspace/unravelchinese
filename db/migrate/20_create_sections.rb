@@ -6,6 +6,10 @@ class CreateSections < ActiveRecord::Migration
       t.integer :sort_order
       t.integer :container
       t.integer :alignment
+      t.boolean :end_paragraph
+      t.decimal :start_time
+      t.decimal :end_time
+      t.text :token_offsets
 
       t.timestamps null: false
     end
