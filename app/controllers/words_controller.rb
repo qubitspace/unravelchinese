@@ -12,7 +12,8 @@ class WordsController < ApplicationController
   end
 
   def show
-    @word = Word.find(params[:id])
+    @word = policy_scope(Word).find(params[:id])
+    authorize(@word)
 
     @derived_words = Word.order('-hsk_character_level desc')
       .search(@word.simplified).select { |word| word != @word }
@@ -34,14 +35,14 @@ class WordsController < ApplicationController
     @tag_form = Tag::Form.new(Tag.new)
   end
 
-
   def update_status
-    @word = Word.find(params[:word_id])
+    @word = policy_scope(Word).find(params[:word_id])
+    authorize @word
 
     learned_word = LearnedWord.find_or_create_by(user: current_user, word: @word)
     learned_word.status = params[:status]
 
-    if ['known', 'learning'].include? params[:status]
+    if LearnedWord.allowed_statuses.include? params[:status]
       learned_word.save
     else
       learned_word.destroy
@@ -53,6 +54,7 @@ class WordsController < ApplicationController
       concept("word/word_cell/manage", @word, current_user: current_user).(:refresh) +
       concept("word/word_cell/inline", @word, current_user: current_user).(:refresh) +
       concept("word/word_cell/search", @word, current_user: current_user, query: params[:query]).(:refresh)
+
   end
 
   def split_word word

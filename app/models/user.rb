@@ -18,12 +18,40 @@ class User < ActiveRecord::Base
 
   def word_statuses
      Hash[ learned_words.map { |learned_word| [learned_word.word_id, learned_word] } ]
-   end
+  end
 
-   def voted_for_sentence sentence
+  def voted_for_sentence sentence
     vote_count = self.get_voted(Translation).where(translations: { sentence_id: sentence.id }).count
     return vote_count > 0
-   end
+  end
+
+  def get_stats
+    stats = { learned_words: {} }
+    stats[:learned_words][:count] = learned_words.count
+    stats[:learned_words][:hsk_char_count] = {}
+    stats[:learned_words][:hsk_word_count] = {}
+
+    learned_words.each do |learned_word|
+      word = learned_word.word
+      if word.hsk_character_level.present?
+        if stats[:learned_words][:hsk_char_count].has_key? word.hsk_character_level
+          stats[:learned_words][:hsk_char_count][word.hsk_character_level] += 1
+        else
+          stats[:learned_words][:hsk_char_count][word.hsk_character_level] = 1
+        end
+      end
+      if word.hsk_word_level.present?
+        if stats[:learned_words][:hsk_word_count].has_key? word.hsk_word_level
+          stats[:learned_words][:hsk_word_count][word.hsk_word_level] += 1
+        else
+          stats[:learned_words][:hsk_word_count][word.hsk_word_level] = 1
+        end
+      end
+    end
+    # Break out by different statuses
+    # Percent of HSK1-6 known/learning, unknown
+    return stats
+  end
 end
 
 

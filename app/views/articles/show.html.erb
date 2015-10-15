@@ -1,6 +1,73 @@
 <% content_for :meta do %>
-  <div class="title">
-    Article Stats
-  </div>
+  <!-- TODO: use cells -->
+
+  <!-- Move user status to a user page -->
+  <!--
+  <h3>User Stats</h3>
+  Learned Words <%= @user_stats[:learned_words][:count] %><br><br>
+  Learned HSK 1 Words <%= @user_stats[:learned_words][:hsk_word_count][1] %><br>
+  Learned HSK 1 Characters <%= @user_stats[:learned_words][:hsk_char_count][1] %><br><br>
+
+  Learned HSK 2 Words <%= @user_stats[:learned_words][:hsk_word_count][2] %><br>
+  Learned HSK 2 Characters <%= @user_stats[:learned_words][:hsk_char_count][2] %><br><br>
+
+  Learned HSK 3 Words <%= @user_stats[:learned_words][:hsk_word_count][3] %><br>
+  Learned HSK 3 Characters <%= @user_stats[:learned_words][:hsk_char_count][3] %><br><br>
+
+  Learned HSK 4 Words <%= @user_stats[:learned_words][:hsk_word_count][4] %><br>
+  Learned HSK 4 Characters <%= @user_stats[:learned_words][:hsk_char_count][4] %><br><br>
+
+  Learned HSK 5 Words <%= @user_stats[:learned_words][:hsk_word_count][5] %><br>
+  Learned HSK 5 Characters <%= @user_stats[:learned_words][:hsk_char_count][5] %><br><br>
+
+  Learned HSK 6 Words <%= @user_stats[:learned_words][:hsk_word_count][6] %><br>
+  Learned HSK 6 Characters <%= @user_stats[:learned_words][:hsk_char_count][6] %><br><br>
+  -->
+
+
+  <h3>Article Stats</h3>
+
+  <%= @article_stats[:total_words] %> Total Words - <%= @article_stats[:total_known_words] %> Known
+  (<%= ((@article_stats[:total_known_words].to_f/@article_stats[:total_words]) * 100).round(1) %>%)<br>
+
+  <%= @article_stats[:distinct_words] %> Unique Words - <%= @article_stats[:distinct_known_words] %> Known
+  (<%= ((@article_stats[:distinct_known_words].to_f/@article_stats[:distinct_words]) * 100).round(1) %>%)<br>
+
+  <h3>Word Stats</h3>
+
+  <table>
+   <thead>
+    <tr>
+       <th>Simplified</th>
+       <th>Known</th>
+       <th>Count</th>
+       <th>HSK Char</th>
+       <th>HSK Word</th>
+       <th>Char Freq</th>
+       <th>Word Freq</th>
+       <th>Radical</th>
+       <th>Strokes</th>
+    </tr>
+   </thead>
+   <tbody>
+    <% @article_stats[:words].each do |k, v| %>
+      <tr>
+        <td><%= k %></td>
+        <td><%= v[:known] %></td>
+        <td><%= v[:count] %></td>
+        <td><%= v[:hsk_character_level] %></td>
+        <td><%= v[:hsk_word_level] %></td>
+        <td><%= v[:character_frequency] %></td>
+        <td><%= v[:word_frequency] %></td>
+        <td><%= v[:radical_number] %></td>
+        <td><%= v[:strokes] %></td>
+      </tr>
+    <% end %>
+   </tbody>
+  </table>
+
+
+
 <% end %>
+
 <%= concept("article/article_cell/show", @article, current_user: current_user) %>

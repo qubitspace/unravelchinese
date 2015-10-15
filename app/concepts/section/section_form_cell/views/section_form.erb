@@ -1,27 +1,28 @@
 <div class="section <%= display_type %>" section-id="<%= id %>">
-  <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
-    <%= f.hidden_field :display_type, value: display_type %>
+  <div class="header">
+      <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
+        <%= f.hidden_field :display_type, value: display_type %>
 
-    <%= f.label :container %>
-    <%= f.select :container, [['Block', :block], ['Inline', :inline], ['Float Left', :float_left], ['Float Right', :float_right]] %><br>
+        <%= f.label :container %>
+        <%= f.select :container, [['Block', :block], ['Inline', :inline], ['Float Left', :float_left], ['Float Right', :float_right]] %><br>
 
-    <%= f.label :alignment %>
-    <%= f.select :alignment, [['Left', :left], ['Center', :center], ['Right', :right]] %><br>
+        <%= f.label :alignment %>
+        <%= f.select :alignment, [['Left', :left], ['Center', :center], ['Right', :right]] %><br>
 
-    <%= f.label :end_paragraph %>
-    <%= f.check_box :end_paragraph %><br>
+        <%= f.label :end_paragraph %>
+        <%= f.check_box :end_paragraph %><br>
 
-    <%= f.label :start_time, "Start Time" %>
-    <%= f.text_field :start_time %><br>
+        <%= f.label :start_time, "Start Time" %>
+        <%= f.text_field :start_time %><br>
 
-    <%= f.label :end_time, "End Time" %>
-    <%= f.text_field :end_time %><br>
+        <%= f.label :end_time, "End Time" %>
+        <%= f.text_field :end_time %><br>
 
-    <%= f.label :offsets, "Offsets" %>
-    <%= f.text_field :offsets %><br>
+        <%= f.label :offsets, "Offsets" %>
+        <%= f.text_field :offsets %><br>
 
-    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
-  <% end %>
-  <%= model.errors.messages unless model.errors.empty? %><br>
-
+        <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+      <% end %>
+      <%= model.errors.messages unless model.errors.empty? %><br>
+  </div>
 </div>

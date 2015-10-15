@@ -24,13 +24,14 @@ $dark-gray: #333333;
   &.unknown .top { font-size: 22px; }
 
   &.learning .top { font-size: 26px; font-weight: bold; }
+  &.watching .top { font-size: 26px; }
 
   .bottom {  font-size: 26px; line-height: 25px; }
   &.known .bottom.learnable { display: none; }
-  //.unknown .top.learnable { color: #aaa; }
-  &.unknown .bottom.learnable { display: block; }
-  &.learning .bottom.learnable { display: block; font-size: 16px; color: #FFFFFF; }
 
+  &.unknown .bottom.learnable { display: block; }
+  &.learning .bottom.learnable { display: block; font-size: 20px; color: #FFFFFF; }
+  &.watching .bottom.learnable { display: block; font-weight: bold; }
 
   &.known .mark_word_known { display: none; }
   &.known .mark_word_unknown { display: block; }
@@ -40,6 +41,9 @@ $dark-gray: #333333;
 
   &.learning .mark_word_known { display: none; }
   &.learning .mark_word_unknown { display: block; }
+
+  &.watching .mark_word_known { display: none; }
+  &.watching .mark_word_unknown { display: block; }
 
   .section_label {
     margin-top: 10px;
@@ -144,7 +148,15 @@ $dark-gray: #333333;
   .bottom { font-size: 30px; text-align: center; line-height: 40px; color: #000; }
 }
 
+.show_word {
+  h1 {
+    margin-top: 50px;
+    text-decoration: underline;
+  }
+}
+
 .word.show {
+
   .word_title_wrapper {
     text-align: center;
     float: left;

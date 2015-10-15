@@ -9,7 +9,7 @@ class Word::WordCell < Cell::Concept
   property :simplified
   property :traditional
   property :pinyin
-  property :type
+  property :category
   property :strokes
   property :radical_number
   property :word_frequency
@@ -98,7 +98,7 @@ class Word::WordCell < Cell::Concept
   private
 
   def status
-    if ['alphanumeric','punctuation'].include? model.type
+    if ['alphanumeric','punctuation'].include? model.category
       status = 'known'
     else
       status = current_user.word_statuses.has_key?(id) ? current_user.word_statuses[id].status : 'unknown'
@@ -117,6 +117,7 @@ class Word::WordCell < Cell::Concept
     links << update_status_link(:known) if status != 'known'
     links << update_status_link(:unknown) if status != 'unknown'
     links << update_status_link(:learning) if status != 'learning'
+    links << update_status_link(:watching) if status != 'watching'
 
     return links
   end

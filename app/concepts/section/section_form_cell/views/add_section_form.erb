@@ -2,7 +2,6 @@
   <h3>Add Section:</h3>
   <%= nested_form_for model, remote: true do |f| %>
 
-
     <legend>Section</legend>
     <%= f.hidden_field :display_type, value: display_type %>
     <%= f.hidden_field :article_id %>
@@ -13,11 +12,14 @@
     <%= f.label :alignment %>
     <%= f.select :alignment, [['Left', :left], ['Center', :center], ['Right', :right]] %><br>
 
-    <%= f.label :resource_type %>
+    <%= f.label :resource_type, "Resource" %>
     <%= f.select :resource_type, [ 'Sentence', 'Snippet', 'Photo', 'Iframe'  ] %><br>
 
-    <%= f.label :end_paragraph %>
+    <%= f.label :end_paragraph, "End ¶" %>
     <%= f.check_box :end_paragraph %><br>
+
+    <%= f.label :sort_order %>
+    <%= f.text_field :sort_order %><br>
 
     <fieldset>
       <legend>Sentence</legend>
@@ -28,6 +30,13 @@
         <%= f.fields_for :translations do |ff| %>
           <%= ff.label :translation %>
           <%= ff.text_field :value %><br/>
+
+          <%= f.label :translatable %>
+          <%= f.check_box :translatable %><br>
+
+          <%= f.label :auto_translate %>
+          <%= f.check_box :auto_translate %><br>
+
         <% end %>
       <% end %>
     </fieldset>

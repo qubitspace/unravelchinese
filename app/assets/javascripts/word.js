@@ -6,11 +6,15 @@ function addWordTooltip(word) {
             solo: true,
             effect: function() {
                 $(this).fadeTo(200, 1);
+                //pauseVideo();
             }
         },
         hide: {
             event: 'unfocus',
-            fixed: true
+            fixed: true,
+            effect: function() {
+                //playVideo();
+            }
         },
         style: {
             classes: "qtip-bootstrap"
@@ -29,7 +33,7 @@ function addWordTooltip(word) {
 
 function addWordTooltips()
 {
-    $('.word').each(function () {
+    $('.word.chinese').each(function () {
         addWordTooltip($(this));
     });
 }
@@ -51,6 +55,7 @@ function addLearningMouseovers() {
 
 function closeTooltip() {
     $('div.qtip:visible').hide();
+    //playVideo();
 }
 
 function addCloseWordTooltipActions() {

@@ -10,16 +10,16 @@
     <%= f.label :sentence %>
     <%= f.text_field :value %><br>
 
+    <%= f.fields_for :translations do |ff| %>
+      <%= ff.label :translation %>
+      <%= ff.text_field :value %><br>
+    <% end %>
+
     <%= f.label :translatable %>
     <%= f.check_box :translatable %><br>
 
     <%= f.label :auto_translate %>
     <%= f.check_box :auto_translate %><br>
-
-    <%= f.fields_for :translations do |ff| %>
-      <%= ff.label :translation %>
-      <%= ff.text_field :value %><br>
-    <% end %>
 
     <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
   <% end %>

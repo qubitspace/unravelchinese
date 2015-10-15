@@ -59,8 +59,13 @@ class Article::ArticleCell < Cell::Concept
     link_to(source.name, source.link)# if source
   end
 
-  def resort_link
-    link_to "Resort", resort_article_path(model), method: :put
+  def re_sort_link
+    link_to "Re-sort", re_sort_article_path(model), method: :put
+  end
+
+  def delete_all_sections_link
+    link_to "Delete All Sections", delete_all_sections_article_path(model), method: :delete,
+      data: { confirm: "CAUTION: This will remove ALL sections! Are you sure?", disable_with: 'Deleting Sections...' }
   end
 
   def sentence_form

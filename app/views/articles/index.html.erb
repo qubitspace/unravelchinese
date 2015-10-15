@@ -1,7 +1,6 @@
 <h1>Articles</h1>
 
-<%= link_to 'New Article', show_new_form_articles_path(display_type: :list), remote: true, method: :put %>
-<br/>
+<%= link_to 'New Article', show_new_form_articles_path(display_type: :list), remote: true, method: :put %><br>
 <% Category.all.each do |category| %>
   <%= link_to category.name, articles_path(category_id: category.id) %>
 <% end %>

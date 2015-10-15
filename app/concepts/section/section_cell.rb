@@ -11,6 +11,7 @@ class Section::SectionCell < Cell::Concept
   property :start_time
   property :end_time
   property :token_offsets
+  property :is_clone
 
   def move_up
     %{

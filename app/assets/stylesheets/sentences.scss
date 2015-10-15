@@ -1,7 +1,25 @@
-.sentence.manage {
+.sentence.manage, .sentence.tokenize {
   .menu {
     float: right;
   }
+
+  .untokenized {
+    font-weight: bold;
+    font-size: 24pt;
+    margin-top: 20px;
+    color: green;
+  }
+}
+
+.sentence.show {
+}
+
+.sentence_values {
+  margin-top: 20px;
+}
+
+.translations {
+  margin-bottom: 20px;
 }
 
 blockquote {

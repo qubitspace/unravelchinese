@@ -1,47 +1,30 @@
 class ArticlePolicy < ApplicationPolicy
-  attr_reader :user, :article
-
-  def initialize(user, article)
-    @user = user
-    @article = article
-  end
 
   def index?
-    true #@user.admin?
+    true
   end
 
   def show?
-    scope.where(:id => article.id).exists?
+    true
   end
 
-  def create?
-    admin?
+  def next_comments?
+    true
   end
 
-  def new?
-    admin?
+  def view_raw_content?
+    true
   end
 
-
-  def edit?
-    admin?
+  def view_raw_translation?
+    true
   end
 
-  def update?
-    admin?
-  end
-
-  def destroy?
-    admin?
-  end
-
-  def scope
-    Pundit.policy_scope!(user, article.class)
-  end
+  # def show?
+  #   scope.where(:id => record.id).exists?
+  # end
 
   class Scope < Scope
-    attr_reader :user, :scope
-
 
     def resolve
       if user.admin?
@@ -50,12 +33,6 @@ class ArticlePolicy < ApplicationPolicy
         scope.where(:published => true)
       end
     end
-  end
-
-  private
-
-  def admin?
-    user.admin?
   end
 
 end

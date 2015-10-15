@@ -14,6 +14,12 @@ class SectionsController < ApplicationController
 
     if resource_type == "Sentence"
       params[:section].delete :snippet_attributes
+
+      existingSentence = Sentence.find_by_value(params[:section][:sentence_attributes][:value])
+      if existingSentence.present?
+        params[:section].delete :sentence_attributes
+        params[:section][:resource_id] = existingSentence.id
+      end
     elsif resource_type == "Snippet"
       params[:section].delete :sentence_attributes
     elsif resource_type == "Photo"
@@ -29,7 +35,8 @@ class SectionsController < ApplicationController
     form = Section::Form.new(Section.new)
 
     if form.validate(params[:section])
-      form.model.set_sort_order article
+      sort_order = params[:section][:sort_order].empty? ? nil : params[:section][:sort_order]
+      form.model.set_sort_order article, sort_order
       form.save
       render js: concept("section/section_cell/#{display_type}", form.model, current_user: current_user).(:append)
     else
@@ -99,10 +106,6 @@ class SectionsController < ApplicationController
     render js: %{
       startTime = $('#section-#{section.id}-start-time');
       startTime.text('#{start_time}');
-      startTime.animate({
-          backgroundColor: '#FF0000',
-          color: '#000'
-        }, 3000 );
     }
   end
 
@@ -114,10 +117,6 @@ class SectionsController < ApplicationController
     render js: %{
       endTime = $('#section-#{section.id}-end-time');
       endTime.text('#{end_time}');
-      endTime.animate({
-          backgroundColor: '#FF0000',
-          color: '#000'
-        }, 3000 );
     }
   end
 end

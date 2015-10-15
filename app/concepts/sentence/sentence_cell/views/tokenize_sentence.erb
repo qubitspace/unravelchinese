@@ -5,45 +5,46 @@
     <%= show_manage_cell_link %>
   </div>
 
-  <div class="tokenized">
+  <div class="sentence_tokenizer">
 
-
-  <h4>Translations:</h4>
-  <% translations.each do |translation| %>
-    Translation: <%= translation.value %><br>
-    <% if translation.user.present? %>
-      User: <%= translation.user.username %>
-    <% elsif translation.source.present? %>
-      Source: <%= translation.source.name %>
-    <% end %><br>
-  <% end %>
-    <br>
-
+    <%= untokenize_link %> | <%= remove_last_token_link %><br>
     <h4>Tokenizer:</h4>
-    <%= untokenize_link %> | <%= remove_last_token_link %>
-    <br>
-    <% tokens.each do |token| %>
-      <%= concept("word/word_cell/inline", token.word, current_user: current_user).call(:show) %>
-      <%#= render partial: 'admin/words/word', locals: { article: article, word: token.word } %>
+
+    <%= concept("word/word_cell/inline", collection: tokens.collect { |t| t.word }, current_user: current_user) %>
+
+    <% if !untokenized.empty? %>
+      <div class="untokenized"><%= untokenized %></div>
     <% end %>
+    <br/>
 
+    <div class="next_token">
+      <h4>Next Token:</h4>
+      <div class="add-next-token-form" style="display:none;"></div>
 
-    <div class="untokenized"><%= untokenized %></div>
+      <% candidate_tokens.each do |word| %>
+        <h2>
+          <%= link_to "'#{word.simplified}'", sentence_add_token_path(model, word_id: word.id), remote: true, method: :post %>
+          <%= word.pinyin %>
+        </h2>
+        <% word.definitions.each do |definition| %>
+          • <%= definition.value %><br/>
+        <% end %>
 
-  </div>
-
-  <div class="next_token">
-    <h4>Next Token:</h4>
-    <div class="add-next-token-form" style="display:none;"></div>
-    <% candidate_tokens.each do |word| %>
-      <h2>
-        <%= link_to "'#{word.simplified}'", sentence_add_token_path(model, word_id: word.id), remote: true, method: :post %>
-        <%= word.pinyin %>
-      </h2>
-      <% word.definitions.each do |definition| %>
-        • <%= definition.value %><br/>
       <% end %>
+    </div>
 
+    <h4>Translations:</h4>
+    <% translations.each do |translation| %>
+      <div class="translation tokenize">
+        Translation: <%= translation.value %><br>
+        <% if translation.user.present? %>
+          User: <%= translation.user.username %>
+        <% elsif translation.source.present? %>
+          Source: <%= translation.source.name %>
+        <% end %>
+      </div>
     <% end %>
+    <br>
+
   </div>
 </div>

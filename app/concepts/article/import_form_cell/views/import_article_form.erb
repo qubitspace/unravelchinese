@@ -1,0 +1,24 @@
+<div class="article <%= display_type %>" article-id="<%= id %>">
+  <h2>Import Sentences:</h2>
+  <% if model.errors.count > 0 %>
+    <h3>Problem:</h3>
+    <ul>
+      <%= model.errors.each do |k, v| %>
+        <li class='error'>
+          <%= k %>
+          <%= v %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= nested_form_for model, url: article_import_path(model), remote: true, method: :post do |f| %>
+    <%= f.label :import_sentences %>
+    <%= f.text_area :import_sentences %><br>
+
+    <%= f.submit "Submit", class: :submit %> <%= cancel_link %>
+  <% end %>
+  <%= model.errors.messages unless model.errors.nil? %>
+
+</div>
+

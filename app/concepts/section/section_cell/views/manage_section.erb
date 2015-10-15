@@ -9,8 +9,11 @@
     <%= resource_type %> Section | Sort Order <%= sort_order %> | Style [<%= style %>]<br>
     Start Time: <span id="section-<%=id%>-start-time"><%= start_time %></span><br>
     End Time: <span id="section-<%=id%>-start-time"><%= end_time %></span><br>
-    Offsets: [<%= token_offsets.split.join(", ") %>]
+    Offsets: [<%= token_offsets.split.join(", ") %>]<br>
+    <% if is_clone %><strong>Cloned</strong><% end %>
   </div>
-  <%= concept("#{resource_type}/#{resource_type}_cell/manage", resource, current_user: current_user) %>
+  <div class="section_resource">
+    <%= concept("#{resource_type}/#{resource_type}_cell/manage", resource, current_user: current_user) %>
+  </div>
 
 </div>

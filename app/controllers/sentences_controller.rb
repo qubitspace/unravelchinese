@@ -93,14 +93,14 @@ class SentencesController < ApplicationController
     sentence.setup_tokenizer
     candidate_tokens = get_candidate_tokens sentence.untokenized
     render js: concept("sentence/sentence_cell/tokenize", sentence,
-      current_user: current_user,
       candidate_tokens: candidate_tokens,
       current_user: current_user).(:refresh)
   end
 
   def remove_last_token
     sentence = get_sentence params[:sentence_id]
-    sentence.tokens.order("sort_order desc").first.delete
+    sentence.tokens.order("sort_order desc").last.delete
+    sentence.reload
     sentence.setup_tokenizer
     candidate_tokens = get_candidate_tokens sentence.untokenized
     render js: concept("sentence/sentence_cell/tokenize", sentence,
@@ -144,9 +144,9 @@ class SentencesController < ApplicationController
     end
     if matches.empty?
       if untokenized[/^([a-zA-Z0-9_.-]*)/,1].length > 0
-        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[/^([a-zA-Z0-9_.-]*)/,1], type: :alphanumeric
+        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[/^([a-zA-Z0-9_.-]*)/,1], category: :alphanumeric
       else
-        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[0], type: :alphanumeric
+        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[0], category: :alphanumeric
       end
       matches << word
     end

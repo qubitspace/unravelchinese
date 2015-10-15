@@ -28,7 +28,7 @@ class Sentence < ActiveRecord::Base
   end
 
   def setup_tokenizer
-    self.untokenized = self.value.dup
+    self.untokenized = self.value.dup || ""
     self.tokens.each do |token|
       self.untokenized.slice! token.word.simplified
     end

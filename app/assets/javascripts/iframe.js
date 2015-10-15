@@ -53,7 +53,8 @@ $(function() {
     });
 
     $('button#seek-to').on('click', function() {
-        post('seekTo', 30);
+        $('this')
+        post('playSentence', 30);
     });
 
     // Helper function for sending a message to the player

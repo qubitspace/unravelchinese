@@ -1,3 +1,6 @@
-<span class="section <%= style %>" start-time="<%=start_time%>" end-time="<%=start_time%>">
+<span class="section <%= display_type %> <%= style %>" start-time="<%=start_time%>" end-time="<%=end_time%>">
+  <div class="word inline punctuation play-button">
+    <a href="javascript:;" onClick="startFromSection(<%= id %>, <%= start_time %>);">►</a>
+  </div>
   <%= concept("#{resource_type}/#{resource_type}_cell/inline", resource, current_user: current_user).call(:show) %>
 </span>

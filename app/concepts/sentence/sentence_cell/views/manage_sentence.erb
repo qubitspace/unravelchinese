@@ -6,24 +6,39 @@
     <%= tokenize_link %>
   </div>
 
-  Raw Value: <%= value %><br/>
-  Untokenized: <%= untokenized %><br/>
-  Translatable: <%= translatable %><br/>
-  Auto Translate: <%= auto_translate %><br/>
-  Has Trad Chars: <%= has_traditional_characters %><br/>
 
-  <h4>Translations:</h4>
-  <% translations.each do |translation| %>
-    Translation: <%= translation.value %><br>
-    <% if translation.user.present? %>
-      User: <%= translation.user.username %>
-    <% elsif translation.source.present? %>
-      Source: <%= translation.source.name %>
-    <% end %><br>
-  <% end %>
 
-  <h4>Preview:</h4>
-  <%= concept("word/word_cell/inline", collection: tokens.collect { |t| t.word }, current_user: current_user) %>
+  <div class="sentence_preview">
+    <h4>Preview</h4>
+    <%= concept("word/word_cell/inline", collection: tokens.collect { |t| t.word }, current_user: current_user) %>
+
+    <% if !untokenized.blank? %>
+      <div class="untokenized"><%= untokenized %></div>
+    <% end %>
+    <br/>
+
+  </div>
+
+  <div class="sentence_values">
+    <h4>Sentence</h4>
+    Raw Value: <%= value %><br/>
+    Translatable: <%= translatable %><br/>
+    Auto Translate: <%= auto_translate %><br/>
+    Has Trad Chars: <%= has_traditional_characters %><br/>
+  </div>
+
+  <div class="sentence_translations">
+    <h4>Translations</h4>
+    <% translations.each do |translation| %>
+      Translation: <%= translation.value %><br>
+      <% if translation.user.present? %>
+        User: <%= translation.user.username %>
+      <% elsif translation.source.present? %>
+        Source: <%= translation.source.name %>
+      <% end %><br>
+    <% end %>
+  </div>
+
 
 </div>
 

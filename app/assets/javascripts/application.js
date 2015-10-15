@@ -18,31 +18,119 @@
 //= require_tree .
 //= require jquery_nested_form
 
+var iframeFloatable = true;
 function pauseVideo() {
-  document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+  player.pauseVideo();
+  //document.getElementById('iframe').contentWindow.postMessage(
+  //  '{"event":"command","func":"pauseVideo","args":""}', '*'
+  //);
 }
+
 function playVideo() {
-  document.getElementById('iframe').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+  player.playVideo();
+  //document.getElementById('iframe').contentWindow.postMessage(
+  //  '{"event":"command","func":"playVideo","args":""}', '*'
+  //);
 }
 
+function startFromSection(sectionId, startTime) {
+  if (player) {
+    player.seekTo(startTime);
+    player.playVideo();
+    $(selectedSection).removeClass('active-section');
+    selectedSection = $(".section[section-id='" + sectionId + "']");
+  }
+}
 
+function toggleFloatingIframe() {
+  if (iframeFloatable) { // If floatable
+    // Set not Floatable
+    pinVideo();
+    iframeFloatable = false;
+  }
+  else { // Else not floatable
+    iframeFloatable = true;
+    checkScrollLocation();
+  }
+
+}
 
 var player;
 var timerCheckPlaybackTime;
 var previousSection;
-var currentSection;
-
-function checkPlaybackTime() {
-  if (player) {
-    //record('video player at ' + player.getCurrentTime());
-  }
-}
 
 function getPlaybackTime() {
   if (player) {
-    return player.getCurrentTime();
+    return parseFloat(player.getCurrentTime());
   }
   return 0.0;
+}
+
+/*
+  OnPlaying loop
+  If there is sentences left to check
+  if were past that sentence, move on until were not past it
+  if we hit the end then stop
+  if we get to a sentence that is current playing (and were still behind the next sentence) then set it active
+
+  whenever there is a state change besides play/pause, reset everything and find the current sentences
+    then turn on the replay function.
+
+
+  always keep track of ActiveSentence to clear the last one
+
+*/
+
+var selectedSection;
+
+// TODO: add a way to unmark a section if it finished.
+function markCurrentSentence() {
+  if (player) {
+    playbackTime = getPlaybackTime();
+
+    var keepLooking = true;
+    if (!selectedSection) {
+      selectedSection = $('.section').first();
+    }
+
+    while (keepLooking) {
+      nextSection = selectedSection.next();
+      // Not a section, reached the end
+      if (!selectedSection.hasClass('section')) {
+        selectedSection = $('.section').first();
+        return false;
+      }
+
+      nextStartTime = parseFloat(nextSection.attr('start-time'));
+      sentenceStartTime = parseFloat(selectedSection.attr('start-time'));
+      sentenceEndTime = parseFloat(selectedSection.attr('end-time'));
+
+      // Sentence hasn't started yet, keep waiting
+      if (sentenceStartTime > playbackTime) {
+        return false;
+      }
+
+      if (nextSection)
+
+      // If were after the current section start time, behind the end time
+      // and before the next sections start time. Mark this sentence.
+      if (playbackTime > sentenceStartTime
+            && (isNaN(sentenceEndTime) || playbackTime < sentenceEndTime)
+            && (isNaN(nextStartTime) || playbackTime < nextStartTime)) {
+        keepLooking = false;
+        $(selectedSection).addClass('active-section');
+        return false;
+      }
+      else {
+         $(selectedSection).removeClass('active-section');
+      }
+
+      selectedSection = nextSection;
+    }
+  }
+  else {
+    alert('no player');
+  }
 }
 
 function onYouTubeIframeAPIReady() {
@@ -55,39 +143,47 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
+var currentSection = null;
+
 function onPlayerReady() {
-
-  $(document).keypress(function( event ) {
-    var currentTime = getPlaybackTime();
-    if(!currentSection) {
-      currentSection = $('.section').first();
-    }
-    if (event.which == 115) {
-      if (currentSection.hasClass('section')) {
-        sectionId = currentSection.attr('section-id');
-        $.ajax({
-          url: "/sections/" + sectionId + "/set_start_time",
-          type: "POST",
-          data: { start_time: currentTime }
-        });
-        previousSection = currentSection;
-        currentSection = currentSection.next();
+  if (player) {
+    $(document).keypress(function( event ) {
+      var currentTime = getPlaybackTime();
+      if(!currentSection) {
+        currentSection = $('.section').first();
       }
-    }
-    else if (event.which == 101) {
-      if (previousSection.hasClass('section')) {
-        sectionId = previousSection.attr('section-id');
-        $.ajax({
-          url: "/sections/" + sectionId + "/set_end_time",
-          type: "POST",
-          data: { end_time: currentTime }
-        });
-        previousSection = currentSection;
-        currentSection = currentSection.next();
-      }
-    }
-  });
 
+      if (event.which == 115) {
+        if (currentSection.hasClass('section')) {
+          sectionId = currentSection.attr('section-id');
+          $.ajax({
+            url: "/sections/" + sectionId + "/set_start_time",
+            type: "POST",
+            data: { start_time: currentTime }
+          });
+          previousSection = currentSection;
+          currentSection = currentSection.next();
+        }
+      }
+      else if (event.which == 101) {
+        if (previousSection.hasClass('section')) {
+          sectionId = previousSection.attr('section-id');
+          $.ajax({
+            url: "/sections/" + sectionId + "/set_end_time",
+            type: "POST",
+            data: { end_time: currentTime }
+          });
+          previousSection = currentSection;
+          currentSection = currentSection.next();
+        }
+      }
+    });
+  }
+}
+
+function playSentence(sentenceId) {
+  sentence = $(".sentence[sentence-id=#{sentenceId}]")
+  startTime = sentence.parent().attr('start-time');
 }
 
 function onPlayerPlaybackQualityChange() {
@@ -102,7 +198,7 @@ function onPlayerStateChange(event) {
       clearInterval(timerCheckPlaybackTime);
       break;
     case YT.PlayerState.PLAYING:
-      timerCheckPlaybackTime = setInterval(checkPlaybackTime, 250);
+      timerCheckPlaybackTime = setInterval(markCurrentSentence, 250);
       break;
     case YT.PlayerState.PAUSED:
       clearInterval(timerCheckPlaybackTime);
@@ -125,35 +221,50 @@ function record(data){
 }
 
 
-function addYouTubeControls() {
-  // $("#iframe").bind("durationchange", function() {
-  //    alert("Current duration is: " + this.duration);
-  // });
+function checkScrollLocation() {
+  $(window).scroll(function() {
+    if (player) {
+      if (iframeFloatable && $('#iframe')) {
+        var topOfDiv = $("#iframe-container").offset().top; //gets offset of header
+        var height = $("#iframe-container").outerHeight(); //gets height of header
 
-  if ($('#iframe'))
-  {
-    $(window).scroll(function() {
-      var topOfDiv = $("#iframe-container").offset().top(); //gets offset of header
-      var height = $("#iframe-container").outerHeight(); //gets height of header
+        if($(window).scrollTop() > (topOfDiv + height)) {
+          floatVideo();
+          showControls();
+        }
+        else {
+          pinVideo();
+          hideControls();
+        }
+      }
+    }
+  });
+}
 
-      if($(window).scrollTop() > (topOfDiv + height)){
-        $("#iframe-controls").show();
-        $("#iframe").removeClass("iframe-full-size");
-        $("#iframe").addClass("iframe-float-right");
-      }
-      else {
-        $("#iframe-controls").hide();
-        $("#iframe").removeClass("iframe-float-right");
-        $("#iframe").addClass("iframe-full-size");
-      }
-    });
-  }
+function hideControls() {
+  $("#iframe-controls").hide();
+}
+
+function showControls() {
+  $("#iframe-controls").show();
+}
+
+function pinVideo() {
+  $("#iframe").removeClass("iframe-float-right");
+  $("#iframe").addClass("iframe-full-size");
+  $("#left-iframe-wrapper").hide();
+}
+
+function floatVideo() {
+  $("#iframe").removeClass("iframe-full-size");
+  $("#iframe").addClass("iframe-float-right");
+  $("#left-iframe-wrapper").show();
 }
 
 
 var ready;
 ready = function() {
-  addYouTubeControls();
+  checkScrollLocation();
 };
 
 $(document).ready(ready);

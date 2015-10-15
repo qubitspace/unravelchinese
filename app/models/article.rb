@@ -14,36 +14,53 @@ class Article < ActiveRecord::Base
   belongs_to :source
 
   def next_sort_order
-    sentences.count == 0 ? 0 : sentences.maximum('sort_order') + 1
+    max = sections.maximum('sort_order')
+    max.blank? ? 0 : max + 1
   end
 
-  def resort
+  def re_sort
     self.sections.each_with_index do |section, i|
       section.sort_order = i
       section.save
     end
   end
 
+ # stats - add averages.
   def get_stats current_user
     stats = {}
     stats[:total_words] = 0
     stats[:distinct_words] = 0
-    stats[:known_words] = 0
+    stats[:total_known_words] = 0
+    stats[:distinct_known_words] = 0
     stats[:words] = {}
 
-    sentences.each do |sentence|
-      sentence.tokens.each do |token|
-        known = current_user.word_statuses.include? token.word.id
-        if !token.word.punctuation?
-          stats[:total_words] += 1
-          if stats[:words].has_key? token.simplified
-            stats[:words][token.simplified][:count] += 1
-          else
-            stats[:words][token.simplified] = { count: 1, known: known }
-            stats[:distinct_words] += 1
-          end
-          if known
-            stats[:known_words] += 1
+    # TODO: get count (total, distinct, and known) for each hsk level
+
+    sections.each do |section|
+      if section.resource_type == 'Sentence'
+        sentence = section.resource # Sentences can be cloned so we need do count each section.
+        sentence.tokens.each do |token|
+          known = current_user.word_statuses.include? token.word.id
+          if !token.word.punctuation?
+            stats[:total_words] += 1
+            if stats[:words].has_key? token.simplified
+              stats[:words][token.simplified][:count] += 1
+            else
+              stats[:words][token.simplified] = { count: 1, known: known }
+              stats[:words][token.simplified][:hsk_character_level] = token.word.hsk_character_level
+              stats[:words][token.simplified][:hsk_word_level] = token.word.hsk_word_level
+              stats[:words][token.simplified][:character_frequency] = token.word.character_frequency
+              stats[:words][token.simplified][:word_frequency] = token.word.word_frequency
+              stats[:words][token.simplified][:radical_number] = token.word.radical_number
+              stats[:words][token.simplified][:strokes] = token.word.strokes
+              stats[:distinct_words] += 1
+              if known
+                stats[:distinct_known_words] += 1
+              end
+            end
+            if known
+              stats[:total_known_words] += 1
+            end
           end
         end
       end
@@ -52,6 +69,7 @@ class Article < ActiveRecord::Base
     stats[:words] = stats[:words].sort_by {|k,v| v[:count]}.reverse
     return stats
   end
+
 
   private
 

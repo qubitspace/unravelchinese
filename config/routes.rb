@@ -21,15 +21,22 @@ Rails.application.routes.draw do
     post :add_sentence_section
     member do
       post :create_comment
-      #post :add_photo
-      #post :add_iframe
+
       get :next_comments
-      put :resort
+      put :re_sort
+      delete :delete_all_sections
+      get :export_sentences
     end
+
+    post :import
 
     # manageable
     put 'show_new_form/:display_type', to: 'articles#show_new_form', as: 'show_new_form', on: :collection
     put 'cancel_new_form/:display_type', to: 'articles#cancel_new_form', as: 'cancel_new_form', on: :collection
+
+    put 'show_import_form/:display_type', to: 'articles#show_import_form', as: 'show_import_form'
+    put 'cancel_import_form/:display_type', to: 'articles#cancel_import_form', as: 'cancel_import_form'
+
     put 'show_edit_form/:display_type', to: 'articles#show_edit_form', as: 'show_edit_form'
     put 'cancel_edit_form/:display_type', to: 'articles#cancel_edit_form', as: 'cancel_edit_form'
   end

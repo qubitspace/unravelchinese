@@ -5,11 +5,13 @@
     <div id="iframe-wrapper">
       <iframe id="iframe" class="iframe-full-size" src="<%= url %>?enablejsapi=1&amp;theme=light&amp;showinfo=1" frameborder="0" allowFullScreen="allowFullScreen" quality="high" allowScriptAccess="always"></iframe><br/>
     </div>
+    <div class="info"><%= link_to title, url %></div>
   </div>
 </div>
 
 
 <div id="iframe-controls">
   <a href="javascript:;" onClick="pauseVideo();">Pause</a> |
-  <a href="javascript:;" onClick="playVideo();">Play</a>
+  <a href="javascript:;" onClick="playVideo();">Play</a><br/>
+  <a href="javascript:;" onClick="toggleFloatingIframe();">Toggle Float</a>
 </div>

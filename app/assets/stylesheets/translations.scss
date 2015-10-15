@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-.translation {
+.translation.show {
   background-color: #caa;
   border: 1px solid #533;
   border-radius: 5px;
@@ -13,4 +13,12 @@
   .votes {
     float: right;
   }
+}
+
+.translation.tokenize {
+  border: 1px solid #533;
+  background-color: #ddd;
+  border-radius: 2px;
+  margin: 10px 5px;
+  padding: 5px;
 }

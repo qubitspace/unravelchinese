@@ -18,21 +18,33 @@ class Section < ActiveRecord::Base
   #validates :resource_type, presence: true
   #validates :resource_id, presence: true
 
+  def is_clone
+    @is_clone
+  end
+
+  def is_clone= is_clone
+    @is_clone = is_clone
+  end
+
   def set_sort_order article, sort_order = nil
     if sort_order.present?
       self.sort_order = sort_order
-      shift_sections = article.sections.where( "sort_order > ?", sort_order).order( 'sort_order desc')
+      shift_sections = article.sections.where( "sort_order >= ?", sort_order).order( 'sort_order desc')
+
+      # TODO: Just use a sql statment to do all the updates at once.
       shift_sections.each do |section|
         section.sort_order += 1
         section.save
       end
     else
+      # just use article.next_sort_order...
       self.sort_order = if article.sections.count > 0
                         then article.sections.maximum(:sort_order) + 1
                         else 0
                         end
     end
   end
+
 
   def move_down
     next_section = self.article.sections.where( "sort_order = ?", sort_order + 1 ).first

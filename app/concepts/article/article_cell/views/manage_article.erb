@@ -1,3 +1,5 @@
+
+
 <div class="article <%= display_type %>" article-id="<%= id %>">
   <% if iframe.present? %>
     <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
@@ -13,7 +15,18 @@
 
   <%= edit_link %> -
   <%= delete_link %> -
-  <%= resort_link %><br/><br/>
+  <%= re_sort_link %> -
+  <%= delete_all_sections_link %><br/><br/>
+
+  <%= link_to 'Import Sentences', article_show_import_form_path(model, display_type: :list), remote: true, method: :put %><br/>
+  <%= link_to 'Export Sentences', export_sentences_article_path(model, display_type: :list), remote: true, method: :get %><br/>
+  <div id="export-sentences">
+    EXPORT HERE!
+  </div>
+
+  <div id="import-sentences">
+  </div>
+
   <div id="sections">
     <%# sections.each do |section| %>
       <%= concept("section/section_cell/manage", collection: sections, current_user: current_user) %>

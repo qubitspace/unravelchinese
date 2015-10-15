@@ -2,13 +2,18 @@ class ArticlesController < ApplicationController
   include Concerns::Manageable
 
   def index
-    authorize :articles, :index?
+    authorize Article
     @articles = policy_scope(Article).order('created_at desc').where('? is null or category_id = ?', params[:category_id], params[:category_id]).all
   end
 
   def show
     @article = get_article params[:id]
+    authorize @article
+
     @form = Comment::Form.new(Comment.new)
+
+    @user_stats = current_user.get_stats
+    @article_stats = @article.get_stats current_user
   end
 
   def new
@@ -16,26 +21,25 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @form = Article::Form.new(new_article)
+    display_type = params[:article][:display_type]
+    form = Article::Form.new(new_article)
 
-    if @form.validate(params[:article])
-      @form.sync
-      article = @form.model
+    if form.validate(params[:article])
+      form.sync
+      article = form.model
 
-      @form.save do |form|
-        if form[:article_source].present?
+      form.save do |f|
+        if f[:article_source].present?
           article.source = Source.find form[:source]
         else
           article.source = nil
         end
         article.save
+        render js: concept("article/article_cell/#{display_type}", form.model, current_user: current_user).(:prepend)
       end
-
-      # Redirect to manage article to set up sentences
-      # Then have a link from the sentence cell to a manage sentence page to add tokenize?
-      return redirect_to @form.model
+    else
+      render js: concept("article/article_form_cell", form, current_user: current_user, display_type: display_type).(:show_new_form)
     end
-    render action: :new
   end
 
   def edit
@@ -64,6 +68,13 @@ class ArticlesController < ApplicationController
 
   def manage
     @article = get_article params[:article_id]
+    sentence_ids = []
+    @article.sections.each do |section|
+      if section.resource_type == 'Sentence'
+        section.is_clone = sentence_ids.include?(section.resource_id)
+        sentence_ids << section.resource_id
+      end
+    end
 
     sentence = Sentence.new
     sentence.translations.build
@@ -80,7 +91,7 @@ class ArticlesController < ApplicationController
     article = Article..includes(:sentences).find(params[:sentence][:section_attributes][:article_id])
     section = Section.new
     article.sentences.each do |s|
-      if s.value == sentence.value and s.
+      if s.value == sentence.value
         section.sentence = s
       end
     end
@@ -119,23 +130,6 @@ class ArticlesController < ApplicationController
     end
   end
 
-
-  # add_photo and add_iframe can probably be merged into a single action.
-  # Should i move them to the sections controller
-  def add_iframe
-    @article = Article.find params[:id]
-    @form = Section::Form.new(Section.new)
-    @form.article = @article
-    if @form.validate(params[:section])
-      @form.save
-      flash[:notice] = "Created section"
-      return redirect_to article_manage_path(@article)
-    end
-
-    render :manage
-  end
-
-
   def create_comment
     @article = Article.find params[:id]
     @form = Comment::Form.new(Comment.new)
@@ -168,9 +162,75 @@ class ArticlesController < ApplicationController
     # display this somewhere
   end
 
-  def resort
+  def import
+    article = Article.find(params[:article_id])
+    value = params["article_import"]["import_sentences"]
+    value.gsub /^$\n/, ''
+    if value.present?
+      sort_order = article.next_sort_order
+
+      value.split("\n").each_slice(2) do |pair|
+        simplified = pair[0]
+        translation = pair[1]
+
+        # TODO: Refactor to share this code with add_sentence_section
+        section = Section.new(article_id: article.id, resource_type: 'Sentence')
+        article.sentences(true).each do |s|
+          if s.value == simplified
+            section.sentence = s
+          end
+        end
+
+        if section.sentence.nil?
+          sentence = Sentence.new(:section => section, value: simplified)
+          sentence.translations.build(:value => translation)
+          section.sentence = sentence
+        end
+        section.sort_order = sort_order
+        sort_order += 1
+        section.save
+      end
+    end
+
+    redirect_to article_manage_path(article)
+  end
+
+  # TODO: turn the display into a cell (use the whole article?)
+  # Then i can easily load it to the div.
+  def export_sentences
+    result = "export = $('#export-sentences');"
+    result += "$('#export-sentences').text('');"
+    article = Article.find(params[:id])
+    article.sentences.each do |sentence|
+      result += "export.append('#{sentence.value}<br>');"
+      sentence.translations.where("source_id is null").each do |translation|
+        result += "export.append('test<br>');"
+      end
+    end
+
+    render js: "alert('todo!');"
+  end
+
+  def re_sort
     article = Article.includes(:sections).find(params[:id])
-    article.resort
+    article.re_sort
+    redirect_to article_manage_path(article)
+  end
+
+  def show_import_form
+    article = Article.find(params[:article_id])
+    form = Article::ImportForm.new(article)
+    render js: concept("article/import_form_cell", form, current_user: current_user, display_type: params[:display_type]).(:show_import_form)
+  end
+
+  def cancel_import_form
+    form = model_class::Form.new(Article.new)
+    render js: concept("article/import_form_cell", form, current_user: current_user).(:cancel_import_form)
+  end
+
+  def delete_all_sections
+    article = Article.find(params[:id])
+    article.sections.delete_all
     redirect_to article_manage_path(article)
   end
 
@@ -184,9 +244,8 @@ class ArticlesController < ApplicationController
     Sentence.new(translation: Translation.new)
   end
 
-
   def get_article id
-    article = Article.includes(
+    article = policy_scope(Article).includes(
       { sentences: [
           { tokens: { word: :definitions } },
           { translations: :source }
@@ -204,6 +263,7 @@ class ArticlesController < ApplicationController
       case section.resource_type
       when 'Sentence'
         article.sentences.each do |sentence|
+          sentence.setup_tokenizer
           if sentence.id == section.resource_id
             section.resource = sentence
             break

@@ -9,12 +9,15 @@ class Section::Form < Reform::Form
   property :start_time
   property :end_time
   property :offsets, virtual: true
+  property :sort_order, virtual: true
 
   property :sentence, skip_if: :all_blank, populate_if_empty: Sentence do
     property :value
     collection :translations, skip_if: :all_blank, populate_if_empty: Translation do
       property :value
     end
+    property :translatable
+    property :auto_translate
   end
 
   property :snippet, skip_if: :all_blank, populate_if_empty: Snippet do

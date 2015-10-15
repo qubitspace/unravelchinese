@@ -1,9 +1,8 @@
-<div class="word <%= display_type %> <%= status %>" word-id="<%=id%>">
-    <% if status == 'known' || type == 'punctuation' %>
+<div class="word <%= display_type %> <%= status %> <%= category %>" word-id="<%=id%>">
+    <% if status == 'known' || category == 'punctuation' %>
       <span class='top learnable'>
         <%= simplified %><br/>
       </span>
-
       <span class='bottom learnable'>
         <%= pinyin %>
       </span>
@@ -15,6 +14,14 @@
       <span class='bottom learnable'>
         <%= pinyin %>
       </span>
+    <% elsif status == 'watching' %>
+      <span class='top learnable'>
+        <%= pinyin %>
+      </span>
+
+      <span class='bottom learnable'>
+        <%= simplified %><br/>
+      </span>
     <% else %>
       <span class='top learnable'>
         <%= pinyin %><br/>
@@ -25,30 +32,32 @@
       </span>
     <% end %>
 
-  <div class="tooltip" word-id="<%= id %>">
-    <div class="close_tooltip close_button">&#10006;</div>
+  <% if category == "chinese" %>
+    <div class="tooltip" word-id="<%= id %>">
+      <div class="close_tooltip close_button">&#10006;</div>
 
-    <span class='top'>
-      <%= link_to simplified, word_path(model) %>
-    </span><br>
+      <span class='top'>
+        <%= link_to simplified, word_path(model) %>
+      </span><br>
 
-    <span class='bottom'>
-      <%= pinyin %>
-    </span>
+      <span class='bottom'>
+        <%= pinyin %>
+      </span>
 
-    <hr>
+      <hr>
 
-    <div class="definitions">
-      <strong>
-      <% definitions.each do |definition| %>
-        • <%= raw definition.html_value %><br/>
+      <div class="definitions">
+        <strong>
+        <% definitions.each do |definition| %>
+          • <%= raw definition.html_value %><br/>
+        <% end %>
+        </strong>
+      </div>
+
+      <% status_links.each do |link| %>
+        <div class="link"><%= link %></div>
       <% end %>
-      </strong>
+
     </div>
-
-    <% status_links.each do |link| %>
-      <div class="link"><%= link %></div>
-    <% end %>
-
-  </div>
+  <% end %>
 </div>
