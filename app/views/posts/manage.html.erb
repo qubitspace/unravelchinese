@@ -11,10 +11,10 @@
 <% end %>
 
 <h2>Add an attachment:</h2>
-<%= simple_form_for @attachment, url: create_attachment_post_path(@post) do |f| %>
-  <%= f.input :document_id, collection: @documents %>
-  <%= f.button :submit, class: :expand %>
-<% end %>
+<%#= simple_form_for @attachment, url: create_attachment_post_path(@post) do |f| %>
+  <%#= f.input :document_id, collection: @documents %>
+  <%#= f.button :submit, class: :expand %>
+<%# end %>
 
 <% article = @post.content %>
 
