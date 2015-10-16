@@ -29,12 +29,12 @@ test:
   port: 3306
 
 
-#production:
-#  adapter: mysql2
-#  database: unravelchinese
-#  encoding: utf8
-#  collation: utf8_unicode_ci
-#  username: root
-#  password: password
-#  host: 127.0.0.1
-#  port: 3306
+production:
+  adapter: mysql2
+  database: unravelchinese
+  encoding: utf8
+  collation: utf8_unicode_ci
+  username: root
+  password: password
+  host: 159.203.100.74
+  port: 80

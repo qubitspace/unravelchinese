@@ -8,7 +8,7 @@ class CreateTokens < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :tokens, [:sentence_id, :rank], unique: true
+    add_index :tokens, [:sentence_id, :sort_order], unique: true
     add_foreign_key :tokens, :sentences
     add_foreign_key :tokens, :words
   end
