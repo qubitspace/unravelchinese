@@ -34,3 +34,11 @@
   </div>
 
 </div>
+
+<% sections.each do |sec| %>
+  <% if sec.resource_type == "Sentence" %>
+    <% s = sec.resource %>
+    <%= s.value %><br/>
+    <%= s.translations.first.value unless s.translations.empty? %><br/>
+  <% end %>
+<% end %>

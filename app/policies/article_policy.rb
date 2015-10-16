@@ -20,6 +20,18 @@ class ArticlePolicy < ApplicationPolicy
     true
   end
 
+  def manage?
+    admin?
+  end
+
+  def new?
+    admin?
+  end
+
+  def create?
+    admin?
+  end
+
   # def show?
   #   scope.where(:id => record.id).exists?
   # end

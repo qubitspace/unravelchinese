@@ -16,11 +16,14 @@ class ArticlesController < ApplicationController
     @article_stats = @article.get_stats current_user
   end
 
-  def new
-    @form = Article::Form.new(new_article)
-  end
+  #def new
+  #  authorize Article
+  #  @form = Article::Form.new(new_article)
+  #end
 
   def create
+    authorize Article
+
     display_type = params[:article][:display_type]
     form = Article::Form.new(new_article)
 
@@ -43,12 +46,15 @@ class ArticlesController < ApplicationController
   end
 
   def edit
+    authorize Article
     @form = Article::Form.new(Article.includes(:source).find(params[:id]))
   end
 
   def update
-    display_type = params[:article][:display_type]
     article = Article.find(params[:id])
+    authorize article
+
+    display_type = params[:article][:display_type]
     form = Article::Form.new(article)
 
     if form.validate(params[:article])
@@ -68,6 +74,8 @@ class ArticlesController < ApplicationController
 
   def manage
     @article = get_article params[:article_id]
+    authorize @article
+
     sentence_ids = []
     @article.sections.each do |section|
       if section.resource_type == 'Sentence'
@@ -88,7 +96,9 @@ class ArticlesController < ApplicationController
   end
 
   def add_sentence_section
-    article = Article..includes(:sentences).find(params[:sentence][:section_attributes][:article_id])
+    article = Article.includes(:sentences).find(params[:sentence][:section_attributes][:article_id])
+    authorize article
+
     section = Section.new
     article.sentences.each do |s|
       if s.value == sentence.value
@@ -132,6 +142,8 @@ class ArticlesController < ApplicationController
 
   def create_comment
     @article = Article.find params[:id]
+    authorize @article
+
     @form = Comment::Form.new(Comment.new)
     @form.commentable = @article
     if @form.validate(params[:comment])
@@ -145,9 +157,9 @@ class ArticlesController < ApplicationController
 
 
   def next_comments
-    present Article::Update
+    #present Article::Update
     # using .(:append) will mark the results as html safe and applies caching
-    render js: concept("comment/comment_cell/comment_grid", @article, page: params[:page]).(:append)
+    #render js: concept("comment/comment_cell/comment_grid", @article, page: params[:page]).(:append)
   end
 
   def view_raw_content
@@ -163,7 +175,9 @@ class ArticlesController < ApplicationController
   end
 
   def import
-    article = Article.find(params[:article_id])
+    article = get_article params[:article_id]
+    authorize article
+
     value = params["article_import"]["import_sentences"]
     value.gsub /^$\n/, ''
     if value.present?
@@ -198,9 +212,12 @@ class ArticlesController < ApplicationController
   # TODO: turn the display into a cell (use the whole article?)
   # Then i can easily load it to the div.
   def export_sentences
+    article = get_article params[:id]
+    authorize article
+
+    sentences = []
     result = "export = $('#export-sentences');"
     result += "$('#export-sentences').text('');"
-    article = Article.find(params[:id])
     article.sentences.each do |sentence|
       result += "export.append('#{sentence.value}<br>');"
       sentence.translations.where("source_id is null").each do |translation|
@@ -212,24 +229,29 @@ class ArticlesController < ApplicationController
   end
 
   def re_sort
-    article = Article.includes(:sections).find(params[:id])
+    article = policy_scope(Article).includes(:sections).find(params[:id])
+    authorize article
+
     article.re_sort
     redirect_to article_manage_path(article)
   end
 
   def show_import_form
-    article = Article.find(params[:article_id])
+    article = get_article params[:article_id]
+    authorize article
     form = Article::ImportForm.new(article)
     render js: concept("article/import_form_cell", form, current_user: current_user, display_type: params[:display_type]).(:show_import_form)
   end
 
   def cancel_import_form
+    authorize Article
     form = model_class::Form.new(Article.new)
     render js: concept("article/import_form_cell", form, current_user: current_user).(:cancel_import_form)
   end
 
   def delete_all_sections
-    article = Article.find(params[:id])
+    authorize Article
+    article = get_article params[:id]
     article.sections.delete_all
     redirect_to article_manage_path(article)
   end
@@ -237,7 +259,11 @@ class ArticlesController < ApplicationController
   private
 
   def new_article
-    Article.new(source: Source.new)
+    policy_scope(Article).new(source: Source.new)
+  end
+
+  def get_article id
+    policy_scope(Article).find(id)
   end
 
   def new_sentence

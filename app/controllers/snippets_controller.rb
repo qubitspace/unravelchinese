@@ -2,19 +2,24 @@ class SnippetsController < ApplicationController
   #include Concerns::Manageable
 
   def index
+    authorize Snippet
     @snippets = Snippet.all
   end
 
   def show
     @snippet = Snippet.find(params[:id])
+    authorize @snippet
   end
 
   def new
+    authorize Snippet
     @form = Snippet::Form.new(Snippet.new)
   end
 
   def edit
     @snippet = Snippet.find(params[:id])
+    authorize @snippet
+
     @form = Snippet::Form.new(@snippet)
   end
 
@@ -22,6 +27,8 @@ class SnippetsController < ApplicationController
   def create
     article = Article.find params[:snippet][:section_attributes][:article_id]
     snippet = Snippet.new(:section => Section.new(:article_id => article.id))
+    authorize snippet
+
     snippet_form = Snippet::Form.new(snippet)
 
     # New Snippet Form
@@ -49,6 +56,8 @@ class SnippetsController < ApplicationController
 
   def update
     @snippet = Snippet.find(params[:id])
+    authorize @snippet
+
     @form = Snippet::Form.new(@snippet)
     if @form.validate(params[:snippet])
       @form.save
@@ -61,6 +70,8 @@ class SnippetsController < ApplicationController
 
   def destroy
     @snippet = Snippet.find(params[:id])
+    authorize @snippet
+
     @snippet.destroy
     respond_to do |format|
       format.html { redirect_to snippets_url, notice: 'Snippet was successfully destroyed.' }

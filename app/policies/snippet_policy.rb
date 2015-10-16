@@ -1,0 +1,2 @@
+class SnippetPolicy < ApplicationPolicy
+end

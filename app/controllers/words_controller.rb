@@ -2,6 +2,7 @@ class WordsController < ApplicationController
   include Concerns::Manageable
 
   def index
+    authorize Word
     if params[:query].present?
       @results = Word.search(params[:query], params[:exact_match])
     elsif params[:simplified].present?
@@ -13,7 +14,7 @@ class WordsController < ApplicationController
 
   def show
     @word = policy_scope(Word).find(params[:id])
-    authorize(@word)
+    authorize @word
 
     @derived_words = Word.order('-hsk_character_level desc')
       .search(@word.simplified).select { |word| word != @word }
@@ -31,6 +32,8 @@ class WordsController < ApplicationController
 
   def manage
     @word = Word.find(params[:word_id])
+    authorize @word
+
     @definition_form = Definition::Form.new(Definition.new)
     @tag_form = Tag::Form.new(Tag.new)
   end
@@ -58,6 +61,7 @@ class WordsController < ApplicationController
   end
 
   def split_word word
+    authorize Word
     (0..word.length).inject([]){|ai,i|
       (1..word.length - i).inject(ai){|aj,j|
         aj << word[i,j]
@@ -67,6 +71,8 @@ class WordsController < ApplicationController
 
   def create_definition
     @word = Word.find params[:word_id]
+    authorize @word
+
     @form = Definition::Form.new(Definition.new(:word_id => @word.id))
 
     if @form.validate(params[:definition])
@@ -93,6 +99,9 @@ class WordsController < ApplicationController
   end
 
   def update_definition
+    authorize Word
+
+    # Shouldn't this be in the definitions controller?
     @definition = Definition.find(params[:definition][:id])
     @form = Definition::Form.new(@definition)
 
@@ -114,6 +123,8 @@ class WordsController < ApplicationController
   end
 
   def delete_definition
+    authorize Word
+
     @definition = Definition.find(params[:definition_id])
     @definition.destroy
 
@@ -121,17 +132,23 @@ class WordsController < ApplicationController
   end
 
   def show_edit_definition_form
+    authorize Word
+
     @definition = Definition.includes(:word).find(params[:definition_id])
     @form = Definition::Form.new(@definition)
     respond_to :js
   end
 
   def show_manage_definition_cell
+    authorize Word
+
     @definition = Definition.find(params[:definition_id])
     respond_to :js
   end
 
   def process_params!(params)
+    authorize Word
+
     params.merge!(current_user: current_user)
   end
 

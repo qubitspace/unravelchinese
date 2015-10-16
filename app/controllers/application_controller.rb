@@ -5,10 +5,10 @@ class ApplicationController < ActionController::Base
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  protect_from_forgery with: :exception
-  before_action :require_login, except: [:welcome]
+  #protect_from_forgery with: :exception
+  #before_action :require_login, except: [:welcome]
 
-  after_action :verify_policy_scoped
+  #after_action :verify_policy_scoped
   after_action :verify_authorized
 
   #include Trailblazer::Operation::Controller

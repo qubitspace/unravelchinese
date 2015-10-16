@@ -2,17 +2,21 @@ class SentencesController < ApplicationController
   include Concerns::Manageable
 
   def index
+    authorize Sentence
     @sentences = Sentence.all
   end
 
   def show
     @sentence = get_sentence params[:id]#Sentence.find params[:id]
+    authorize @sentence
   end
 
   # Overwrite manageable function for tokenization
   def update
-    display_type = params[:sentence][:display_type]
     sentence = Sentence.find(params[:id])
+    authorize @sentence
+
+    display_type = params[:sentence][:display_type]
     sentence.setup_tokenizer
     form = Sentence::Form.new(sentence)
 
@@ -35,6 +39,7 @@ class SentencesController < ApplicationController
   end
 
   def cancel_edit_form
+    authorize Sentence
     display_type = params[:display_type]
 
 
@@ -57,6 +62,7 @@ class SentencesController < ApplicationController
 
   def tokenize
     @sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
+    authorize @sentence
 
     @sentence.setup_tokenizer
 
@@ -66,6 +72,8 @@ class SentencesController < ApplicationController
 
   def add_token
     sentence = get_sentence params[:sentence_id]#Sentence.find params[:sentence_id]
+    authorize sentence
+
     word = Word.find params[:word_id]
 
     sentence.setup_tokenizer
@@ -89,6 +97,8 @@ class SentencesController < ApplicationController
 
   def untokenize
     sentence = get_sentence params[:sentence_id]
+    authorize sentence
+
     sentence.tokens.delete_all
     sentence.setup_tokenizer
     candidate_tokens = get_candidate_tokens sentence.untokenized
@@ -99,6 +109,8 @@ class SentencesController < ApplicationController
 
   def remove_last_token
     sentence = get_sentence params[:sentence_id]
+    authorize sentence
+
     sentence.tokens.order("sort_order desc").last.delete
     sentence.reload
     sentence.setup_tokenizer
@@ -110,6 +122,8 @@ class SentencesController < ApplicationController
 
   def show_tokenize_cell
     sentence = get_sentence params[:sentence_id]
+    authorize sentence
+
     sentence.setup_tokenizer
     candidate_tokens = get_candidate_tokens sentence.untokenized
     render js: concept("sentence/sentence_cell/tokenize", sentence,
@@ -119,6 +133,7 @@ class SentencesController < ApplicationController
 
   def show_manage_cell
     sentence = get_sentence params[:sentence_id]
+    authorize sentence
 
     render js: concept("sentence/sentence_cell/manage", sentence,
       current_user: current_user).(:show_manage_cell)
@@ -126,6 +141,8 @@ class SentencesController < ApplicationController
 
   def retranslate
     sentence = get_sentence params[:sentence_id]
+    authorize sentence
+
     sentence.retranslate force_translation: true
     render js: concept("sentence/sentence_cell/manage", sentence,
       current_user: current_user).(:refresh)
@@ -134,7 +151,6 @@ class SentencesController < ApplicationController
   private
 
   def get_candidate_tokens untokenized
-
     matches = []
     return matches unless untokenized.present?
 

@@ -18,6 +18,10 @@ class Article::ArticleCell < Cell::Concept
   property :sections do
     property :resource
   end
+  property :sentences
+  property :snippets
+  property :iframes
+  property :photos
 
   property :commentable
   property :published
