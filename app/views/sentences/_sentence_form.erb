@@ -1,9 +1,0 @@
-<div class="edit_sentence_form">
-  <%= simple_form_for @sentence_form do |f| %>
-
-    <%= f.input :value %>
-
-    <%= f.button :submit, class: :expand %>
-  <% end %>
-  <%= @sentence_form.errors.messages unless @sentence_form.errors.nil? %>
-</div>

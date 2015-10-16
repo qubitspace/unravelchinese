@@ -1,1 +1,0 @@
-$('.tagging_cell[tagging-id="<%= @tagging.id %>"]').hide();
