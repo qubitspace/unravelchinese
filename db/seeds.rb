@@ -45,7 +45,7 @@ File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).each_wit
 						value =~ /\{\{(.*?)\}\}/
 						tags = $1.nil? ? [] : $1.split('|')
 						value.sub! /\{\{.*\}\}/, ''
-            definition = Definition.create word: word, value: value, rank: j
+            definition = Definition.create word: word, value: value, sort_order: j
 
 						tags.each { |tag_name|
 							definition.word.tag tag_name
