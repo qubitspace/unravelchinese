@@ -36,7 +36,7 @@
     <h4>Translations:</h4>
     <% translations.each do |translation| %>
       <div class="translation tokenize">
-        Translation: <%= translation.value %><br>
+        <%= translation.value %><br>
         <% if translation.user.present? %>
           User: <%= translation.user.username %>
         <% elsif translation.source.present? %>

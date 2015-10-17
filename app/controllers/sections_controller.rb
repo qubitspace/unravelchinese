@@ -4,9 +4,11 @@ class SectionsController < ApplicationController
 
   def manage
     @section = Section.find(params[:section_id])
+    authorize @section
   end
 
   def create
+    authorize Section
     article = Article.find params[:section][:article_id]
 
     display_type = params[:section][:display_type]
@@ -45,8 +47,10 @@ class SectionsController < ApplicationController
   end
 
   def update
-    display_type = params[:section][:display_type]
     section = Section.find(params[:id])
+    authorize @section
+
+    display_type = params[:section][:display_type]
     form = Section::Form.new(section)
 
     if form.validate(params[:"#{model_type}"])
@@ -61,6 +65,8 @@ class SectionsController < ApplicationController
   # Override to customize the virtual offsets field
   def show_edit_form
     section = Section.find(params[:"section_id"])
+    authorize @section
+
     form = Section::Form.new(section)
     form.offsets = section.token_offsets
     render js: concept("section/section_form_cell", form, current_user: current_user, display_type: params[:display_type]).(:show_edit_form)
@@ -68,6 +74,8 @@ class SectionsController < ApplicationController
 
   def move_up
     section = Section.find(params[:section_id])
+    authorize @section
+
     prev_section = section.move_up
 
     if prev_section.present?
@@ -84,6 +92,8 @@ class SectionsController < ApplicationController
 
   def move_down
     section = Section.find(params[:section_id])
+    authorize @section
+
     next_section = section.move_down
 
     if next_section.present?
@@ -100,6 +110,8 @@ class SectionsController < ApplicationController
 
   def set_start_time
     section = Section.find(params[:section_id])
+    authorize @section
+
     start_time = params[:start_time]
     section.start_time = start_time
     section.save
@@ -111,6 +123,8 @@ class SectionsController < ApplicationController
 
   def set_end_time
     section = Section.find(params[:section_id])
+    authorize @section
+
     end_time = params[:end_time]
     section.end_time = end_time
     section.save
