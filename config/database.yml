@@ -7,7 +7,7 @@
 
 development:
   adapter: mysql2
-  database: unravelchinese
+  database: unravelchinese_dev
   encoding: utf8
   collation: utf8_unicode_ci
   username: root

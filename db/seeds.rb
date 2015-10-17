@@ -38,7 +38,7 @@ File.open( "D:\\rails\\unravelchinese\\db\\dictionary.csv", "r:UTF-8" ).each_wit
                             word_frequency: word_freq,
                             strokes: strokes,
                             radical_number: radical_number,
-                            category: :word,
+                            category: :chinese,
                             noun: !!(/[[:upper:]]/.match(pinyin[0]) and not /[[:upper:]]/.match(simplified[0]))
 
         definitions.split("/").each_with_index do |value, j|
