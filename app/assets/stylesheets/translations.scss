@@ -2,23 +2,35 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.translations-header {
+  font-size: 16px;
+  font-weight: bold;
+  font: monospace;
+  color: #DC602B;
+}
 
-.translation.show {
-  background-color: #caa;
-  border: 1px solid #533;
+
+.translations {
+  display: none;
   border-radius: 5px;
   margin: 15px 5px;
   padding: 10px;
-  overflow:auto;
-  .votes {
-    float: right;
-  }
-}
-
-.translation.tokenize {
   border: 1px solid #533;
-  background-color: #ddd;
-  border-radius: 2px;
-  margin: 10px 5px;
-  padding: 5px;
+  .translation {
+    overflow:auto;
+    border-bottom: 1px solid #ccc;
+    .votes {
+      float: right;
+    }
+    .translation-attribution {
+      float: right;
+    }
+  }
+
+  .translation.tokenize {
+    border: 1px solid #533;
+    border-radius: 2px;
+    margin: 10px 5px;
+    padding: 5px;
+  }
 }
