@@ -48,7 +48,7 @@ class SectionsController < ApplicationController
 
   def update
     section = Section.find(params[:id])
-    authorize @section
+    authorize section
 
     display_type = params[:section][:display_type]
     form = Section::Form.new(section)
@@ -65,7 +65,7 @@ class SectionsController < ApplicationController
   # Override to customize the virtual offsets field
   def show_edit_form
     section = Section.find(params[:"section_id"])
-    authorize @section
+    authorize section
 
     form = Section::Form.new(section)
     form.offsets = section.token_offsets
@@ -74,7 +74,7 @@ class SectionsController < ApplicationController
 
   def move_up
     section = Section.find(params[:section_id])
-    authorize @section
+    authorize section
 
     prev_section = section.move_up
 
@@ -92,7 +92,7 @@ class SectionsController < ApplicationController
 
   def move_down
     section = Section.find(params[:section_id])
-    authorize @section
+    authorize section
 
     next_section = section.move_down
 
@@ -110,7 +110,7 @@ class SectionsController < ApplicationController
 
   def set_start_time
     section = Section.find(params[:section_id])
-    authorize @section
+    authorize section
 
     start_time = params[:start_time]
     section.start_time = start_time
@@ -123,7 +123,7 @@ class SectionsController < ApplicationController
 
   def set_end_time
     section = Section.find(params[:section_id])
-    authorize @section
+    authorize section
 
     end_time = params[:end_time]
     section.end_time = end_time
