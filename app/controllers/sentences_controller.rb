@@ -14,7 +14,7 @@ class SentencesController < ApplicationController
   # Overwrite manageable function for tokenization
   def update
     sentence = Sentence.find(params[:id])
-    authorize @sentence
+    authorize sentence
 
     display_type = params[:sentence][:display_type]
     sentence.setup_tokenizer

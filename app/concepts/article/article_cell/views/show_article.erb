@@ -14,6 +14,14 @@
     <% if description.present? %><%= description %><% end %>
   </div>
 
+  <div class="content-link">
+    <%= link_to content_source_link, content_source_name %>
+  </div>
+
+  <div class="translation-link">
+    <%= link_to translation_source_link, translation_source_name %>
+  </div>
+
   <% if iframe.present? %>
     <div class="iframe">
       <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>

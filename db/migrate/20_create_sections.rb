@@ -4,8 +4,8 @@ class CreateSections < ActiveRecord::Migration
       t.references :article
       t.references :resource, polymorphic: true
       t.integer :sort_order
-      t.integer :container
-      t.integer :alignment
+      t.integer :container, null: false, default: 0
+      t.integer :alignment, null: false, default: 0
       t.boolean :end_paragraph
       t.decimal :start_time
       t.decimal :end_time

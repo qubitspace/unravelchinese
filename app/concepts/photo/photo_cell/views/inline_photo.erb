@@ -1,10 +1,9 @@
 
 <div class="photo" id="photo-<%= id %>">
-  <h1><%= title %></h1>
-  <%= file %><br/>
-  <%= image_tag file %><br/>
-  <%= description %><br>
-  <%= source_name %><br>
-  <%= source_link %><br>
+  <h3><%= title %></h3>
+  <%= image_tag(file, :class => "inline-photo") %><br/>
+  <% if description.present? %><%= description %><br><% end %>
+  <% if source_name.present? %><%= source_name %><br><% end %>
+  <% if source_link.present? %><%= source_link %><br><% end %>
   <br>
 </div>

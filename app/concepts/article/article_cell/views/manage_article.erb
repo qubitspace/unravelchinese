@@ -2,9 +2,9 @@
 
 <div class="article <%= display_type %>" article-id="<%= id %>">
   <% if iframe.present? %>
-    <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
+    <%= concept("iframe/iframe_cell/manage", iframe, current_user: current_user ) %>
   <% elsif photo.present? %>
-    <%= concept("iframe/photo_cell/inline", photo, current_user: current_user ) %>
+    <%= concept("photo/photo_cell/manage", photo, current_user: current_user ) %>
   <% end %>
 
   <h1><%= title %></h1>

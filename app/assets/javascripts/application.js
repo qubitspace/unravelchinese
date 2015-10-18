@@ -224,7 +224,7 @@ function record(data){
 function checkScrollLocation() {
   $(window).scroll(function() {
     if (player) {
-      if (iframeFloatable && $('#iframe')) {
+      if (iframeFloatable && $('#iframe-container') && $('#iframe-container').offset()) {
         var topOfDiv = $("#iframe-container").offset().top; //gets offset of header
         var height = $("#iframe-container").outerHeight(); //gets height of header
 
