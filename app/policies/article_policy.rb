@@ -20,18 +20,6 @@ class ArticlePolicy < ApplicationPolicy
     true
   end
 
-  def manage?
-    admin?
-  end
-
-  def new?
-    admin?
-  end
-
-  def create?
-    admin?
-  end
-
   # def show?
   #   scope.where(:id => record.id).exists?
   # end
@@ -39,7 +27,7 @@ class ArticlePolicy < ApplicationPolicy
   class Scope < Scope
 
     def resolve
-      if user.admin?
+      if is_admin?
         scope.all
       else
         scope.where(:published => true)

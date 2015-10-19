@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   include Concerns::Manageable
+  skip_before_action :require_login, only: [:index]
 
   def index
     authorize Article
@@ -12,7 +13,7 @@ class ArticlesController < ApplicationController
 
     @form = Comment::Form.new(Comment.new)
 
-    @user_stats = current_user.get_stats
+    @user_stats = current_user ? current_user.get_stats : {}
     @article_stats = @article.get_stats current_user
   end
 

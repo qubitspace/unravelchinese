@@ -35,10 +35,15 @@ function playVideo() {
 
 function startFromSection(sectionId, startTime) {
   if (player) {
-    player.seekTo(startTime);
-    player.playVideo();
-    $(selectedSection).removeClass('active-section');
-    selectedSection = $(".section[section-id='" + sectionId + "']");
+    try {
+      player.seekTo(startTime);
+      player.playVideo();
+      $(selectedSection).removeClass('active-section');
+      selectedSection = $(".section[section-id='" + sectionId + "']");
+    }
+    catch(err) {
+        // Handle error(s) here
+    }
   }
 }
 

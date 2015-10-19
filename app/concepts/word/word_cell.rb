@@ -98,6 +98,10 @@ class Word::WordCell < Cell::Concept
   private
 
   def status
+    if !current_user.present?
+      return 'unknown'
+    end
+
     if ['alphanumeric','punctuation'].include? model.category
       status = 'known'
     else
@@ -112,7 +116,7 @@ class Word::WordCell < Cell::Concept
 
   def status_links
     links = []
-    return links if status == 'punctuation'
+    return links if status == 'punctuation' || !current_user.present?
 
     links << update_status_link(:known) if status != 'known'
     links << update_status_link(:unknown) if status != 'unknown'

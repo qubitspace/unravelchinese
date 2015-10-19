@@ -28,45 +28,76 @@ class Article < ActiveRecord::Base
  # stats - add averages.
   def get_stats current_user
     stats = {}
-    stats[:total_words] = 0
-    stats[:distinct_words] = 0
-    stats[:total_known_words] = 0
-    stats[:distinct_known_words] = 0
-    stats[:words] = {}
 
-    # TODO: get count (total, distinct, and known) for each hsk level
+    if current_user.present?
+      stats[:total_words] = 0
 
-    sections.each do |section|
-      if section.resource_type == 'Sentence'
-        sentence = section.resource # Sentences can be cloned so we need do count each section.
-        sentence.tokens.each do |token|
-          known = current_user.word_statuses.include? token.word.id
-          if !token.word.punctuation?
-            stats[:total_words] += 1
-            if stats[:words].has_key? token.simplified
-              stats[:words][token.simplified][:count] += 1
-            else
-              stats[:words][token.simplified] = { count: 1, known: known }
-              stats[:words][token.simplified][:hsk_character_level] = token.word.hsk_character_level
-              stats[:words][token.simplified][:hsk_word_level] = token.word.hsk_word_level
-              stats[:words][token.simplified][:character_frequency] = token.word.character_frequency
-              stats[:words][token.simplified][:word_frequency] = token.word.word_frequency
-              stats[:words][token.simplified][:radical_number] = token.word.radical_number
-              stats[:words][token.simplified][:strokes] = token.word.strokes
-              stats[:distinct_words] += 1
-              if known
-                stats[:distinct_known_words] += 1
+      stats[:distinct_words] = 0
+      stats[:distinct_known_words] = 0
+      stats[:distinct_learning_words] = 0
+      stats[:distinct_watching_words] = 0
+      stats[:distinct_unknown_words] = 0
+
+      stats[:total_known_words] = 0
+      stats[:total_learning_words] = 0
+      stats[:total_watching_words] = 0
+      stats[:total_unknown_words] = 0
+
+      stats[:words] = {}
+
+      # TODO: get count (total, distinct, and known) for each hsk level
+
+      sections.each do |section|
+        if section.resource_type == 'Sentence'
+          sentence = section.resource # Sentences can be cloned so we need do count each section.
+          sentence.tokens.each do |token|
+            learned_word = current_user.word_statuses[token.word.id]
+            status = learned_word.present? ? learned_word.status : 'unknown'
+            if !token.word.punctuation?
+              stats[:total_words] += 1
+
+              if stats[:words].has_key? token.simplified
+                stats[:words][token.simplified][:count] += 1
+              else
+                stats[:words][token.simplified] = { count: 1, status: status }
+                stats[:words][token.simplified][:hsk_character_level] = token.word.hsk_character_level
+                stats[:words][token.simplified][:hsk_word_level] = token.word.hsk_word_level
+                stats[:words][token.simplified][:character_frequency] = token.word.character_frequency
+                stats[:words][token.simplified][:word_frequency] = token.word.word_frequency
+                stats[:words][token.simplified][:radical_number] = token.word.radical_number
+                stats[:words][token.simplified][:strokes] = token.word.strokes
+                stats[:words][token.simplified][:pinyin] = token.word.pinyin
+
+                stats[:distinct_words] += 1
+                if status == 'known'
+                  stats[:distinct_known_words] += 1
+                elsif status == 'learning'
+                  stats[:distinct_learning_words] += 1
+                elsif status == 'watching'
+                  stats[:distinct_watching_words] += 1
+                elsif status == 'unknown'
+                  stats[:distinct_unknown_words] += 1
+                end
               end
-            end
-            if known
-              stats[:total_known_words] += 1
+
+
+              if status == 'known'
+                stats[:total_known_words] += 1
+              elsif status == 'learning'
+                stats[:total_learning_words] += 1
+              elsif status == 'watching'
+                stats[:total_watching_words] += 1
+              elsif status == 'unknown'
+                stats[:total_unknown_words] += 1
+              end
             end
           end
         end
       end
+
+      stats[:words] = stats[:words].sort_by {|k,v| v[:count]}.reverse
     end
 
-    stats[:words] = stats[:words].sort_by {|k,v| v[:count]}.reverse
     return stats
   end
 
