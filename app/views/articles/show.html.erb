@@ -25,17 +25,25 @@
     -->
   <% end %>
 
-  <h3>Article Stats</h3>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Right Skyscraper -->
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:300px;height:600px"
+       data-ad-client="ca-pub-5667774105481877"
+       data-ad-slot="6792082149"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
   <% unless @article_stats.empty? %>
+  <h3>Article Stats</h3>
     <%= @article_stats[:total_words] %> Total Words - <%= @article_stats[:total_known_words] %> Known
     (<%= ((@article_stats[:total_known_words].to_f/@article_stats[:total_words]) * 100).round(1) %>%)<br>
 
     <%= @article_stats[:distinct_words] %> Unique Words - <%= @article_stats[:distinct_known_words] %> Known
     (<%= ((@article_stats[:distinct_known_words].to_f/@article_stats[:distinct_words]) * 100).round(1) %>%)<br>
-  <% end %>
 
   <h3>Word Stats</h3>
-  <% unless @article_stats.empty? %>
     <table>
      <thead>
       <tr>

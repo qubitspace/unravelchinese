@@ -25,9 +25,11 @@ class WordsController < ApplicationController
       .first(3)
     @synonyms = Word.where(pinyin: @word.pinyin).first(3)
     @sentences = Sentence.where(['value LIKE ?', "%#{@word.simplified}%"]).first(3)
-    @articles = @sentences.collect { |sentence| sentence.section.present? and sentence.section.article }
-      .uniq{ |article| article.id }
-      .first(3)
+    if @sentence.present?
+      @articles = @sentences.collect { |sentence| sentence.section.present? and sentence.section.article.present? }
+        .uniq{ |article| article.id }
+        .first(3)
+    end
   end
 
   def manage
