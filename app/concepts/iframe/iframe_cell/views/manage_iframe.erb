@@ -1,7 +1,8 @@
+
 <div class="iframe <%= display_type %> scalable scalable-16-9" iframe-id="<%= id %>">
   <h3><%= title %></h3>
   <div class="scalable-content">
-    <iframe src="<%= url %>" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br/>
+    <iframe id="ytplayer" type="text/html" src="<%= url %>?enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br/>
   </div>
   <td><%= url %></td><br/>
 
