@@ -3,9 +3,10 @@ var currentSection = null;
 
 var selectedSection;
 var timerCheckPlaybackTime;
+var timerLoadPlayer
 var previousSection;
 
-var iframeFloatable = true;
+var iframeFloatable = true;;
 
 // This function will be called when the API is fully loaded
 function onYouTubePlayerAPIReady() { YTQueue(true);  }
@@ -71,18 +72,16 @@ function bindKeys() {
 
 function startFromSection(sectionId, startTime) {
   if (player) {
-    try {
-      playedSection = $(".section[section-id='" + sectionId + "']");
-      playedSection.addClass('active-section');
-      player.seekTo(startTime);
-      player.playVideo();
-      selectedSection.removeClass('active-section');
-      selectedSection = playedSection;
+    player.seekTo(startTime);
 
+    if (selectedSection) {
+      selectedSection.removeClass('active-section');
     }
-    catch(err) {
-        // Handle error(s) here
-    }
+    playedSection = $(".section[section-id='" + sectionId + "']");
+    playedSection.addClass('active-section');
+    selectedSection = playedSection;
+
+    player.playVideo();
   }
 }
 
@@ -134,11 +133,10 @@ function markCurrentSentence() {
         return false;
       }
 
-      if (nextSection)
 
       // If were after the current section start time, behind the end time
       // and before the next sections start time. Mark this sentence.
-      if (playbackTime > sentenceStartTime
+      if (playbackTime >= sentenceStartTime
             && (isNaN(sentenceEndTime) || playbackTime < sentenceEndTime)
             && (isNaN(nextStartTime) || playbackTime < nextStartTime)) {
         keepLooking = false;
@@ -146,7 +144,7 @@ function markCurrentSentence() {
         return false;
       }
       else {
-         $(selectedSection).removeClass('active-section');
+        $(selectedSection).removeClass('active-section');
       }
 
       selectedSection = nextSection;
@@ -172,23 +170,9 @@ function toggleFloatingIframe() {
 
 }
 
-var ready = function() {
-  bindKeys();
-  YTQueue(function(){
-    player = new YT.Player('ytplayer', {
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  });
-};
-
-
 function checkScrollLocation() {
-  $(window).scroll(function() {
-    if (player) {
-      if (iframeFloatable && $('#iframe-container') && $('#iframe-container').offset()) {
+  if (player) {
+      if ($('#iframe-container') && $('#iframe-container').offset()) {
         var topOfDiv = $("#iframe-container").offset().top; //gets offset of header
         var height = $("#iframe-container").outerHeight(); //gets height of header
 
@@ -202,6 +186,11 @@ function checkScrollLocation() {
         }
       }
     }
+}
+
+function addScrollCheck() {
+  $(window).scroll(function() {
+    checkScrollLocation();
   });
 }
 
@@ -224,11 +213,13 @@ function pinVideo() {
 }
 
 function floatVideo() {
-  $("#ytplayer").removeClass("iframe-full-size");
-  $("#ytplayer").addClass("iframe-float-right");
-  $("#left-iframe-wrapper").show();
-
-  setFloatVideoSize();
+  if (iframeFloatable)
+  {
+    $("#ytplayer").removeClass("iframe-full-size");
+    $("#ytplayer").addClass("iframe-float-right");
+    $("#left-iframe-wrapper").show();
+    setFloatVideoSize();
+  }
 }
 
 function bindWindowResizeFunction() {
@@ -257,16 +248,24 @@ function setFloatVideoSize() {
   $("#ytplayer").height(width*0.5625);
 }
 
-$(function() {
-  checkScrollLocation();
-  bindKeys();
-  bindWindowResizeFunction();
-  YTQueue(function(){
+
+function loadYTPlayer() {
+  YTQueue(function() {
     player = new YT.Player('ytplayer', {
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
       }
     });
+    if (player && player.f) {
+      clearInterval(timerLoadPlayer);
+    }
   });
+}
+
+$(function() {
+  addScrollCheck();
+  bindKeys();
+  bindWindowResizeFunction();
+  timerLoadPlayer = setInterval(loadYTPlayer, 100);
 });

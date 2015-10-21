@@ -1,4 +1,4 @@
-<span class="section <%= display_type %> <%= style %>" start-time="<%=start_time%>" end-time="<%=end_time%>">
+<span class="section <%= display_type %> <%= style %>" start-time="<%=start_time%>" end-time="<%=end_time%>" section-id="<%= id %>">
   <% if start_time.present? %>
     <div class="word inline punctuation play-button">
       <a href="javascript:;" onClick="startFromSection(<%= id %>, <%= start_time %>);">►</a>
