@@ -5,5 +5,8 @@
   <div class='info'>
     From <%= created_at %>
   </div>
-  <%= edit_link %> - <%= manage_link %> - <%= delete_link %><br/>
+  <% if current_user and current_user.admin? %>
+    <%= published ? "Published" : "<strong>Unpublished</strong>" %><br/>
+    <%= edit_link %> - <%= manage_link %> - <%= delete_link %><br/>
+  <% end %>
 </div>

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_after_action :verify_authorized, only: [:new, :create]
   skip_before_action :require_login, only: [:new, :create]
 
   def new

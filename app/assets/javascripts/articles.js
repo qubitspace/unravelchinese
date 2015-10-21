@@ -6,12 +6,21 @@ var timerCheckPlaybackTime;
 var timerLoadPlayer
 var previousSection;
 
-var iframeFloatable = true;;
+var iframeFloatable = true;
+var videoPlayerPresent = false;
 
 // This function will be called when the API is fully loaded
 function onYouTubePlayerAPIReady() { YTQueue(true);  }
 
 function onPlayerReady() {
+}
+
+function pauseVideo() {
+  player.pauseVideo();
+}
+
+function playVideo() {
+  player.playVideo();
 }
 
 // Define YTQueue function.
@@ -36,42 +45,44 @@ var YTQueue = (function() {
 })();
 
 function bindKeys() {
-
   $(document).keypress(function( event ) {
-    var currentTime = player.getCurrentTime();
-    if(!currentSection) {
-      currentSection = $('.section').first();
-    }
-
-    if (event.which == 115) {
-      if (currentSection.hasClass('section')) {
-        sectionId = currentSection.attr('section-id');
-        $.ajax({
-          url: "/sections/" + sectionId + "/set_start_time",
-          type: "POST",
-          data: { start_time: currentTime }
-        });
-        previousSection = currentSection;
-        currentSection = currentSection.next();
+    if (videoPlayerPresent && player) {
+      alert(videoPlayerPresent);
+      var currentTime = player.getCurrentTime();
+      if(!currentSection) {
+        currentSection = $('.section').first();
       }
-    }
-    else if (event.which == 101) {
-      if (previousSection.hasClass('section')) {
-        sectionId = previousSection.attr('section-id');
-        $.ajax({
-          url: "/sections/" + sectionId + "/set_end_time",
-          type: "POST",
-          data: { end_time: currentTime }
-        });
-        previousSection = currentSection;
-        currentSection = currentSection.next();
+
+      if (event.which == 115) {
+        if (currentSection.hasClass('section')) {
+          sectionId = currentSection.attr('section-id');
+          $.ajax({
+            url: "/sections/" + sectionId + "/set_start_time",
+            type: "POST",
+            data: { start_time: currentTime }
+          });
+          previousSection = currentSection;
+          currentSection = currentSection.next();
+        }
+      }
+      else if (event.which == 101) {
+        if (previousSection.hasClass('section')) {
+          sectionId = previousSection.attr('section-id');
+          $.ajax({
+            url: "/sections/" + sectionId + "/set_end_time",
+            type: "POST",
+            data: { end_time: currentTime }
+          });
+          previousSection = currentSection;
+          currentSection = currentSection.next();
+        }
       }
     }
   });
 }
 
 function startFromSection(sectionId, startTime) {
-  if (player) {
+  if (videoPlayerPresent && player) {
     player.seekTo(startTime);
 
     if (selectedSection) {
@@ -108,7 +119,7 @@ function onPlayerStateChange(event) {
 
 
 function markCurrentSentence() {
-  if (player) {
+  if (videoPlayerPresent && player) {
     playbackTime = player.getCurrentTime();
 
     var keepLooking = true;
@@ -171,7 +182,7 @@ function toggleFloatingIframe() {
 }
 
 function checkScrollLocation() {
-  if (player) {
+  if (videoPlayerPresent && player) {
       if ($('#iframe-container') && $('#iframe-container').offset()) {
         var topOfDiv = $("#iframe-container").offset().top; //gets offset of header
         var height = $("#iframe-container").outerHeight(); //gets height of header
@@ -264,8 +275,14 @@ function loadYTPlayer() {
 }
 
 $(function() {
-  addScrollCheck();
-  bindKeys();
-  bindWindowResizeFunction();
-  timerLoadPlayer = setInterval(loadYTPlayer, 100);
+  if (document.getElementById('ytplayer')) {
+    videoPlayerPresent = true;
+  }
+  if (videoPlayerPresent)
+  {
+    addScrollCheck();
+    bindKeys();
+    bindWindowResizeFunction();
+    timerLoadPlayer = setInterval(loadYTPlayer, 100);
+  }
 });

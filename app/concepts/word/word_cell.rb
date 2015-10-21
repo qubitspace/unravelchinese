@@ -26,84 +26,28 @@ class Word::WordCell < Cell::Concept
       $('.word.#{display_type}[word-id="#{id}"]').each(function() {
         $(this).replaceWith('#{j(show)}');
       });
-      function addWordTooltip(word) {
-        word.qtip({
-            content: word.find('.tooltip'),
-            show: {
-                event: 'click',
-                solo: true,
-                effect: function() {
-                    $(this).fadeTo(200, 1);
-                }
-            },
-            hide: {
-                event: 'unfocus',
-                fixed: true
-            },
-            style: {
-                classes: "qtip-bootstrap"
-            },
-            position: {
-                my: 'bottom center',
-                at: 'top center',
-                viewport: $(window),
-                adjust: {
-                    method: 'shift flip'
-                }
-            }
-        });
 
-      }
-
-      function addWordTooltips()
-      {
-          $('.word').each(function () {
-              addWordTooltip($(this));
-          });
-      }
-
-      function addLearningMouseover(word) {
-          word.mouseover(function() {
-              $(this).find(".bottom").css('color', '#666');
-          });
-          word.mouseout(function() {
-              $(this).find(".bottom").css('color', '#FFFFFF');
-          });
-      }
-
-      function addCloseWordTooltipActions() {
-          $('.close_tooltip').click(function() {
-              $(this).closest('div.qtip').hide();
-          });
-      }
-
-      var ready;
-      ready = function() {
-        $('.word[word-id=#{id}]').each(function () {
-          addWordTooltip($(this));
-          addCloseWordTooltipActions(); // TODO: This should only be applied to the new word id.
-          if ('#{status}' == 'learning')
-          {
-            addLearningMouseover($(this));
-          }
-        });
-      };
-
-      $(document).ready(ready);
-      $(document).on('page:load', ready);
-
+      $('.word[word-id=#{id}]').each(function () {
+        addWordTooltip($(this));
+        addCloseWordTooltipActions(); // TODO: This should only be applied to the new word id.
+        if ('#{status}' == 'learning')
+        {
+          addLearningMouseover($(this));
+        }
+        $(this).addClass("flash");
+      });
     }
   end
 
   private
 
   def status
-    if !current_user.present?
-      return 'unknown'
-    end
+
 
     if ['alphanumeric','punctuation'].include? model.category
       status = 'known'
+    elsif !current_user.present?
+      return 'unknown'
     else
       status = current_user.word_statuses.has_key?(id) ? current_user.word_statuses[id].status : 'unknown'
     end

@@ -7,8 +7,8 @@ class CreateSections < ActiveRecord::Migration
       t.integer :container, null: false, default: 0
       t.integer :alignment, null: false, default: 0
       t.boolean :end_paragraph
-      t.decimal :start_time
-      t.decimal :end_time
+      t.float :start_time
+      t.float :end_time
       t.text :token_offsets
 
       t.timestamps null: false

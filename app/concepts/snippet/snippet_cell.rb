@@ -10,8 +10,14 @@ class Snippet::SnippetCell < Cell::Concept
 
   private
 
-  def html_content
-    content(escape: false)
+  def rendered_content
+    if html?
+      content(escape: false)
+    elsif redcloth?
+      content
+    elsif raw?
+      content
+    end
   end
 
   class Manage < Snippet::SnippetCell

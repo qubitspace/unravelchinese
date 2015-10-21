@@ -1,5 +1,9 @@
 <div class="article <%= display_type %>" article-id="<%= id %>">
 
+  <% if current_user and current_user.admin? %>
+    <%= link_to 'Manage', article_manage_path(model) %>
+  <% end %>
+
   <div class="title"><%= title %></div>
 
   <div class="source">
@@ -14,19 +18,22 @@
     <% if description.present? %><%= description %><% end %>
   </div>
 
-  <div class="content-link">
-    <%= link_to content_source_link, content_source_name %>
-  </div>
+  <% if content_source_name.present? and content_source_link.present? %>
+    <div class="content-link">
+      Content from <%= link_to content_source_name, content_source_link, :target => "_blank" %><br/>
+    </div>
+  <% end %>
 
-  <div class="translation-link">
-    <%= link_to translation_source_link, translation_source_name %>
-  </div>
+  <% if translation_source_name.present? and translation_source_link.present? %>
+    <div class="translation-link">
+      Transtlation by <%= link_to translation_source_name, translation_source_link, :target => "_blank" %><br/>
+    </div>
+  <% end %>
 
   <% if iframe.present? %>
     <div class="iframe">
       <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
     </div>
-
   <% elsif photo.present? %>
     <div class="photo">
       <%= concept("photo/photo_cell/inline", photo, current_user: current_user ) %>

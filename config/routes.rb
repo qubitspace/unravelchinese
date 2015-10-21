@@ -61,10 +61,10 @@ Rails.application.routes.draw do
 
   resources :snippets do
     get :manage
-    put 'show_new_form/:display_type', to: 'sentences#show_new_form', as: 'show_new_form', on: :collection
-    put 'cancel_new_form/:display_type', to: 'sentences#cancel_new_form', as: 'cancel_new_form', on: :collection
-    put 'show_edit_form/:display_type', to: 'sentences#show_edit_form', as: 'show_edit_form'
-    put 'cancel_edit_form/:display_type', to: 'sentences#cancel_edit_form', as: 'cancel_edit_form'
+    put 'show_new_form/:display_type', to: 'snippets#show_new_form', as: 'show_new_form', on: :collection
+    put 'cancel_new_form/:display_type', to: 'snippets#cancel_new_form', as: 'cancel_new_form', on: :collection
+    put 'show_edit_form/:display_type', to: 'snippets#show_edit_form', as: 'show_edit_form'
+    put 'cancel_edit_form/:display_type', to: 'snippets#cancel_edit_form', as: 'cancel_edit_form'
   end
 
   resources :words do

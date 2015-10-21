@@ -1,5 +1,5 @@
 class SnippetsController < ApplicationController
-  #include Concerns::Manageable
+  include Concerns::Manageable
 
   def index
     authorize Snippet
@@ -61,7 +61,6 @@ class SnippetsController < ApplicationController
     @form = Snippet::Form.new(@snippet)
     if @form.validate(params[:snippet])
       @form.save
-      flash[:notice] = "Created comment for \"#{@snippet.title}\""
       return redirect_to snippet_path(@snippet)
     end
 

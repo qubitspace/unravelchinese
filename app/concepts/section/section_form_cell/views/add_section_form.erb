@@ -48,7 +48,7 @@
         <%= f.text_field :content %><br>
 
         <%= f.label :render_type %>
-        <%= f.select :render_type, [[ "HTML", 0 ], ["RedCloth", 1], ["Raw", 2]] %><br>
+        <%= f.select :render_type, [[ "HTML", 'html' ], ["RedCloth", 'redcloth'], ["Raw", 'raw']] %><br>
       <% end %>
     </fieldset>
 

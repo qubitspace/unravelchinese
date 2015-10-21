@@ -24,13 +24,14 @@ $dark-gray: #333333;
   &.unknown .top { font-size: 22px; }
 
   &.learning .top { font-size: 26px; font-weight: bold; }
-  &.watching .top { font-size: 26px; }
+  &.watching .top { font-size: 22px; }
 
   .bottom {  font-size: 26px; line-height: 25px; }
   &.known .bottom.learnable { display: none; }
 
   &.unknown .bottom.learnable { display: block; }
-  &.learning .bottom.learnable { display: block; font-size: 20px; color: #FFFFFF; }
+  &.learning .bottom.learnable { display: block; font-size: 20px; visibility: hidden; }
+
   &.watching .bottom.learnable { display: block; font-weight: bold; }
 
   &.known .mark_word_known { display: none; }
@@ -243,4 +244,36 @@ $dark-gray: #333333;
     width: 20px;
     height: 20px;
   }
+}
+
+/* Flash Words on Update */
+.flash{
+
+  -moz-animation: flash 1s ease-out;
+  -moz-animation-iteration-count: 1;
+
+  -webkit-animation: flash 1s ease-out;
+  -webkit-animation-iteration-count: 1;
+
+  -ms-animation: flash 1s ease-out;
+  -ms-animation-iteration-count: 1;
+
+}
+
+@-webkit-keyframes flash {
+    0% { background-color:none;}
+    50% { background-color:#fbf8b2;}
+    100% {background-color:none;}
+}
+
+@-moz-keyframes flash {
+    0% { background-color:none;}
+    50% { background-color:#fbf8b2;}
+    100% {background-color:none;}
+}
+
+@-ms-keyframes flash {
+    0% { background-color:none;}
+    50% { background-color:#fbf8b2;}
+    100% {background-color:none;}
 }

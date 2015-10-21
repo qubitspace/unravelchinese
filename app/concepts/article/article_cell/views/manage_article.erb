@@ -1,6 +1,9 @@
 
 
 <div class="article <%= display_type %>" article-id="<%= id %>">
+
+  <%= link_to 'Show', article_path(model) %>
+
   <% if iframe.present? %>
     <%= concept("iframe/iframe_cell/manage", iframe, current_user: current_user ) %>
   <% elsif photo.present? %>
@@ -19,10 +22,7 @@
   <%= delete_all_sections_link %><br/><br/>
 
   <%= link_to 'Import Sentences', article_show_import_form_path(model, display_type: :list), remote: true, method: :put %><br/>
-  <%= link_to 'Export Sentences', export_sentences_article_path(model, display_type: :list), remote: true, method: :get %><br/>
-  <div id="export-sentences">
-    EXPORT HERE!
-  </div>
+  <%#= link_to 'Export Sentences', export_sentences_article_path(model, display_type: :list), remote: true, method: :get %><br/>
 
   <div id="import-sentences">
   </div>

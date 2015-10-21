@@ -24,6 +24,7 @@ class SectionsController < ApplicationController
       end
     elsif resource_type == "Snippet"
       params[:section].delete :sentence_attributes
+
     elsif resource_type == "Photo"
       params[:section].delete :sentence_attributes
       params[:section].delete :snippet_attributes
@@ -39,6 +40,7 @@ class SectionsController < ApplicationController
     if form.validate(params[:section])
       sort_order = params[:section][:sort_order].empty? ? nil : params[:section][:sort_order]
       form.model.set_sort_order article, sort_order
+
       form.save
       render js: concept("section/section_cell/#{display_type}", form.model, current_user: current_user).(:append)
     else

@@ -40,10 +40,10 @@ function addWordTooltips()
 
 function addLearningMouseover(word) {
     word.mouseover(function() {
-        $(this).find(".bottom").css('color', '#666');
+        $(this).find(".bottom").css('visibility', 'visible');
     });
     word.mouseout(function() {
-        $(this).find(".bottom").css('color', '#FFFFFF');
+        $(this).find(".bottom").css('visibility', 'hidden');
     });
 }
 
