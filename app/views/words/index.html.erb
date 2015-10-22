@@ -1,11 +1,23 @@
+<% content_for :meta do %>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Right Skyscraper -->
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:300px;height:600px"
+       data-ad-client="ca-pub-5667774105481877"
+       data-ad-slot="6792082149"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+<% end %>
+
 <h1>Words</h1>
 
 <%= form_tag [:words], method: 'get' do %>
   <p>
-    <h4>Search Simplified, Traditional and Pinyin</h4><br>
     <%= text_field_tag :query, params[:query] %>
     <%= submit_tag "Search", :name => nil %><br><br>
-    <%= check_box_tag :exact_match, 1, params[:exact_match] %> <em>Match Accents and Tones</em><br><br>
+    <%= check_box_tag :exact_match, 1, params[:exact_match] %> <em>Exact Match (Accents and Tones)</em><br><br>
     <em>Pinyin with tone numbers at the end will be converted to tone marks (ex: zhong1 wen4 for zhōngwén)</em>
 <% end %>
 

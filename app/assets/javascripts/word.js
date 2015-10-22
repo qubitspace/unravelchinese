@@ -33,7 +33,7 @@ function addWordTooltip(word) {
 
 function addWordTooltips()
 {
-    $('.word.chinese').each(function () {
+    $('.word.inline.chinese').each(function () {
         addWordTooltip($(this));
     });
 }
@@ -47,11 +47,11 @@ function addLearningMouseover(word) {
     });
 }
 
-function addLearningMouseovers() {
-    $('.word.learning').each(function () {
-        addLearningMouseover($(this));
-    });
-}
+// function addLearningMouseovers() {
+//     $('.word.learning').each(function () {
+//         addLearningMouseover($(this));
+//     });
+// }
 
 function closeTooltip() {
     $('div.qtip:visible').hide();
@@ -79,7 +79,7 @@ $(document).keyup(function(e) {
 var ready;
 ready = function() {
     addWordTooltips();
-    addLearningMouseovers();
+    //addLearningMouseovers();
     addCloseWordTooltipActions();
 };
 

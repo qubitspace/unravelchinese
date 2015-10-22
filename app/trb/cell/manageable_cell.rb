@@ -5,7 +5,6 @@ module Cell
       base.property :id
     end
 
-
     def show
       render (display_type + '_' + model_type).to_sym
     end

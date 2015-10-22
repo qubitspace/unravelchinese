@@ -4,6 +4,7 @@ $black: #000000;
 $light-gray: #999999;
 $dark-gray: #333333;
 
+
 .word.inline {
   display: inline-block;
   text-align: center;
@@ -12,7 +13,7 @@ $dark-gray: #333333;
   margin-bottom: 0px;
   margin-right: 2px;
   height: 60px;
-  font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+  font-family: Garamond, serif, Georgia, Times New Roman, Cambria;
   cursor: pointer;
 
   &.punctuation { margin-right: 0px; }
@@ -53,28 +54,65 @@ $dark-gray: #333333;
   }
 }
 
+
+$unknown-color: #33332F;
+$unknown-background-color: #DBDBDB;
+$watching-color: #AD0C0E;
+$watching-background-color: #FFE0E0;
+$learning-color: #E37100;
+$learning-background-color: #FFF1DB;
+$known-color: #005213;
+$known-background-color: #BAD6BB;
+
 .word.list, .word.search {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #000;
+  border: 1px solid #000;
   overflow: auto;
+  padding: 10px;
+  background-color: #fafafa;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -o-border-radius:3px;
+  -ms-border-radius:3px;
 
   .status {
+    text-align: center;
     margin-bottom: 10px;
+    padding: 5px;
     font-weight: bold;
     font-size: 14px;
+    border: 1px solid #000;
+
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -o-border-radius:3px;
+    -ms-border-radius:3px;
   }
   .status.known {
-    color: green;
+    color: $known-color;
+    border: 1px solid $known-color;;
+    background-color: $known-background-color;
   }
   .status.learning {
-    color: orange;
+    color: $learning-color;
+    border: 1px solid $learning-color;;
+    background-color: $learning-background-color;
+  }
+  .status.watching {
+    color: $watching-color;
+    border: 1px solid $watching-color;;
+    background-color: $watching-background-color;
   }
   .status.unknown {
-    color: red;
+    color: $unknown-color;
+    border: 1px solid $unknown-color;;
+    background-color: $unknown-background-color;
   }
   .word-left {
     float: left;
@@ -82,33 +120,38 @@ $dark-gray: #333333;
     height: 100%;
     text-align: center;
     flex: 0 1 auto;
+
+    .simplified {
+      font-size: 30px; text-align: center; line-height: 40px;
+      a { text-decoration: none; color: $red; }
+      a:hover, a:active { border-bottom: 1px solid $red;  }
+    }
+
+    .pinyin {
+      font-size: 20px; color: $dark-gray;
+      mark {
+        font-weight: bold;
+        background-color: #FFFFFF;
+      }
+    }
+    .status {
+      margin-top: 10px;
+    }
   }
+
   .word-center {
     flex: 1 1 auto;
     margin-left: 20px;
   }
+
   .word-right {
     flex: 0 1 auto;
-    width: 800px;
+    min-width: 150px;
   }
+
   .definitions {
-
-  }
-  .simplified, .traditional {
-    font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
-    font-size: 38px;
-    text-align: center;
-  }
-  .simplified {
-  }
-  .traditional {
-    font-size: 22px;
   }
 
-  .pinyin {
-    font-size: 22px;
-    text-align: center;
-  }
 }
 
 
@@ -123,7 +166,7 @@ $dark-gray: #333333;
   text-decoration:none;
   color:#fff;
   background:#0394f9;
-  font-family:"Tahoma", Helvetica, sans-serif;
+  font-family: Garamond, serif, Georgia, Times New Roman, Cambria;
   text-align:center;
   font-size:20px;
   line-height:1.2em;
@@ -166,28 +209,28 @@ $dark-gray: #333333;
 
   .word_title {
     //color: $blue;
-    font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-family: Garamond, serif, Georgia, Times New Roman, Cambria;
     font-size: 50pt;
     margin-top: 20px;
   }
 
   .word_pinyin {
     //color: $blue;
-    font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-family: Garamond, serif, Georgia, Times New Roman, Cambria;
     font-size: 26pt;
     margin-top: 20px;
     margin-bottom: 20px;
   }
 
   .word_title_traditional {
-    font-family: Arial, Helvetica, tahoma, verdana, 宋体, SimSun, 华文细黑, STXihei, sans-serif;
+    font-family: Garamond, serif, Georgia, Times New Roman, Cambria;
     font-size: 30pt;
     padding-bottom: 40px;
     color: #444444;
   }
 
   .word_title_pinyin {
-    font-family: "TiemposHeadline-Medium","Tiempos Headline Medium",Georgia,"Times New Roman",Times,serif;
+    font-family: Garamond, serif, Georgia, Times New Roman, Cambria;
     line-height: 60px;
     font-size: 36pt;
     margin-top: 30px;

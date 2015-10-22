@@ -52,10 +52,6 @@ class Sentence::SentenceCell < Cell::Concept
     end
   end
 
-  # Preview
-  class Preview < Sentence::SentenceCell
-  end
-
   # Show
   class Show < Sentence::SentenceCell
   end

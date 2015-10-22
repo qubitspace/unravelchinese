@@ -1,8 +1,3 @@
-###TODO
-# Can probably share views better.
-# Preview and search result can share a view
-  # Instead of using link and highlight methods, just call Simplified/Traditional/Pinyin and each class knows what to do.
-
 class Word::WordCell < Cell::Concept
   include Cell::ManageableCell
 
@@ -86,10 +81,6 @@ class Word::WordCell < Cell::Concept
   class Manage < Word::WordCell
   end
 
-  # Preview
-  class Preview < Word::WordCell
-  end
-
   # Inline
   class Inline < Word::WordCell
   end
@@ -111,13 +102,18 @@ class Word::WordCell < Cell::Concept
       link(model.pinyin)
     end
 
+    def update_status_path status
+      word_update_status_path word_id: id, status: status
+    end
+
   end
 
   # List > Search
   class Search < Word::WordCell::List
 
+    # Default will just show based on the class, so override it to use list.
     def show
-      render :preview_word
+      render :list_word
     end
 
     private
@@ -131,11 +127,11 @@ class Word::WordCell < Cell::Concept
     end
 
     def traditional
-      link(highlight model.traditional)
+      highlight model.traditional
     end
 
     def pinyin
-      link(highlight model.pinyin)
+      highlight model.pinyin
     end
 
     def highlight value
@@ -145,6 +141,7 @@ class Word::WordCell < Cell::Concept
     def update_status_path status
       word_update_status_path word_id: id, status: status, query: query
     end
+
   end
 
 

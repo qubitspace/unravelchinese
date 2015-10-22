@@ -14,18 +14,28 @@
 <div class="content show_word">
   <%= concept("word/word_cell/show", @word, current_user: current_user).call(:show) %>
 
-  <h1>Sub Words</h1>
-  <%= concept("word/word_cell/preview", collection: @sub_words, current_user: current_user ) %>
+  <% unless @sub_words.empty? %>
+    <h1>Sub Words</h1>
+    <%= concept("word/word_cell/list", collection: @sub_words, current_user: current_user ) %>
+  <% end %>
 
-  <h1>Related Words</h1>
-  <%= concept("word/word_cell/preview", collection: @derived_words, current_user: current_user ) %>
+  <% unless @derived_words.empty? %>
+    <h1>Related Words</h1>
+    <%= concept("word/word_cell/list", collection: @derived_words, current_user: current_user ) %>
+  <% end %>
 
-  <h1>Homophones</h1>
-  <%= concept("word/word_cell/preview", collection: @synonyms, current_user: current_user ) %>
+  <% unless @synonyms.empty? %>
+    <h1>Homophones</h1>
+    <%= concept("word/word_cell/list", collection: @synonyms, current_user: current_user ) %>
+  <% end %>
 
-  <h1>Sentences</h1>
-  <%= concept("sentence/sentence_cell/preview", collection: @sentences, current_user: current_user ) %>
+  <% unless @sentences.empty? %>
+    <h1>Sentences</h1>
+    <%= concept("sentence/sentence_cell/list", collection: @sentences, current_user: current_user ) %>
+  <% end %>
 
-  <h1>Articles</h1>
-  <!--%= @articles.count %-->
+  <%# unless @articles.empty? %>
+    <!--h1>Articles</h1-->
+    <%#= @articles.count %>
+  <%# end %>
 </div>

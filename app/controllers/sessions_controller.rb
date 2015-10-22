@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     user = authenticate_session(session_params, email_or_username: [:email, :username])
 
     if sign_in(user)
-      redirect_to(root_path)
+      redirect_to session_redirect_path
     else
       render :new
     end
@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    redirect_to root_path
+    redirect_to session_redirect_path
   end
 
   private

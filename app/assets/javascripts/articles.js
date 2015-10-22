@@ -1,53 +1,56 @@
-var player;
-var currentSection = null;
+var ytPlayer = null;
 
-var selectedSection;
-var timerCheckPlaybackTime;
-var timerLoadPlayer
-var previousSection;
+var previousSection = null;
+var currentSection = null;
+var selectedSection = null;
+
+var timerCheckPlaybackTime = null;
 
 var iframeFloatable = true;
 var videoPlayerPresent = false;
 
 // This function will be called when the API is fully loaded
-function onYouTubePlayerAPIReady() { YTQueue(true);  }
+// I'm also passing this in as the onReady function.
+function onYouTubePlayerAPIReady() {
+  getYTPlayer();
+}
+
+function getYTPlayer() {
+
+  if (!ytPlayer || !ytPlayer.f || !ytPlayer.f.id == 'ytplayer') {
+    ytPlayer = new YT.Player('ytplayer', {
+      events: {
+        'onReady': onYouTubePlayerAPIReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  return ytPlayer;
+}
 
 function onPlayerReady() {
+  getYTPlayer();
 }
 
 function pauseVideo() {
-  player.pauseVideo();
+  player = getYTPlayer();
+  if(player != null) {
+    player.pauseVideo();
+  }
 }
 
 function playVideo() {
-  player.playVideo();
+  player = getYTPlayer();
+  if(player != null) {
+    player.playVideo();
+  }
 }
-
-// Define YTQueue function.
-var YTQueue = (function() {
-    var onReady_funcs = [], api_isReady = false;
-    /* @param func function     Function to execute on ready
-     * @param func Boolean      If true, all qeued functions are executed
-     * @param b_before Boolean  If true, the func will added to the first
-                                 position in the queue*/
-    return function(func, b_before) {
-        if (func === true) {
-            api_isReady = true;
-            while (onReady_funcs.length) {
-                // Removes the first func from the array, and execute func
-                onReady_funcs.shift()();
-            }
-        } else if (typeof func == "function") {
-            if (api_isReady) func();
-            else onReady_funcs[b_before?"unshift":"push"](func);
-        }
-    }
-})();
 
 function bindKeys() {
   $(document).keypress(function( event ) {
-    if (videoPlayerPresent && player) {
-      alert(videoPlayerPresent);
+    player = getYTPlayer();
+    if(player != null) {
       var currentTime = player.getCurrentTime();
       if(!currentSection) {
         currentSection = $('.section').first();
@@ -82,7 +85,8 @@ function bindKeys() {
 }
 
 function startFromSection(sectionId, startTime) {
-  if (videoPlayerPresent && player) {
+  player = getYTPlayer();
+  if(player != null) {
     player.seekTo(startTime);
 
     if (selectedSection) {
@@ -103,6 +107,7 @@ function onPlayerStateChange(event) {
       clearInterval(timerCheckPlaybackTime);
       break;
     case YT.PlayerState.PLAYING:
+      resetCurrentSentence();
       timerCheckPlaybackTime = setInterval(markCurrentSentence, 250);
       break;
     case YT.PlayerState.PAUSED:
@@ -117,9 +122,16 @@ function onPlayerStateChange(event) {
   }
 }
 
+function resetCurrentSentence() {
+  selectedSection.removeClass('active-section');
+  selectedSection = null;
+  previousSection = null;
+  currentSection = null;
+}
 
 function markCurrentSentence() {
-  if (videoPlayerPresent && player) {
+  player = getYTPlayer();
+  if(player != null) {
     playbackTime = player.getCurrentTime();
 
     var keepLooking = true;
@@ -161,9 +173,6 @@ function markCurrentSentence() {
       selectedSection = nextSection;
     }
   }
-  else {
-    alert('no player');
-  }
 }
 
 
@@ -182,21 +191,19 @@ function toggleFloatingIframe() {
 }
 
 function checkScrollLocation() {
-  if (videoPlayerPresent && player) {
-      if ($('#iframe-container') && $('#iframe-container').offset()) {
-        var topOfDiv = $("#iframe-container").offset().top; //gets offset of header
-        var height = $("#iframe-container").outerHeight(); //gets height of header
+  if ($('#iframe-container') && $('#iframe-container').offset()) {
+    var topOfDiv = $("#iframe-container").offset().top; //gets offset of header
+    var height = $("#iframe-container").outerHeight(); //gets height of header
 
-        if($(window).scrollTop() > (topOfDiv + height)) {
-          floatVideo();
-          showControls();
-        }
-        else {
-          pinVideo();
-          hideControls();
-        }
-      }
+    if($(window).scrollTop() > (topOfDiv + height)) {
+      floatVideo();
+      showControls();
     }
+    else {
+      pinVideo();
+      hideControls();
+    }
+  }
 }
 
 function addScrollCheck() {
@@ -260,29 +267,8 @@ function setFloatVideoSize() {
 }
 
 
-function loadYTPlayer() {
-  YTQueue(function() {
-    player = new YT.Player('ytplayer', {
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-    if (player && player.f) {
-      clearInterval(timerLoadPlayer);
-    }
-  });
-}
-
 $(function() {
-  if (document.getElementById('ytplayer')) {
-    videoPlayerPresent = true;
-  }
-  if (videoPlayerPresent)
-  {
-    addScrollCheck();
-    bindKeys();
-    bindWindowResizeFunction();
-    timerLoadPlayer = setInterval(loadYTPlayer, 100);
-  }
+  addScrollCheck();
+  bindKeys();
+  bindWindowResizeFunction();
 });

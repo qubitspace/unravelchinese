@@ -1,7 +1,14 @@
 <div class="word <%= display_type %> <%= status %>" word-id="<%=id%>">
   <div class="word-left">
-    <div class="simplified"><%= simplified %></div>
-    <div class="pinyin"><%= pinyin %></div>
+
+    <div class='simplified'>
+      <%= simplified %>
+    </div>
+
+    <div class='pinyin'>
+      <%= pinyin %>
+    </div>
+
   </div>
 
   <div class="word-center">
@@ -10,11 +17,20 @@
     <% end %>
   </div>
 
-  <div class="links">
-    <div class="status <%= status %>"><%= status %></div>
-    <% status_links.each do |link| %>
-      <div><%= link %></div>
-    <% end %><br>
-    <%= edit_link %> - <%= delete_link %><br/>
+  <div class="word-right">
+    <% if current_user %>
+      <div class="status <%= status %>"><%= status.capitalize %></div>
+
+      <% status_links.each do |link| %>
+        <div><%= link %></div>
+      <% end %>
+      <% if current_user.admin? %>
+        <div>
+          <%= edit_link %> - <%= delete_link %>
+        </div>
+      <% end %>
+    <% else %>
+      <%= link_to "Sign in", new_session_path %>
+    <% end %>
   </div>
 </div>

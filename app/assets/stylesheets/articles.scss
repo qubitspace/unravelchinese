@@ -25,30 +25,6 @@
   }
 }
 
-.meta-content {
-  table {
-    tr {
-      padding: 5px 3px;
-    }
-    tr.known {
-      background-color: #ddffdd;
-    }
-    tr.unknown {
-      background-color: #ffdddd;
-    }
-    tr.learning {
-      background-color: #ffeecc;
-    }
-    tr.watching {
-      background-color: #ffccbb;
-    }
-    td {
-      padding: 3px 0px;
-      &.simplified { font-size: 20px;}
-    }
-  }
-}
-
 .title-row {
   .main-meta-column {
 
