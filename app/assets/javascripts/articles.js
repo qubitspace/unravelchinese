@@ -123,10 +123,16 @@ function onPlayerStateChange(event) {
 }
 
 function resetCurrentSentence() {
-  selectedSection.removeClass('active-section');
-  selectedSection = null;
-  previousSection = null;
-  currentSection = null;
+  if(player != null) {
+    playbackTime = player.getCurrentTime();
+    sentenceStartTime = parseFloat(selectedSection.attr('start-time'));
+    if (playbackTime < sentenceStartTime) {
+      selectedSection.removeClass('active-section');
+      selectedSection = null;
+      previousSection = null;
+      currentSection = null;
+    }
+  }
 }
 
 function markCurrentSentence() {
@@ -152,7 +158,7 @@ function markCurrentSentence() {
       sentenceEndTime = parseFloat(selectedSection.attr('end-time'));
 
       // Sentence hasn't started yet, keep waiting
-      if (sentenceStartTime > playbackTime) {
+      if (sentenceStartTime >= playbackTime) {
         return false;
       }
 
