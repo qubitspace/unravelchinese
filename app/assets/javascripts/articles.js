@@ -1,71 +1,66 @@
-var ytPlayer = null;
+var _ytPlayer = null;
+var _previousSection = null;
+var _currentSection = null;
+var _selectedSection = null;
+var _timerCheckPlaybackTime = null;
+var _iframeFloatable = true;
 
-var previousSection = null;
-var currentSection = null;
-var selectedSection = null;
+var _playerReady = false;
 
-var timerCheckPlaybackTime = null;
 
-var iframeFloatable = true;
-var videoPlayerPresent = false;
-
-// This function will be called when the API is fully loaded
-// I'm also passing this in as the onReady function.
-function onYouTubePlayerAPIReady() {
-  getYTPlayer();
-}
-
-function getYTPlayer() {
-
-  if (!ytPlayer || !ytPlayer.f || !ytPlayer.f.id == 'ytplayer') {
-    ytPlayer = new YT.Player('ytplayer', {
-      events: {
-        'onReady': onYouTubePlayerAPIReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-
-  return ytPlayer;
+//this function is called by the API
+function onYouTubeIframeAPIReady() {
+  _ytPlayer = new YT.Player('ytplayer', {
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
+    }
+  });
 }
 
 function onPlayerReady() {
-  getYTPlayer();
+  _playerReady = true;
 }
 
-function pauseVideo() {
-  player = getYTPlayer();
-  if(player != null) {
-    player.pauseVideo();
-  }
-}
-
-function playVideo() {
-  player = getYTPlayer();
-  if(player != null) {
-    player.playVideo();
+function onPlayerStateChange(event) {
+  switch(event.data) {
+    case YT.PlayerState.ENDED:
+      clearInterval(_timerCheckPlaybackTime);
+      break;
+    case YT.PlayerState.PLAYING:
+      resetCurrentSentence();
+      _timerCheckPlaybackTime = setInterval(markCurrentSentence, 250);
+      break;
+    case YT.PlayerState.PAUSED:
+      clearInterval(_timerCheckPlaybackTime);
+      break;
+    case YT.PlayerState.BUFFERING:
+      clearInterval(_timerCheckPlaybackTime);
+      break;
+    case YT.PlayerState.CUED:
+      clearInterval(_timerCheckPlaybackTime);
+      break;
   }
 }
 
 function bindKeys() {
   $(document).keypress(function( event ) {
-    player = getYTPlayer();
-    if(player != null) {
-      var currentTime = player.getCurrentTime();
-      if(!currentSection) {
-        currentSection = $('.section').first();
+    if( _playerReady ) {
+      var currentTime = _ytPlayer.getCurrentTime();
+      if(!_currentSection) {
+        _currentSection = $('.section').first();
       }
 
       if (event.which == 115) {
-        if (currentSection.hasClass('section')) {
-          sectionId = currentSection.attr('section-id');
+        if (_currentSection.hasClass('section')) {
+          sectionId = _currentSection.attr('section-id');
           $.ajax({
             url: "/sections/" + sectionId + "/set_start_time",
             type: "POST",
             data: { start_time: currentTime }
           });
-          previousSection = currentSection;
-          currentSection = currentSection.next();
+          previousSection = _currentSection;
+          _currentSection = _currentSection.next();
         }
       }
       else if (event.which == 101) {
@@ -76,8 +71,8 @@ function bindKeys() {
             type: "POST",
             data: { end_time: currentTime }
           });
-          previousSection = currentSection;
-          currentSection = currentSection.next();
+          previousSection = _currentSection;
+          _currentSection = _currentSection.next();
         }
       }
     }
@@ -85,77 +80,58 @@ function bindKeys() {
 }
 
 function startFromSection(sectionId, startTime) {
-  player = getYTPlayer();
-  if(player != null) {
-    player.seekTo(startTime);
-
-    if (selectedSection) {
-      selectedSection.removeClass('active-section');
+  if( _playerReady ) {
+    if (_selectedSection) {
+      _selectedSection.removeClass('active-section');
     }
     playedSection = $(".section[section-id='" + sectionId + "']");
     playedSection.addClass('active-section');
-    selectedSection = playedSection;
+    _selectedSection = playedSection;
 
-    player.playVideo();
-  }
-}
-
-
-function onPlayerStateChange(event) {
-  switch(event.data) {
-    case YT.PlayerState.ENDED:
-      clearInterval(timerCheckPlaybackTime);
-      break;
-    case YT.PlayerState.PLAYING:
-      resetCurrentSentence();
-      timerCheckPlaybackTime = setInterval(markCurrentSentence, 250);
-      break;
-    case YT.PlayerState.PAUSED:
-      clearInterval(timerCheckPlaybackTime);
-      break;
-    case YT.PlayerState.BUFFERING:
-      clearInterval(timerCheckPlaybackTime);
-      break;
-    case YT.PlayerState.CUED:
-      clearInterval(timerCheckPlaybackTime);
-      break;
+    _ytPlayer.seekTo(parseFloat(startTime));
+    _ytPlayer.playVideo();
   }
 }
 
 function resetCurrentSentence() {
-  if(player != null) {
-    playbackTime = player.getCurrentTime();
-    sentenceStartTime = parseFloat(selectedSection.attr('start-time'));
+  if ( _playerReady ) {
+    var playbackTime = _ytPlayer.getCurrentTime();
+    sentenceStartTime = parseFloat(_selectedSection.attr('start-time'));
     if (playbackTime < sentenceStartTime) {
-      selectedSection.removeClass('active-section');
-      selectedSection = null;
+      _selectedSection.removeClass('active-section');
+
+      _selectedSection = null;
       previousSection = null;
-      currentSection = null;
+      _currentSection = null;
     }
+  }
+  else {
+    _selectedSection = null;
+    previousSection = null;
+    _currentSection = null;
   }
 }
 
 function markCurrentSentence() {
-  player = getYTPlayer();
-  if(player != null) {
-    playbackTime = player.getCurrentTime();
+  if ( _playerReady ) {
+    var playbackTime = _ytPlayer.getCurrentTime();
 
     var keepLooking = true;
-    if (!selectedSection) {
-      selectedSection = $('.section').first();
+    if (!_selectedSection) {
+      _selectedSection = $('.section').first();
     }
 
     while (keepLooking) {
-      nextSection = selectedSection.next();
+      nextSection = _selectedSection.next();
       // Not a section, reached the end
-      if (!selectedSection.hasClass('section')) {
-        selectedSection = $('.section').first();
+      if (!_selectedSection.hasClass('section')) {
+        _selectedSection = $('.section').first();
         return false;
       }
 
       nextStartTime = parseFloat(nextSection.attr('start-time'));
-      sentenceStartTime = parseFloat(selectedSection.attr('start-time'));
-      sentenceEndTime = parseFloat(selectedSection.attr('end-time'));
+      sentenceStartTime = parseFloat(_selectedSection.attr('start-time'));
+      sentenceEndTime = parseFloat(_selectedSection.attr('end-time'));
 
       // Sentence hasn't started yet, keep waiting
       if (sentenceStartTime >= playbackTime) {
@@ -169,14 +145,14 @@ function markCurrentSentence() {
             && (isNaN(sentenceEndTime) || playbackTime < sentenceEndTime)
             && (isNaN(nextStartTime) || playbackTime < nextStartTime)) {
         keepLooking = false;
-        $(selectedSection).addClass('active-section');
+        $(_selectedSection).addClass('active-section');
         return false;
       }
       else {
-        $(selectedSection).removeClass('active-section');
+        $(_selectedSection).removeClass('active-section');
       }
 
-      selectedSection = nextSection;
+      _selectedSection = nextSection;
     }
   }
 }
@@ -184,13 +160,13 @@ function markCurrentSentence() {
 
 
 function toggleFloatingIframe() {
-  if (iframeFloatable) { // If floatable
+  if (_iframeFloatable) { // If floatable
     // Set not Floatable
     pinVideo();
-    iframeFloatable = false;
+    _iframeFloatable = false;
   }
   else { // Else not floatable
-    iframeFloatable = true;
+    _iframeFloatable = true;
     checkScrollLocation();
   }
 
@@ -237,7 +213,7 @@ function pinVideo() {
 }
 
 function floatVideo() {
-  if (iframeFloatable)
+  if (_iframeFloatable)
   {
     $("#ytplayer").removeClass("iframe-full-size");
     $("#ytplayer").addClass("iframe-float-right");
@@ -258,23 +234,38 @@ function bindWindowResizeFunction() {
 }
 
 function setPinnedVideoSize() {
-  width = $('#iframe-wrapper').width();
+  var width = $('#iframe-wrapper').width();
   $("#ytplayer").width(width);
   $("#ytplayer").height(width*0.5625);
 }
 
 function setFloatVideoSize() {
-  left = $('.left-column').first();
-  main = $('.main-column').first();
-  width = $(window).width() - (left.outerWidth() + main.outerWidth());
+  var left = $('.left-column').first();
+  var main = $('.main-column').first();
+  var width = $(window).width() - (left.outerWidth() + main.outerWidth());
 
   $("#ytplayer").width(width);
   $("#ytplayer").height(width*0.5625);
 }
 
+function addActionToSection(section) {
+  var sectionId = section.attr('section-id');
+  var startTime = section.attr('start-time');
+  section.find('.play-button a').first().click(function() {
+    startFromSection(sectionId, startTime);
+  });
+}
+
+function addStartFromSectionAction() {
+    $('.section.inline').each(function () {
+        addActionToSection($(this));
+    });
+}
 
 $(function() {
   addScrollCheck();
   bindKeys();
   bindWindowResizeFunction();
+  addStartFromSectionAction();
 });
+
