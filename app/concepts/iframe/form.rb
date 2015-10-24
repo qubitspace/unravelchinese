@@ -1,9 +1,9 @@
 class Iframe::Form < Reform::Form
 
-  property :url
   property :title
+  property :youtube_id
 
-  validates :url,
+  validates :youtube_id,
             :title, presence: true
 
 end

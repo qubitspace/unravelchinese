@@ -17,8 +17,9 @@
   <%= link_to 'New Article', show_new_form_articles_path(display_type: :list), remote: true, method: :put %><br>
 <% end %>
 
+<%= link_to 'All', articles_path() %>
 <% Category.all.collect do |category| %>
-  <%= link_to category.name, articles_path(category_id: category.id) %> |
+  | <%= link_to category.name, articles_path(category_id: category.id) %>
 <% end %>
 
 <br/>

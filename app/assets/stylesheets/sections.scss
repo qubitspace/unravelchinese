@@ -68,4 +68,8 @@
 
 .section-float-right {
   float: right;
+  max-width: 50%;
+  img {
+    width: 100%;
+  }
 }

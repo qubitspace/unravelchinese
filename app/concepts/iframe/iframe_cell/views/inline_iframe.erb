@@ -3,9 +3,9 @@
   <div id="iframe-background">
 
     <div id="iframe-wrapper">
-      <iframe id="ytplayer" class="iframe-full-size" src="<%= url %>?enablejsapi=1&amp;theme=light&amp;showinfo=1" frameborder="0" allowFullScreen="allowFullScreen" quality="high" allowScriptAccess="always"></iframe><br/>
+      <div id="ytplayer" class="iframe-full-size" video-id="<%= youtube_id %>" frameborder="0" allowFullScreen="allowFullScreen" quality="high" allowScriptAccess="always"></div>
     </div>
-    <div class="info"><%= link_to title, url %></div>
+    <div class="info"><%= link_to title, "https://www.youtube.com/watch?v=" + youtube_id %></div>
   </div>
 </div>
 

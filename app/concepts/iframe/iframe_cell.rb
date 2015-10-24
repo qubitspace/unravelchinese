@@ -1,7 +1,7 @@
 class Iframe::IframeCell < Cell::Concept
   include Cell::ManageableCell
 
-  property :url
+  property :youtube_id
   property :title
   property :description
   property :created_at
