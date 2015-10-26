@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :learned_words, -> { includes({ word: :definitions }) }#, dependent: :destroy, -> { includes: { word: :definitions } }
   has_many :words, :through => :learned_words
   has_many :translations
+  before_create :confirmation_token
 
   enum role: [:user, :admin]
   after_initialize :set_default_role, :if => :new_record?
@@ -51,6 +52,20 @@ class User < ActiveRecord::Base
     # Break out by different statuses
     # Percent of HSK1-6 known/learning, unknown
     return stats
+  end
+
+  def email_activate
+    self.email_confirmed = true
+    self.confirm_token = nil
+    save!(:validate => false)
+  end
+
+  private
+
+  def confirmation_token
+    if self.confirm_token.blank?
+        self.confirm_token = SecureRandom.urlsafe_base64.to_s
+    end
   end
 end
 

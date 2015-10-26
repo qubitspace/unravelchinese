@@ -12,7 +12,6 @@
     </ul>
   <% end %>
 
-
   <%= nested_form_for model, :remote => true, :html => { :class => "style-me", :action => "javascript:;" } do |f| %>
     <%= f.hidden_field :display_type, value: display_type %>
 
@@ -20,7 +19,7 @@
     <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: "" %><br>
 
     <%= f.label :source %>
-    <%= f.collection_select :source, Source.all, :id, :name, include_blank: "" %><br>
+    <%= f.collection_select :source_id, Source.where(restricted: false, disabled: false), :id, :name, include_blank:  %><br>
 
     <%= f.label :title %>
     <%= f.text_field :title %><br>

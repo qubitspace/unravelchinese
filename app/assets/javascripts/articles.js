@@ -12,8 +12,8 @@ var _pageReady = false;
 
 //this function is called by the API
 function onYouTubeIframeAPIReady() {
-  _youTubeAPIReady = true;
   loadYouTubePlayer();
+  _youTubeAPIReady = true;
 }
 
 var tag = document.createElement('script');
@@ -32,6 +32,7 @@ function loadYouTubePlayer() {
         onStateChange: onPlayerStateChange
       }
     });
+    addStartFromSectionAction();
   }
 }
 
@@ -281,11 +282,10 @@ function addStartFromSectionAction() {
 }
 
 $(function() {
+  _pageReady = true;
   addScrollCheck();
   bindKeys();
   bindWindowResizeFunction();
-  addStartFromSectionAction();
-  _pageReady = true;
   loadYouTubePlayer();
 });
 

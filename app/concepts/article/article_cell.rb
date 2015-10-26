@@ -2,18 +2,14 @@ class Article::ArticleCell < Cell::Concept
   include Cell::ManageableCell
   include Cell::CreatedAt
 
-  property :category_id
+  property :source
+  property :category
 
   property :title
   property :description
   property :iframe
   property :photo
 
-  property :source_id
-  property :source do
-    property :id
-    property :name
-  end
 
   property :sections do
     property :resource

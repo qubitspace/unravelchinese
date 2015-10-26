@@ -8,9 +8,14 @@ class SessionsController < ApplicationController
   def create
     user = authenticate_session(session_params, email_or_username: [:email, :username])
 
-    if sign_in(user)
-      redirect_to session_redirect_path
+    if user.email_confirmed
+      if sign_in(user)
+        redirect_to session_redirect_path
+      else
+        render :new
+      end
     else
+      sign_out
       render :new
     end
   end

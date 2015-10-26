@@ -5,6 +5,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email, null: false
       t.string :username, null: false
       t.string :password_digest, null: false
+      t.boolean :email_confirmed
+      t.string :confirm_token
 
       # Roles
       t.integer :role, null: false

@@ -30,8 +30,10 @@
   <% end %>
 
   <% unless @sentences.empty? %>
-    <h1>Sentences</h1>
-    <%= concept("sentence/sentence_cell/list", collection: @sentences, current_user: current_user ) %>
+    <div class="sentences">
+      <h1>Sentences</h1>
+      <%= concept("sentence/sentence_cell/list", collection: @sentences, current_user: current_user ) %>
+    </div>
   <% end %>
 
   <%# unless @articles.empty? %>

@@ -72,6 +72,7 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'redcarpet'
 
+gem 'figaro'
 # gem 'spring',        group: :development
 # gem 'foundation-rails'
 # gem 'high_voltage'

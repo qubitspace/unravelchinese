@@ -22,13 +22,13 @@ class WordsController < ApplicationController
     @sub_words = Word.order('-hsk_character_level desc')
       .where(simplified: split_word(@word.simplified))
       .select { |word| word != @word }
-      .first(3)
-    @synonyms = Word.where(pinyin: @word.pinyin).first(3)
-    @sentences = Sentence.where(['value LIKE ?', "%#{@word.simplified}%"]).first(3)
+      .first(5)
+    @synonyms = Word.where(pinyin: @word.pinyin).select { |word| word != @word }.first(5)
+    @sentences = Sentence.where(['value LIKE ?', "%#{@word.simplified}%"]).first(5)
     if @sentence.present?
       @articles = @sentences.collect { |sentence| sentence.section.present? and sentence.section.article.present? }
         .uniq{ |article| article.id }
-        .first(3)
+        .first(5)
     end
   end
 

@@ -80,6 +80,7 @@ class Word < ActiveRecord::Base
       normalized_value.scan(normalized_term) do |c|
         matches << $~.offset(0)[0]
       end
+
       matches.reverse.each do |i|
         match = value[i,term.length]
         value[i, term.length] = "<mark>#{match}</mark>"

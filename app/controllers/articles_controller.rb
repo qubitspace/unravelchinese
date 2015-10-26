@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
     @article = get_article params[:id]
     authorize @article
 
-    @form = Comment::Form.new(Comment.new)
+    #@form = Comment::Form.new(Comment.new)
 
     @user_stats = current_user ? current_user.get_stats : {}
     @article_stats = @article.get_stats current_user
@@ -22,56 +22,57 @@ class ArticlesController < ApplicationController
   #  @form = Article::Form.new(new_article)
   #end
 
-  def create
-    authorize Article
+  # def create
+  #   authorize Article
 
-    display_type = params[:article][:display_type]
-    form = Article::Form.new(new_article)
+  #   display_type = params[:article][:display_type]
+  #   form = Article::Form.new(new_article)
 
-    if form.validate(params[:article])
-      form.sync
-      article = form.model
+  #   if form.validate(params[:article])
+  #     form.sync
+  #     article = form.model
 
-      form.save do |f|
-        if f[:article_source].present?
-          article.source = Source.find form[:source]
-        else
-          article.source = nil
-        end
-        article.save
-        render js: concept("article/article_cell/#{display_type}", form.model, current_user: current_user).(:prepend)
-      end
-    else
-      render js: concept("article/article_form_cell", form, current_user: current_user, display_type: display_type).(:show_new_form)
-    end
-  end
+  #     form.save do |f|
+  #       if f[:article_source].present?
+  #         article.source = Source.find form[:source]
+  #       else
+  #         article.source = nil
+  #       end
+  #       article.save
+  #       render js: concept("article/article_cell/#{display_type}", form.model, current_user: current_user).(:prepend)
+  #     end
+  #   else
+  #     render js: concept("article/article_form_cell", form, current_user: current_user, display_type: display_type).(:show_new_form)
+  #   end
+  # end
 
-  def edit
-    authorize Article
-    @form = Article::Form.new(Article.includes(:source).find(params[:id]))
-  end
+  # def edit
+  #   article = Article.find(params[:id])
+  #   authorize article
+  #   @form = Article::Form.new()
+  # end
 
-  def update
-    article = Article.find(params[:id])
-    authorize article
+  # def update
+  #   article = Article.find(params[:id])
+  #   authorize article
 
-    display_type = params[:article][:display_type]
-    form = Article::Form.new(article)
+  #   display_type = params[:article][:display_type]
+  #   form = Article::Form.new(article)
 
-    if form.validate(params[:article])
-      form.sync
-      article = form.model
-      form.save do |f|
-        unless f[:source].empty?
-          article.source = Source.find f[:source]
-        end
-        article.save
-      end
-      render js: concept("article/article_cell/#{display_type}", article, current_user: current_user, display_type: display_type).(:refresh)
-    else
-      render js: concept("article/article_form_cell", form, current_user: current_user, display_type: display_type).(:show_edit_form)
-    end
-  end
+  #   if form.validate(params[:article])
+  #     form.sync
+  #     article = form.model
+  #     form.save do |f|
+  #       #unless f[:source].empty?
+  #       #  article.source = Source.find f[:source_id]
+  #       #end
+  #       article.save
+  #     end
+  #     render js: concept("article/article_cell/#{display_type}", article, current_user: current_user, display_type: display_type).(:refresh)
+  #   else
+  #     render js: concept("article/article_form_cell", form, current_user: current_user, display_type: display_type).(:show_edit_form)
+  #   end
+  # end
 
   def manage
     @article = get_article params[:article_id]

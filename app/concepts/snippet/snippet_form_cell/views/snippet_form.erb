@@ -1,16 +1,19 @@
-<%= nested_form_for model, remote: true do |f| %>
+<div class="snippet <%= display_type %>" snippet-id="<%= id %>">
+  <%= nested_form_for model, remote: true, :html => { :class => "style-me", :action => "javascript:;" } do |f| %>
+    <%= f.hidden_field :display_type, value: display_type %>
 
-  <%= f.fields_for :section do |section_form| %>
-    <%= section_form.hidden_field :article_id %>
+    <%= f.fields_for :section do |section_form| %>
+      <%= section_form.hidden_field :article_id %>
+    <% end %>
+
+    <%= f.label :sentence %>
+    <%= f.text_area :content %><br>
+
+    <%= f.label :render_type %>
+    <%= f.select :render_type, [[ "HTML", 'html' ], ["RedCloth", 'redcloth'], ["Raw", 'raw']] %><br>
+
+    <p><%= f.submit "Submit", class: :submit %></p> <%= cancel_link %>
   <% end %>
+  <%= model.errors.messages unless model.errors.nil? %>
 
-  <%= f.label :sentence %>
-  <%= f.text_area :content %><br>
-
-  <%= f.label :render_type %>
-  <%= f.select :render_type, [[ "HTML", 'html' ], ["RedCloth", 'redcloth'], ["Raw", 'raw']] %><br>
-
-  <p><%= f.submit "Submit" %></p>
-<% end %>
-<%= model.errors.messages unless model.errors.nil? %>
-
+</div>

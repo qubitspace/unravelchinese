@@ -9,6 +9,9 @@
     <%= f.label :link %>
     <%= f.text_field :link %><br>
 
+    <%= f.label :review %>
+    <%= f.collection_select :review_id, Article.includes(:category).where(categories: { name: "Reviews" } ), :id, :title, include_blank: [] %><br>
+
     <%= f.label :disabled %>
     <%= f.check_box :disabled %><br>
 

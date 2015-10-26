@@ -4,7 +4,11 @@ require "monban/constraints/signed_out"
 Rails.application.routes.draw do
 
   resource :session, only: [:new, :create, :destroy]
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create] do
+    member do
+      get :confirm_email
+    end
+  end
 
   constraints Monban::Constraints::SignedIn.new do
     root "home#dashboard", as: 'dashboard'

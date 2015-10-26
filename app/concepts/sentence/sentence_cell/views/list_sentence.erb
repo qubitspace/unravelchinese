@@ -1,5 +1,7 @@
 <div class="sentence <%= display_type %>" sentence-id="<%= id %>">
 
+  From: <%= link_to article.title, article %><br/>
+
   <% tokens.each do |token| %>
     <div style="display:inline-block;">
       <%= concept("word/word_cell/inline", token.word, current_user: current_user).call(:show) %>

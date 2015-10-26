@@ -3,6 +3,7 @@ class Source::SourceCell < Cell::Concept
 
   property :name
   property :link
+  property :review
   property :disabled
   property :restricted
 
