@@ -1,7 +1,16 @@
 <div class="iframe <%= display_type %> scalable scalable-16-9" iframe-id="<%= id %>">
   <h3><%= title %></h3>
-  <iframe width="200" height="113" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe>
+  <div id="iframe-container">
+    <div id="iframe-dummy"></div>
+    <div id="iframe-background">
+
+      <div id="iframe-wrapper">
+        <div id="ytplayer" class="iframe-full-size" video-id="<%= youtube_id %>" frameborder="0" allowFullScreen="allowFullScreen" quality="high" allowScriptAccess="always"></div>
+      </div>
+    </div>
+  </div>
 
   <%= edit_link %> -
   <%= delete_link %>
+
 </div>
