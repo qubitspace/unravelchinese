@@ -1,10 +1,6 @@
-
 <div class="iframe <%= display_type %> scalable scalable-16-9" iframe-id="<%= id %>">
   <h3><%= title %></h3>
-  <div class="scalable-content">
-    <iframe id="ytplayer" type="text/html" src="<%= url %>?enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br/>
-  </div>
-  <td><%= url %></td><br/>
+  <iframe width="200" height="113" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe>
 
   <%= edit_link %> -
   <%= delete_link %>

@@ -31,9 +31,7 @@
   <% end %>
 
   <% if iframe.present? %>
-    <div class="iframe">
-      <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
-    </div>
+    <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
   <% elsif photo.present? %>
     <div class="photo">
       <%= concept("photo/photo_cell/inline", photo, current_user: current_user ) %>

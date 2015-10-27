@@ -1,12 +1,15 @@
-<div id="iframe-container">
-  <div id="iframe-dummy"></div>
-  <div id="iframe-background">
+<div class="iframe <%= display_type %> scalable scalable-16-9" iframe-id="<%= id %>">
+  <div id="iframe-container">
+    <div id="iframe-dummy"></div>
+    <div id="iframe-background">
 
-    <div id="iframe-wrapper">
-      <div id="ytplayer" class="iframe-full-size" video-id="<%= youtube_id %>" frameborder="0" allowFullScreen="allowFullScreen" quality="high" allowScriptAccess="always"></div>
+      <div id="iframe-wrapper">
+        <div id="ytplayer" class="iframe-full-size" video-id="<%= youtube_id %>" frameborder="0" allowFullScreen="allowFullScreen" quality="high" allowScriptAccess="always"></div>
+      </div>
     </div>
-    <div class="info"><%= link_to title, "https://www.youtube.com/watch?v=" + youtube_id %></div>
   </div>
+  <div class="info"><%= link_to title, "https://www.youtube.com/watch?v=" + youtube_id %></div>
+
 </div>
 
 

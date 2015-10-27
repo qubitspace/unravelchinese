@@ -1,6 +1,7 @@
 class Source::SourceCell < Cell::Concept
   include Cell::ManageableCell
 
+  property :review
   property :name
   property :link
   property :review
@@ -19,6 +20,10 @@ class Source::SourceCell < Cell::Concept
 
   # Inline
   class Inline < Source::SourceCell
+  end
+
+  # Inline
+  class Show < Source::SourceCell
   end
 
 end

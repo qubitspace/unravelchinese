@@ -281,7 +281,7 @@ function addStartFromSectionAction() {
     });
 }
 
-$(function() {
+$(window).load(function(){
   _pageReady = true;
   addScrollCheck();
   bindKeys();
