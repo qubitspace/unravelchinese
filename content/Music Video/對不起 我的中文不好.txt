@@ -1,29 +1,40 @@
-﻿Hello 美国人 美国人 你好
-Hello, American, American, hello.
-你好 我是英国人
-Hello, I'm an English.
-Ah, 你英国人
-Ah, your English.
-对不起 我的中文不好
+﻿Hello　美国人　美国人　你好
+Hello American.
+你好　我是英国人
+Hello, I am British.
+哦　你英国人哦　不好意思　不好意思　我分不出来
+Oh, you're British, sorry, I didn't recognize the accent.
 我要睡觉
 I wan't to sleep.
-你很累吗 你要睡觉
-Your tired? You want to sleep?
-
-我想要吃水饺
-
+你很累吗
+Your tired?
+你要睡觉
+You want to sleep?
+累　累　要吃睡觉
+(Not) tired (not) tired, I want to eat sleep.
+要吃水饺　哎呦　我们这边就是卖水饺的呐
+Oh you want to eat dumplings, I am selling dumplings.
+对不起　我的中文不好
 Sorry, my Chinese is not so good.
-对不起 对不起
+中文不好会闹笑话的
+Your poor Chinese will make a lot of jokes.
+马上帮你要
+I will make the dumpling immediately.
+谢谢　谢谢
+Thank you.
+对不起　我的中文不好
+Sorry, my Chinese is not so good.
+对不起　对不起
 Really sorry.
 我不知道你说什么
 I don't understand what you're saying.
-对不起 我的中文不好
+对不起　我的中文不好
 Sorry, my Chinese is not so good.
-对不起 对不起
+对不起　对不起
 Really sorry.
 我只想跟你当朋友
 I just want to be friends.
-Hello 你好吗
+Hello　你好吗
 Hello, how are you?
 你的英文好好听
 Your English sounds great.
@@ -33,67 +44,69 @@ Are you America?
 No I'm definetly not American.
 我是一位英国绅士
 I'm an Enlglish gentleman.
-如果你专心听 你会瞭解我
+如果你专心听　你会瞭解我
 Listen carefully and you'll understand me.
-对不起 我的中文不好
+对不起　我的中文不好
 Sorry, my Chinese is not so good.
-对不起 对不起
+对不起　对不起
 Really sorry.
 我不知道你说什么
 I don't understand what you're saying.
-对不起 我的中文不好
+对不起　我的中文不好
 Sorry, my Chinese is not so good.
-对不起 对不起
+对不起　对不起
 Really sorry.
 我只想跟你当朋友
 I just want to be friends.
-欢迎光临 里面坐
+欢迎光临　里面坐
 Welcome to my restaurant.
-先生 你要吃什么
+先生　你要吃什么
 What would you like to eat?
 我要睡觉
-I want to eat sleep.
+I wan't to sleep.
 你很累是不是
 Oh really, are you very tired?
-我不累 我肚子很饿
+我不累　我肚子很饿
 No I'm not tired I'm really hungry.
 我想要吃水饺
 I want to eat dumplings.
 请你快点做
 Please make them quickly.
-对不起 我的中文不好
+对不起　我的中文不好
 Sorry, my Chinese is not so good.
-对不起 对不起
+对不起　对不起
 Really sorry.
 我不知道你说什么
 I don't understand what you're saying.
-对不起 我的中文不好
+对不起　我的中文不好
 Sorry, my Chinese is not so good.
-对不起 对不起
+对不起　对不起
 Really sorry.
 我只想跟你当朋友
 I just want to be friends.
-没关系 我的中文进步了
+没关系　我的中文进步了
 No problem, my Chinese has now improved.
-没关系 没关系
+没关系　没关系
 No problem at all.
 我还要跟你当朋友
 I still want to be your friend.
-没关系 我的中文进步了
+没关系　我的中文进步了
 No problem, my Chinese has now improved.
-没关系 没关系
+没关系　没关系
 No problem at all.
 我还要跟你当朋友
 I still want to be your friend.
-没关系 我的中文进步了 (一点点)
-No problem, my Chinese has now improved (a little bit.)
-没关系 没关系
+没关系　我的中文进步了
+No problem, my Chinese has now improved.
+(一点点)
+(A little.)
+没关系　没关系
 No problem at all.
 我还要跟你当朋友
 I still want to be your friend.
-没关系 我的中文进步了
+没关系　我的中文进步了
 No problem, my Chinese has now improved.
-没关系 没关系
+没关系　没关系
 No problem at all.
 我还要跟你当朋友
 I still want to be your friend.

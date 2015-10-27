@@ -73,6 +73,7 @@ gem 'remotipart'
 gem 'redcarpet'
 
 gem 'figaro'
+gem 'jquery-turbolinks'
 # gem 'spring',        group: :development
 # gem 'foundation-rails'
 # gem 'high_voltage'

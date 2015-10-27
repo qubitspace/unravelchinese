@@ -270,9 +270,11 @@ function setFloatVideoSize() {
 function addActionToSection(section) {
   var sectionId = section.attr('section-id');
   var startTime = section.attr('start-time');
-  section.find('.play-button a').first().click(function() {
+  var link = section.find('.play-button a').first();
+  link.click(function() {
     startFromSection(sectionId, startTime);
   });
+  link.show();
 }
 
 function addStartFromSectionAction() {

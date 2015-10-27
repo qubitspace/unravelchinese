@@ -5,6 +5,7 @@
     font-size: 24px;
     a {
       text-decoration: none;
+      display: none;
     }
   }
   &.active-section {
@@ -37,7 +38,6 @@
 }
 
 .section.inline {
-
   .section-title {
     font-weight: bold;
     font-size: 20px;
