@@ -20,15 +20,15 @@
   <%= delete_all_sections_link %><br/><br/>
 
   <%= link_to 'Import Sentences', article_show_import_form_path(model, display_type: :list), remote: true, method: :put %><br/>
-  <%#= link_to 'Export Sentences', export_sentences_article_path(model, display_type: :list), remote: true, method: :get %><br/>
+  <%#= link_to 'Export Sentences', export_sentences_article_path(model, display_type: :list), remote: true, method: :get %><!--br/-->
 
+  <a href="javascript:startRecordingTimes();">Start Record</a><br/>
+  <a href="javascript:stopRecordingTimes();">Stop Record</a><br/>
   <div id="import-sentences">
   </div>
 
   <div id="sections">
-    <%# sections.each do |section| %>
-      <%= concept("section/section_cell/manage", collection: sections, current_user: current_user) %>
-    <%# end %>
+    <%= concept("section/section_cell/manage", collection: sections, current_user: current_user) %>
   </div>
 
 </div>
