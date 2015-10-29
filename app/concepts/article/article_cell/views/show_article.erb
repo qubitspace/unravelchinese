@@ -32,10 +32,10 @@
 
   <% if iframe.present? %>
     <%= concept("iframe/iframe_cell/inline", iframe, current_user: current_user ) %>
-  <% elsif photo.present? %>
-    <div class="photo">
-      <%= concept("photo/photo_cell/inline", photo, current_user: current_user ) %>
-    </div>
+  <%# elsif photo.present? %>
+    <!--div class="photo"-->
+      <%#= concept("photo/photo_cell/inline", photo, current_user: current_user ) %>
+    <!--/div-->
   <% end %>
 
   <div class="sections">

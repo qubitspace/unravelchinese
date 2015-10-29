@@ -1,8 +1,17 @@
+$red: #C7272A;
+
 .article.show {
     .title {
       font-family: FranklinITCProBold, HelveticaNeue, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
       font-size: 40px;
       line-height: 50px;
+    }
+
+    .photo {
+      width: 100%;
+      img {
+      width: 100%;
+      height: auto;}
     }
 }
 
@@ -13,10 +22,64 @@
 }
 
 .article.list {
-  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #aaa;
+  min-height: 120px;
+
   .title {
     font-size: 14pt;
   }
+
+  .thumbnail {
+    float: left;
+    height: 120px;
+    width: 213px;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-align: center;
+    vertical-align: middle;
+    img {
+      max-height: 100%;
+      max-width: 100%;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .category {
+    padding-top: 20px;
+    font-size: 12px;
+    font-family: proxima-nova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    a {
+      color: $red;
+    }
+    a:hover { text-decoration: none; }
+
+  }
+  .title {
+    padding-top: 10px;
+    font-family: jubilat, Georgia, Times, 'Times New Roman', serif;
+    font-size: 26px;
+    a {
+      color: #000;
+    }
+    a:hover { text-decoration: none; }
+  }
+
+  .description {
+    padding-top: 5px;
+    color: #666;
+    font-size: 18px;
+    font-family: medium-content-serif-font, Georgia, Cambria, 'Times New Roman', Times, serif;
+  }
+
+  &.unpublished {
+    background-color: #fef0f0;
+  }
+
+  .admin-menu { float: right; }
+
 }
 
 .article {
