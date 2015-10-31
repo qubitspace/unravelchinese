@@ -30,10 +30,10 @@ $dark-gray: #333333;
   .bottom {  font-size: 26px; line-height: 25px; }
   &.known .bottom.learnable { display: none; }
 
-  &.unknown .bottom.learnable { display: block; }
+  &.unknown .bottom.learnable { display: block; font-size: 20px; }
   &.learning .bottom.learnable { display: block; font-size: 20px; visibility: hidden; }
 
-  &.watching .bottom.learnable { display: block; font-weight: bold; }
+  &.watching .bottom.learnable { display: block; font-size: 20px; font-weight: bold; }
 
   &.known .mark_word_known { display: none; }
   &.known .mark_word_unknown { display: block; }
@@ -131,7 +131,7 @@ $known-background-color: #BAD6BB;
       font-size: 20px; color: $dark-gray;
       mark {
         font-weight: bold;
-        background-color: #FFFFFF;
+        background-color: $red;
       }
     }
     .status {
