@@ -2,7 +2,7 @@ $red: #C7272A;
 $blue: #052866;
 $black: #000000;
 $light-gray: #999999;
-$dark-gray: #333333;
+$dark-gray: #333;
 
 
 .word.inline {
@@ -16,36 +16,98 @@ $dark-gray: #333333;
   font-family: serif, Georgia, Times New Roman, Cambria;
   cursor: pointer;
 
-  &.punctuation { margin-right: 0px; }
-  .top { color: $red; line-height: 30px;  }
-  .top .punctuation { letter-spacing: 0px; padding-right: 0px; margin-right: 0px; }
-  &.known .top { font-size: 24px; }
-  .bottom { font-size: 20px; color: $dark-gray;  }
+  &.alphanumeric { font-size: 20px; }
 
-  &.unknown .top { font-size: 22px; }
+  .unknown {
+    .mark_word_unknown { display: none; }
+    .mark_word_watching { display: block; }
+    .mark_word_learning { display: block; }
+    .mark_word_known { display: block; }
+  }
 
-  &.learning .top { font-size: 26px; font-weight: bold; }
-  &.watching .top { font-size: 22px; }
+  .watching {
+    .mark_word_unknown { display: block; }
+    .mark_word_watching { display: none; }
+    .mark_word_learning { display: block; }
+    .mark_word_known { display: block; }
+  }
 
-  .bottom {  font-size: 26px; line-height: 25px; }
-  &.known .bottom.learnable { display: none; }
+  .learning {
+    .mark_word_unknown { display: block; }
+    .mark_word_watching { display: block; }
+    .mark_word_learning { display: none; }
+    .mark_word_known { display: block; }
+  }
 
-  &.unknown .bottom.learnable { display: block; }
-  &.learning .bottom.learnable { display: block; font-size: 20px; visibility: hidden; }
+  .known {
+    .mark_word_unknown { display: block; }
+    .mark_word_watching { display: block; }
+    .mark_word_learning { display: block; }
+    .mark_word_known { display: none; }
+  }
 
-  &.watching .bottom.learnable { display: block; font-weight: bold; }
+  .top {
+    color: $red; line-height: 26px;
+    &.learning { font-weight: bold; }
+  }
+  .bottom {
+    color: $dark-gray;
+    &.watching { font-weight: bold; }
+  }
 
-  &.known .mark_word_known { display: none; }
-  &.known .mark_word_unknown { display: block; }
+  .known.bottom { display: none; }
+  .learning.bottom { display: none; }
 
-  &.unknown .mark_word_known { display: block; }
-  &.unknown .mark_word_unknown { display: none; }
+  .known, .learning {
+    &.top { font-size: 24px; }
+    &.bottom { font-size: 16px; }
+  }
 
-  &.learning .mark_word_known { display: none; }
-  &.learning .mark_word_unknown { display: block; }
+  .watching, .unknown {
+    &.top { font-size: 22px; }
+    &.bottom { font-size: 24px; }
+  }
 
-  &.watching .mark_word_known { display: none; }
-  &.watching .mark_word_unknown { display: block; }
+  .not-logged-in {
+    &.top { font-size: 24px; }
+    &.bottom { font-size: 16px; }
+  }
+
+  &.punctuation { cursor: default; }
+
+  // &.punctuation { margin-right: 0px; }
+  // .top { color: $red; line-height: 30px;  }
+  // .top .punctuation { letter-spacing: 0px; padding-right: 0px; margin-right: 0px; }
+
+  // .bottom { font-size: 20px; color: $dark-gray;  }
+
+  // &.unknown .top { font-size: 22px; }
+
+  // &.learning .top { font-size: 26px; font-weight: bold; }
+  // &.watching .top { font-size: 22px; }
+
+  // //.bottom {  font-size: 26px; line-height: 25px; }
+
+
+  // &.unknown .bottom.learnable { display: block; }
+  // &.learning .bottom.learnable { display: block; font-size: 20px; visibility: hidden; }
+
+  // &.watching .bottom.learnable { display: block; font-weight: bold; }
+
+  // &.known .mark_word_known { display: none; }
+  // &.known .mark_word_unknown { display: block; }
+
+  // &.unknown .mark_word_known { display: block; }
+  // &.unknown .mark_word_unknown { display: none; }
+
+  // &.learning .mark_word_known { display: none; }
+  // &.learning .mark_word_unknown { display: block; }
+
+  // &.watching .mark_word_known { display: none; }
+  // &.watching .mark_word_unknown { display: block; }
+
+  // &.not-logged-in .top { }
+  // &.not-logged_in .bottom { }
 
   .section_label {
     margin-top: 10px;

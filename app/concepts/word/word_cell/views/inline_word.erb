@@ -1,28 +1,49 @@
 <div class="word <%= display_type %> <%= status %> <%= category %>" word-id="<%=id%>">
-    <% if status == 'known' || category == 'punctuation' %>
-      <span class='top learnable'>
+  <% if current_user.present? %>
+    <% if status == 'known' or status == 'learning' %>
+      <span class='top <%= status %>'>
         <%= simplified %><br/>
       </span>
-      <span class='bottom learnable'>
+      <span class='bottom <%= status %>'>
         <%= pinyin %>
       </span>
-    <% elsif status == 'learning' %>
-      <span class='top learnable'>
-        <%= simplified %><br/>
+    <% elsif status == 'watching' or status == 'unknown' %>
+      <span class='top <%= status %>'>
+        <%= pinyin %><br/>
       </span>
-
-      <span class='bottom learnable'>
-        <%= pinyin %>
-      </span>
-    <% elsif status == 'watching' %>
-      <span class='top learnable'>
-        <%= pinyin %>
-      </span>
-
-      <span class='bottom learnable'>
-        <%= simplified %><br/>
+      <span class='bottom <%= status %>'>
+        <%= simplified %>
       </span>
     <% else %>
+      <span class='top <%= status %>'>
+        <%= simplified %><br/>
+      </span>
+    <% end %>
+    <!--
+    <%# if status == 'known' || category == 'punctuation' %>
+      <span class='top learnable'>
+        <%= simplified %><br/>
+      </span>
+      <span class='bottom learnable'>
+        <%= pinyin %>
+      </span>
+    <%# elsif status == 'learning' %>
+      <span class='top learnable'>
+        <%= simplified %><br/>
+      </span>
+
+      <span class='bottom learnable'>
+        <%= pinyin %>
+      </span>
+    <%# elsif status == 'watching' %>
+      <span class='top learnable'>
+        <%= pinyin %>
+      </span>
+
+      <span class='bottom learnable'>
+        <%= simplified %><br/>
+      </span>
+    <%# else %>
       <span class='top learnable'>
         <%= pinyin %><br/>
       </span>
@@ -30,7 +51,18 @@
       <span class='bottom learnable'>
         <%= simplified %>
       </span>
-    <% end %>
+    <%# end %> -->
+  <% else %>
+    <%# This is what non-logged in users see %>
+    <span class='top not-logged-in <%= category %>'>
+      <%= simplified %><br/>
+    </span>
+
+    <span class='bottom not-logged-in <%= category %>'>
+      <%= pinyin %>
+    </span>
+  <% end %>
+
 
   <% if category == "chinese" %>
     <div class="tooltip" word-id="<%= id %>">

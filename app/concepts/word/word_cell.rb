@@ -37,10 +37,8 @@ class Word::WordCell < Cell::Concept
   private
 
   def status
-
-
     if ['alphanumeric','punctuation'].include? model.category
-      status = 'known'
+      status = ''
     elsif !current_user.present?
       return 'unknown'
     else
