@@ -1,17 +1,20 @@
-function addWordTooltip(word) {
-    word.qtip({
+function addWordTooltip(top) {
+    var word = top.parent();
+    top.qtip({
         content: word.find('.tooltip'),
         show: {
-            event: 'click',
+            event: 'mouseover',
             solo: true,
+            delay: 100,
             effect: function() {
                 $(this).fadeTo(200, 1);
                 //pauseVideo();
             }
         },
         hide: {
-            event: 'unfocus',
+            event: 'mouseout',
             fixed: true,
+            delay: 200,
             effect: function() {
                 //playVideo();
             }
@@ -33,7 +36,7 @@ function addWordTooltip(word) {
 
 function addWordTooltips()
 {
-    $('.word.inline.chinese').each(function () {
+    $('.word.inline.chinese .top').each(function () {
         addWordTooltip($(this));
     });
 }

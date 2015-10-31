@@ -14,9 +14,25 @@ $dark-gray: #333;
   margin-right: 2px;
   height: 60px;
   font-family: serif, Georgia, Times New Roman, Cambria;
-  cursor: pointer;
 
   &.alphanumeric { font-size: 20px; }
+
+  &.known, &.learning, &.watching, &.unknown {
+    .top:hover { background-color: #F0F0C2; }
+    .top {
+      cursor: pointer;
+    }
+  }
+
+  .top {
+    color: $red; line-height: 26px;
+    &.learning { font-weight: bold; }
+  }
+
+  .bottom {
+    color: $dark-gray;
+    &.watching { font-weight: bold; }
+  }
 
   .unknown {
     .mark_word_unknown { display: none; }
@@ -44,15 +60,6 @@ $dark-gray: #333;
     .mark_word_watching { display: block; }
     .mark_word_learning { display: block; }
     .mark_word_known { display: none; }
-  }
-
-  .top {
-    color: $red; line-height: 26px;
-    &.learning { font-weight: bold; }
-  }
-  .bottom {
-    color: $dark-gray;
-    &.watching { font-weight: bold; }
   }
 
   .known.bottom { display: none; }
