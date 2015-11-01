@@ -68,11 +68,11 @@
     <div class="tooltip" word-id="<%= id %>">
       <div class="close_tooltip close_button">&#10006;</div>
 
-      <span class='top'>
+      <span class='simplified'>
         <%= link_to simplified, word_path(model), :target => "_blank" %>
       </span><br>
 
-      <span class='bottom'>
+      <span class='pinyin'>
         <%= pinyin %>
       </span>
 
@@ -86,8 +86,12 @@
         </strong>
       </div>
 
-      <% status_links.each do |link| %>
-        <div class="link"><%= link %></div>
+      <% if !status_links.empty? %>
+        <hr>
+
+        <% status_links.each do |link| %>
+          <div class="link"><%= link %></div>
+        <% end %>
       <% end %>
 
     </div>

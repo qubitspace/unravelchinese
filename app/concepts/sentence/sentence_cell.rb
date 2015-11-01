@@ -15,7 +15,6 @@ class Sentence::SentenceCell < Cell::Concept
 
   private
 
-
   def article
     section.article
   end
@@ -72,7 +71,7 @@ class Sentence::SentenceCell < Cell::Concept
     end
 
     def candidate_tokens
-      @options[:candidate_tokens]
+      @options[:candidate_tokens] || []
     end
 
     def show_tokenize_cell
@@ -90,6 +89,7 @@ class Sentence::SentenceCell < Cell::Concept
         });
       }
     end
+
 
   end
 end

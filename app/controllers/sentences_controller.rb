@@ -22,10 +22,12 @@ class SentencesController < ApplicationController
 
     if form.validate(params[:sentence])
       form.save
-      sentence.reload
+      sentence.tokens.delete_all
 
       if display_type == "tokenize'"
-        candidate_tokens = get_candidate_tokens sentence.untokenized
+        sentence.reload
+        sentence.setup_tokenizer
+        candidate_tokens = get_candidate_tokens(sentence.untokenized) || []
         render js: concept("sentence/sentence_cell/tokenize", sentence,
           current_user: current_user,
           display_type: 'tokenize',
@@ -154,7 +156,7 @@ class SentencesController < ApplicationController
     matches = []
     return matches unless untokenized.present?
 
-    potential_matches = untokenized.empty? ? [] : Word.includes(:definitions).where("simplified LIKE :prefix", prefix: "#{untokenized[0]}%")
+    potential_matches = (untokenized.nil? or untokenized.empty?) ? [] : Word.includes(:definitions).where("simplified LIKE :prefix", prefix: "#{untokenized[0]}%")
     potential_matches.each do |word|
       matches << word if word.simplified == untokenized[0...word.simplified.length]
     end

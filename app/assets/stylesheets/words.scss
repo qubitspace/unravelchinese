@@ -67,12 +67,11 @@ $dark-gray: #333;
 
   .known, .learning {
     &.top { font-size: 24px; }
-    &.bottom { font-size: 16px; }
   }
 
   .watching, .unknown {
     &.top { font-size: 22px; }
-    &.bottom { font-size: 24px; }
+    &.bottom { font-size: 22px; }
   }
 
   .not-logged-in {
@@ -80,7 +79,10 @@ $dark-gray: #333;
     &.bottom { font-size: 16px; }
   }
 
-  &.punctuation { cursor: default; }
+  &.punctuation {
+    cursor: default;
+    font-size: 22px;
+  }
 
   // &.punctuation { margin-right: 0px; }
   // .top { color: $red; line-height: 30px;  }
@@ -253,12 +255,12 @@ $known-background-color: #BAD6BB;
 
 .tooltip {
   display: none;
-  .top {
+  .simplified {
     font-size: 40px; text-align: center; line-height: 45px;
     a { text-decoration: none; color: $red; }
     a:hover, a:active { border-bottom: 2px solid $red;  }
   }
-  .bottom { font-size: 30px; text-align: center; line-height: 40px; color: #000; }
+  .pinyin { font-size: 30px; text-align: center; line-height: 40px; color: #000; }
 }
 
 .show_word {
@@ -344,7 +346,7 @@ $known-background-color: #BAD6BB;
 
   &.punctuation { margin-right: 0px; }
   .top { color: $red; font-size: 26px; }
-  .bottom { font-size: 26px; color: #666;  }
+  .bottom { font-size: 22px; color: #666;  }
 
   .section_label {
     margin-top: 20px;

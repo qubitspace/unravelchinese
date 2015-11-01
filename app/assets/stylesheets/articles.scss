@@ -83,33 +83,36 @@ $red: #C7272A;
 }
 
 .article {
+
+  .source {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+  }
+
+  .tags {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .tag {
+      font-family: 'Open Sans', sans-serif;
+      display: inline;
+      font-size: 16px;
+    }
+  }
+
+  .description {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .translation-link {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
   .sections {
 
-  }
-}
-
-.title-row {
-  .main-meta-column {
-
-
-    .tags {
-      margin-top: 10px;
-      .tag {
-        font-family: 'Open Sans', sans-serif;
-        display: inline;
-        font-size: 16px;
-      }
-    }
-
-    .source {
-      margin-top: 10px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 18px;
-    }
-
-    .description {
-      margin-top: 10px;
-    }
   }
 }
 
