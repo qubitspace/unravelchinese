@@ -12,7 +12,7 @@
 
     <%= concept("word/word_cell/inline", collection: tokens.collect { |t| t.word }, current_user: current_user) %>
 
-    <% if !untokenized.empty? %>
+    <% if untokenized.present? and !untokenized.empty? %>
       <div class="untokenized"><%= untokenized %></div>
     <% end %>
     <br/>

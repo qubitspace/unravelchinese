@@ -11,35 +11,22 @@
 
 
 .translations {
-  display: none;
-  border-radius: 5px;
-  margin: 15px 5px;
-  padding: 10px;
-  border: 1px solid #533;
-
   .translation {
-    padding-top: 10px;
-  }
-  .translation:not(:last-child) {
-    overflow:auto;
-    border-bottom: 1px solid #533;
-    padding-bottom: 10px;
-    .votes {
-      float: right;
-    }
+    //padding-top: 10px;
+    //padding-bottom: 10px;
     .translation-attribution {
       float: right;
     }
   }
 
-  .translation:last-child {
-    border-bottom: 0px;
+  .translation:not(:last-child) {
+    overflow:auto;
+    border-bottom: 1px solid #533;
+    margin-bottom: 10px;
   }
 
-  .translation.tokenize {
-    border: 1px solid #533;
-    border-radius: 2px;
-    margin: 10px 5px;
-    padding: 5px;
+  .translation:last-child {
+    margin-bottom: 0px;
   }
+
 }

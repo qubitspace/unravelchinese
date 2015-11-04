@@ -1,22 +1,22 @@
 function addWordTooltip(top) {
   var word = top.parent();
   top.qtip({
-    content: word.find('.tooltip'),
+    content: word.find('.word-tooltip'),
     show: {
       event: 'mouseover',
       solo: true,
       delay: 100,
       effect: function() {
         $(this).fadeTo(200, 1);
-        //pauseVideo();
+        pauseVideoIfPlaying();
       }
     },
     hide: {
       event: 'mouseout',
       fixed: true,
-      delay: 200,
+      delay: 300,
       effect: function() {
-        //playVideo();
+        playVideoIfPlaying();
       }
     },
     style: {
@@ -41,32 +41,6 @@ function addWordTooltips()
   });
 }
 
-function addLearningMouseover(word) {
-  // word.mouseover(function() {
-  //   $(this).find(".bottom").css('visibility', 'visible');
-  // });
-  // word.mouseout(function() {
-  //   $(this).find(".bottom").css('visibility', 'hidden');
-  // });
-}
-
-// function addLearningMouseovers() {
-//   $('.word.learning').each(function () {
-//     addLearningMouseover($(this));
-//   });
-// }
-
-function closeTooltip() {
-  $('div.qtip:visible').hide();
-  //playVideo();
-}
-
-function addCloseWordTooltipActions() {
-  $('.close_tooltip').click(function() {
-    closeTooltip();
-  });
-}
-
 $(document).keyup(function(e) {
   if (e.keyCode == 27) {
     closeTooltip();
@@ -82,8 +56,6 @@ $(document).keyup(function(e) {
 var ready;
 ready = function() {
   addWordTooltips();
-  //addLearningMouseovers();
-  addCloseWordTooltipActions();
 };
 
 $(document).ready(ready);

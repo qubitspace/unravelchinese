@@ -11,15 +11,21 @@
   </script>
 <% end %>
 
-<h1>Words</h1>
-
-<%= form_tag [:words], method: 'get' do %>
-  <p>
-    <%= text_field_tag :query, params[:query] %>
-    <%= submit_tag "Search", :name => nil %><br><br>
-    <%= check_box_tag :exact_match, 1, params[:exact_match] %> <em>Exact Match (Accents and Tones)</em><br><br>
-    <em>Pinyin with tone numbers at the end will be converted to tone marks (ex: zhong1 wen4 for zhōngwén)</em>
+<% if current_user && current_user.admin? %>
+  <%= link_to 'New Word', show_new_form_words_path(display_type: :list), remote: true, method: :put %>
 <% end %>
 
-</p>
-<%= concept("word/word_cell/search", collection: @results, current_user: current_user, query: params[:query] ) %>
+<div class="words">
+  <h1>Words</h1>
+
+  <%= form_tag [:words], method: 'get' do %>
+    <p>
+      <%= text_field_tag :query, params[:query] %>
+      <%= submit_tag "Search", :name => nil %><br><br>
+      <%= check_box_tag :exact_match, 1, params[:exact_match] %> <em>Exact Match (Accents and Tones)</em><br><br>
+      <em>Pinyin with tone numbers at the end will be converted to tone marks (ex: zhong1 wen4 for zhōngwén)</em>
+  <% end %>
+
+  </p>
+  <%= concept("word/word_cell/search", collection: @results, current_user: current_user, query: params[:query] ) %>
+</div>

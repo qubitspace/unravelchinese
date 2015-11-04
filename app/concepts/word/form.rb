@@ -1,6 +1,6 @@
 class Word::Form < Reform::Form
 
-  property :type, validates: { presence: true }
+  property :category, validates: { presence: true }
   property :simplified, validates: { presence: true }
   property :traditional, validates: { presence: true }
   property :pinyin, validates: { presence: true }

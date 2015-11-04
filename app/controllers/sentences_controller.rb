@@ -44,20 +44,18 @@ class SentencesController < ApplicationController
     authorize Sentence
     display_type = params[:display_type]
 
-
     if display_type != 'tokenize'
       super
     else
 
       sentence = Sentence.find(params[:sentence_id])
       sentence.setup_tokenizer
-      candidate_tokens = get_candidate_tokens sentence.untokenized
+      candidate_tokens = get_candidate_tokens(sentence.untokenized) || []
 
-      sentence = Sentence.find(params[:sentence_id])
-        render js: concept("sentence/sentence_cell/tokenize", sentence,
-          current_user: current_user,
-          display_type: 'tokenize',
-          candidate_tokens: candidate_tokens).(:refresh)
+      render js: concept("sentence/sentence_cell/tokenize", sentence,
+        current_user: current_user,
+        display_type: 'tokenize',
+        candidate_tokens: candidate_tokens).(:refresh)
     end
   end
 
@@ -156,13 +154,13 @@ class SentencesController < ApplicationController
     matches = []
     return matches unless untokenized.present?
 
-    potential_matches = (untokenized.nil? or untokenized.empty?) ? [] : Word.includes(:definitions).where("simplified LIKE :prefix", prefix: "#{untokenized[0]}%")
+    potential_matches = (untokenized.nil? or untokenized.empty?) ? [] : Word.includes(:definitions).where("simplified LIKE :prefix and category = 3", prefix: "#{untokenized[0]}%")
     potential_matches.each do |word|
       matches << word if word.simplified == untokenized[0...word.simplified.length]
     end
     if matches.empty?
       if untokenized[/^([a-zA-Z0-9_.-]*)/,1].length > 0
-        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[/^([a-zA-Z0-9_.-]*)/,1], category: :alphanumeric
+        word = Word.includes(:definitions).find_or_create_by simplified: untokenized[/^([\sa-zA-Z0-9_.,-]*)/,1], category: :alphanumeric
       else
         word = Word.includes(:definitions).find_or_create_by simplified: untokenized[0], category: :alphanumeric
       end

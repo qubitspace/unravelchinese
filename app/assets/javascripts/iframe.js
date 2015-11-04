@@ -6,6 +6,7 @@ var _timerCheckPlaybackTime = null;
 var _iframeFloatable = true;
 
 var _playerReady = false;
+var _playing = false;
 
 var _youTubeAPIReady = false;
 var _pageReady = false;
@@ -103,14 +104,29 @@ function bindKeys() {
   });
 }
 
+function playVideoIfPlaying() {
+  if (_playing && _playerReady ) {
+    _ytPlayer.playVideo();
+  }
+}
+
 function playVideo() {
   if( _playerReady ) {
+    _playing = true;
+    _ytPlayer.playVideo();
+  }
+}
+
+
+function pauseVideoIfPlaying() {
+  if (_playing && _playerReady ) {
     _ytPlayer.playVideo();
   }
 }
 
 function pauseVideo() {
   if( _playerReady ) {
+    _playing = false;
     _ytPlayer.pauseVideo();
   }
 }
@@ -141,7 +157,7 @@ function startFromSection(sectionId, startTime) {
     _selectedSection = playedSection;
 
     _ytPlayer.seekTo(parseFloat(startTime));
-    _ytPlayer.playVideo();
+    playVideo();
   }
 }
 

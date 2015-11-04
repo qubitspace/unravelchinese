@@ -19,39 +19,6 @@
         <%= simplified %><br/>
       </span>
     <% end %>
-    <!--
-    <%# if status == 'known' || category == 'punctuation' %>
-      <span class='top learnable'>
-        <%= simplified %><br/>
-      </span>
-      <span class='bottom learnable'>
-        <%= pinyin %>
-      </span>
-    <%# elsif status == 'learning' %>
-      <span class='top learnable'>
-        <%= simplified %><br/>
-      </span>
-
-      <span class='bottom learnable'>
-        <%= pinyin %>
-      </span>
-    <%# elsif status == 'watching' %>
-      <span class='top learnable'>
-        <%= pinyin %>
-      </span>
-
-      <span class='bottom learnable'>
-        <%= simplified %><br/>
-      </span>
-    <%# else %>
-      <span class='top learnable'>
-        <%= pinyin %><br/>
-      </span>
-
-      <span class='bottom learnable'>
-        <%= simplified %>
-      </span>
-    <%# end %> -->
   <% else %>
     <%# This is what non-logged in users see %>
     <span class='top not-logged-in <%= category %>'>
@@ -65,8 +32,8 @@
 
 
   <% if category == "chinese" %>
-    <div class="tooltip" word-id="<%= id %>">
-      <div class="close_tooltip close_button">&#10006;</div>
+    <div class="word-tooltip" word-id="<%= id %>">
+      <div class="close-tooltip close-button">&#10006;</div>
 
       <span class='simplified'>
         <%= link_to simplified, word_path(model), :target => "_blank" %>

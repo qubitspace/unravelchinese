@@ -3,6 +3,17 @@
   <%= nested_form_for model, :remote => true, :html => { :multipart => true, :class => "style-me" } do |f| %>
     <%= f.hidden_field :display_type, value: display_type %>
 
+
+    <%= f.label :category %>
+    <%= f.select :category, [
+      ['Uncategorized', :uncategorized],
+      ['Punctuation', :punctuation],
+      ['Chinese', :chinese],
+      ['Character', :character],
+      ['Radical', :radical]
+    ]
+    %><br>
+
     <%= f.label :simplified %>
     <%= f.text_field :simplified %><br>
 

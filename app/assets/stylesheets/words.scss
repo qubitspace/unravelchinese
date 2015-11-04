@@ -192,6 +192,12 @@ $known-background-color: #BAD6BB;
     text-align: center;
     flex: 0 1 auto;
 
+    mark {
+      font-weight: bold;
+      background-color: #FBFFA6;
+      //color: $red;
+    }
+
     .simplified {
       font-size: 30px; text-align: center; line-height: 40px;
       a { text-decoration: none; color: $red; }
@@ -200,10 +206,6 @@ $known-background-color: #BAD6BB;
 
     .pinyin {
       font-size: 20px; color: $dark-gray;
-      mark {
-        font-weight: bold;
-        background-color: $red;
-      }
     }
     .status {
       margin-top: 10px;
@@ -226,7 +228,7 @@ $known-background-color: #BAD6BB;
 }
 
 
-.close_button {
+.close-button {
   margin-top: -11px;
   margin-right: -13px;
   float: right;
@@ -253,7 +255,7 @@ $known-background-color: #BAD6BB;
   cursor:pointer;
 }
 
-.tooltip {
+.word-tooltip {
   display: none;
   .simplified {
     font-size: 40px; text-align: center; line-height: 45px;

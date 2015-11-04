@@ -6,20 +6,34 @@
     </div>
   <% end %>
 
-  <div class="toggle_translations">
-    <div class="toggle_translations_button_wrapper">
-      <%# The stupid assets are not playing nice :( %>
-      <%#= image_tag("translate.jpg", class: 'toggle_translations_button') %>
-      <img class="toggle_translations_button" src="/assets/translate.jpg" alt="Translate">
+
+  <% if !translations.empty? %>
+    <div class="toggle-translations">
+      <%# Icon %>
+      <div class="toggle-translations-button-wrapper">
+        <img class="toggle-translations-button" src="/assets/translate.jpg" alt="Translate">
+      </div>
+
+      <%# Tooltip %>
+      <div class="sentence-tooltip" sentence-id="<%= id %>">
+        <div class="close-tooltip close-button">&#10006;</div>
+
+        <div class="translations">
+          <% translations.each do |translation| %>
+              <div class="translation">
+                <%= raw translation.value %><br/>
+                <div class="translation-attribution">
+                  <% if translation.user.present? %> - <i><%= translation.user.id %></i>
+                  <% elsif translation.source.present? %> - <i><%= translation.source.name %></i>
+                  <% end %>
+                </div>
+              </div>
+          <% end %>
+        </div>
+
+      </div>
     </div>
-  </div>
-
-</div>
-
-<div class="translations">
-  <div class="close_translation_tooltip">&#10006;</div>
-  <% translations.each do |translation| %>
-    <%= raw translation.value %><br/>
-    <% if translation.user.present? %> - <i><%= translation.user.id %></i><% end %><br>
   <% end %>
+
+
 </div>

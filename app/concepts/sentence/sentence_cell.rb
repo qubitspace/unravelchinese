@@ -90,6 +90,5 @@ class Sentence::SentenceCell < Cell::Concept
       }
     end
 
-
   end
 end

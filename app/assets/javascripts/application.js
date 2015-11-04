@@ -19,3 +19,24 @@
 //= require_tree .
 // require turbolinks
 
+
+function closeTooltip() {
+  $('div.qtip:visible').hide();
+  playVideoIfPlaying();
+}
+
+
+function addCloseTooltipActions() {
+  $('.close-tooltip').click(function() {
+    closeTooltip();
+  });
+}
+
+
+var appReady;
+appReady = function() {
+  addCloseTooltipActions();
+};
+
+$(document).ready(appReady);
+$(document).on('page:load', appReady);

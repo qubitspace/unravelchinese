@@ -121,15 +121,15 @@ class Word::WordCell < Cell::Concept
     end
 
     def simplified
-      highlight model.simplified, true
+      link(highlight model.simplified, true)
     end
 
     def traditional
-      highlight model.traditional
+      link(highlight model.traditional)
     end
 
     def pinyin
-      highlight model.pinyin, @options[:match_accents]
+      link(highlight model.pinyin, @options[:match_accents])
     end
 
     def highlight value, match_accents = false

@@ -1,3 +1,9 @@
+$red: #C7272A;
+$blue: #052866;
+$black: #000000;
+$light-gray: #999999;
+$dark-gray: #333;
+
 .sentence.manage, .sentence.tokenize {
   .menu {
     float: right;
@@ -21,6 +27,13 @@
 
 .sentence_values {
   margin-top: 20px;
+}
+
+.sentence-tooltip {
+  display: none;
+  font-size: 18px;
+  color: #000;
+  font-family:"Tahoma", Helvetica, sans-serif;
 }
 
 blockquote {
@@ -83,7 +96,7 @@ blockquote {
   }
 }
 
-.toggle_translations_button {
+.toggle-translations-button {
   margin-top: 8px;
   margin-right: 10px;
   width: 12px;
@@ -95,12 +108,12 @@ blockquote {
   }
 }
 
-.toggle_translations {
+.toggle-translations {
   display: inline-block;
   margin-right: 5px;
 }
 
-.toggle_translations_button_wrapper {
+.toggle-translations-button-wrapper {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -110,7 +123,7 @@ blockquote {
   height: 60px;
 }
 
-.close_translation_tooltip {
+.close-translation-tooltip {
   margin-top: -11px;
   margin-right: -13px;
   float: right;

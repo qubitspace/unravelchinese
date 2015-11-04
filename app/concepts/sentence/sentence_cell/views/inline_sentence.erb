@@ -1,5 +1,4 @@
-
-<div class="sentence">
+<div class="sentence <%= display_type %>" sentence-id="<%=id%>">
 
   <!--a id="copy-sentence-text" style="cursor:pointer;" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter", "<%= j value %>");'>.</a>-->
 
@@ -10,27 +9,51 @@
     </div>
   <% end %>
 
-  <div class="toggle_translations">
-    <div class="toggle_translations_button_wrapper">
-      <img class="toggle_translations_button" src="/assets/translate.jpg" alt="Translate">
+
+  <% if !translations.empty? %>
+    <div class="toggle-translations">
+      <%# Icon %>
+      <div class="toggle-translations-button-wrapper">
+        <img class="toggle-translations-button" src="/assets/translate.jpg" alt="Translate">
+      </div>
+
+      <%# Tooltip %>
+      <div class="sentence-tooltip" sentence-id="<%= id %>">
+        <div class="close-tooltip close-button">&#10006;</div>
+
+        <div class="translations">
+          <% translations.each do |translation| %>
+              <div class="translation">
+                <%= raw translation.value %><br/>
+                <div class="translation-attribution">
+                  <% if translation.user.present? %> - <i><%= translation.user.id %></i>
+                  <% elsif translation.source.present? %> - <i><%= translation.source.name %></i>
+                  <% end %>
+                </div>
+              </div>
+          <% end %>
+        </div>
+
+      </div>
     </div>
-  </div>
+  <% end %>
 
 </div>
 
-<div class="translations">
+
+<!--div class="translations">
   <div class="close_translation_tooltip">&#10006;</div>
-  <% translations.each do |translation| %>
+  <%# translations.each do |translation| %>
 
     <div class="translation">
-      <%= raw translation.value %><br/>
+      <%#= raw translation.value %><br/>
       <div class="translation-attribution">
-        <% if translation.user.present? %> - <i><%= translation.user.id %></i>
-        <% elsif translation.source.present? %> - <i><%= translation.source.name %></i>
-        <% end %>
+        <%# if translation.user.present? %> - <i><%#= translation.user.id %></i>
+        <%# elsif translation.source.present? %> - <i><%#= translation.source.name %></i>
+        <%# end %>
       </div>
     </div>
 
-  <% end %>
-</div>
+  <%# end %>
+</div-->
 
