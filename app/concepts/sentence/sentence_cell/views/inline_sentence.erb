@@ -19,9 +19,9 @@
 
       <%# Tooltip %>
       <div class="sentence-tooltip" sentence-id="<%= id %>">
-        <div class="close-tooltip close-button">&#10006;</div>
-
+        <!--div class="close-tooltip close-button">&#10006;</div-->
         <div class="translations">
+          <div class="title">Translations</div>
           <% translations.each do |translation| %>
               <div class="translation">
                 <%= raw translation.value %><br/>

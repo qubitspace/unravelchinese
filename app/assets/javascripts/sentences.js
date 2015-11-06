@@ -30,24 +30,24 @@ function addSentenceTooltip(toggleIcon) {
       solo: true,
       delay: 100,
       effect: function() {
-        $(this).fadeTo(200, 1);
-        pauseVideoIfPlaying();
+        $(this).fadeTo(0, 1);
+        //onOpenTooltip();
       }
     },
     hide: {
       event: 'mouseout',
       fixed: true,
-      delay: 300,
+      delay: 150,
       effect: function() {
-        playVideoIfPlaying();
+        //onCloseTooltip();
       }
     },
     style: {
       classes: "qtip-bootstrap"
     },
     position: {
-      my: 'bottom center',
-      at: 'top center',
+      my: 'top center',
+      at: 'bottom center',
       viewport: $(window),
       adjust: {
         method: 'shift flip'

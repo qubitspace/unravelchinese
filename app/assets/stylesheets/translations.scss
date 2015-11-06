@@ -11,22 +11,31 @@
 
 
 .translations {
+
+  .title {
+    font-weight: bold;
+    font-size: 12px;
+    font-family: proxima-nova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
   .translation {
+    font-size: 12pt;
+    padding: 10px;
     //padding-top: 10px;
     //padding-bottom: 10px;
     .translation-attribution {
-      float: right;
+      width: 100%;
+      text-align: right;
     }
   }
 
   .translation:not(:last-child) {
-    overflow:auto;
-    border-bottom: 1px solid #533;
-    margin-bottom: 10px;
+    //overflow:auto;
+    border-bottom: 1px solid #aaa;
+    //margin-bottom: 10px;
   }
 
   .translation:last-child {
-    margin-bottom: 0px;
+    //margin-bottom: 0px;
   }
 
 }

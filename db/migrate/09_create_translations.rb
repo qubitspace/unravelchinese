@@ -10,6 +10,7 @@ class CreateTranslations < ActiveRecord::Migration
     end
 
     add_foreign_key :translations, :users
+    add_foreign_key :translations, :sources
     add_foreign_key :translations, :sentences
   end
 end

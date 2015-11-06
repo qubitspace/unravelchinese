@@ -6,7 +6,7 @@ var _timerCheckPlaybackTime = null;
 var _iframeFloatable = true;
 
 var _playerReady = false;
-var _playing = false;
+var _tooltipState = "closed";
 
 var _youTubeAPIReady = false;
 var _pageReady = false;
@@ -28,6 +28,7 @@ function loadYouTubePlayer() {
 
     _ytPlayer = new YT.Player('ytplayer', {
       videoId: videoId,
+      playerVars: { rel: 0, controls: 2, showinfo: 0, modestbranding: 1, disablekb: 0 },
       events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange
@@ -36,7 +37,114 @@ function loadYouTubePlayer() {
     addStartFromSectionAction();
   }
 }
+var _playTime = Date.now();
 
+// "closed", "pausing", "open"
+function onOpenTooltip() {
+  if( _playerReady ) {
+    var playerState = _ytPlayer.getPlayerState();
+    var timeSincePlay = Date.now() - _playTime;
+    var videoPlaying = playerState == 3 || playerState == 1 || timeSincePlay < 200;
+    // Tooltip closed and player is stoped then pause it and set state to paused
+    if( videoPlaying ) {
+      _tooltipState = "pausing";
+      _ytPlayer.pauseVideo();
+    }
+    else if ( _tooltipState == "pausing" ) {
+      _tooltipState = "pausing";
+    }
+    else {
+      _tooltipState = "open"
+    }
+  }
+}
+
+function onCloseTooltip() {
+  if( _playerReady ) {
+    var playerState = _ytPlayer.getPlayerState();
+    var videoPlaying = playerState == 3 || playerState == 1;
+    if( _tooltipState == "pausing" ) {
+      _ytPlayer.playVideo();
+      _playTime = Date.now();
+    }
+    _tooltipState = "closed";
+  }
+}
+
+function playPause() {
+  if( _playerReady ) {
+    var playerState = _ytPlayer.getPlayerState();
+    var videoPlaying = playerState == 3 || playerState == 1;
+    if (videoPlaying) {
+      pauseVideo();
+    }
+    else {
+      playVideo();
+    }
+  }
+}
+
+function goToNextSection() {
+  if( _playerReady ) {
+    if (_selectedSection) {
+      nextSection = _selectedSection.next();
+      // Not a section, reached the end
+      if (nextSection.hasClass('section')) {
+        _selectedSection.removeClass('active-section');
+        _selectedSection = nextSection;
+        _selectedSection.addClass('active-section');
+      }
+    }
+    else {
+      _selectedSection = $('.section').first();
+    }
+  }
+  startTime = parseFloat(_selectedSection.attr('start-time'));
+  _ytPlayer.seekTo(parseFloat(startTime));
+}
+
+function goToPreviousSection() {
+  if( _playerReady ) {
+    if (_selectedSection) {
+      prevSection = _selectedSection.prev();
+      // Not a section, reached the end
+      if (prevSection.hasClass('section')) {
+        _selectedSection.removeClass('active-section');
+        _selectedSection = prevSection;
+        _selectedSection.addClass('active-section');
+      }
+    }
+    else {
+      _selectedSection = $('.section').first();
+    }
+    startTime = parseFloat(_selectedSection.attr('start-time'));
+    _ytPlayer.seekTo(parseFloat(startTime));
+  }
+}
+
+function replaySection() {
+  if( _playerReady ) {
+    if (_selectedSection) {
+      startTime = parseFloat(_selectedSection.attr('start-time'));
+      _ytPlayer.seekTo(parseFloat(startTime));
+    }
+    playVideo();
+  }
+}
+
+function playVideo() {
+  if( _playerReady ) {
+    _playing = true;
+    _ytPlayer.playVideo();
+  }
+}
+
+function pauseVideo() {
+  if( _playerReady ) {
+    _playing = false;
+    _ytPlayer.pauseVideo();
+  }
+}
 
 function onPlayerReady() {
   _playerReady = true;
@@ -102,33 +210,6 @@ function bindKeys() {
       }
     }
   });
-}
-
-function playVideoIfPlaying() {
-  if (_playing && _playerReady ) {
-    _ytPlayer.playVideo();
-  }
-}
-
-function playVideo() {
-  if( _playerReady ) {
-    _playing = true;
-    _ytPlayer.playVideo();
-  }
-}
-
-
-function pauseVideoIfPlaying() {
-  if (_playing && _playerReady ) {
-    _ytPlayer.playVideo();
-  }
-}
-
-function pauseVideo() {
-  if( _playerReady ) {
-    _playing = false;
-    _ytPlayer.pauseVideo();
-  }
 }
 
 function startRecordingTimes(sectionId) {
@@ -247,12 +328,27 @@ function checkScrollLocation() {
 
     if($(window).scrollTop() > (topOfDiv + height)) {
       floatVideo();
-      showControls();
+      //showControls();
     }
     else {
       pinVideo();
-      hideControls();
+      //hideControls();
     }
+
+
+    var controls = $("#iframe-controls");
+    if($(window).scrollTop() < 100) {
+      controls.css({
+        position: 'absolute',
+        top: 100
+      });
+    }
+    else {
+       controls.css({
+        position: 'fixed',
+        top: 0
+      });
+     }
   }
 }
 
@@ -262,14 +358,17 @@ function addScrollCheck() {
   });
 }
 
+function checkControlPosition() {
 
-function hideControls() {
-  $("#iframe-controls").hide();
 }
 
-function showControls() {
-  $("#iframe-controls").show();
-}
+// function hideControls() {
+//   $("#iframe-controls").hide();
+// }
+
+// function showControls() {
+//   $("#iframe-controls").show();
+// }
 
 
 function pinVideo() {

@@ -5,6 +5,8 @@ class Sentence::SentenceCell < Cell::Concept
   property :sort_order
   property :untokenized
 
+  property :user
+  property :source
   property :section
   property :words
   property :translations

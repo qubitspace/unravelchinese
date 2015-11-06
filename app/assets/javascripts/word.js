@@ -7,16 +7,16 @@ function addWordTooltip(top) {
       solo: true,
       delay: 100,
       effect: function() {
-        $(this).fadeTo(200, 1);
-        pauseVideoIfPlaying();
+        $(this).fadeTo(0, 1);
+        //onOpenTooltip();
       }
     },
     hide: {
       event: 'mouseout',
       fixed: true,
-      delay: 300,
+      delay: 150,
       effect: function() {
-        playVideoIfPlaying();
+        //onCloseTooltip();
       }
     },
     style: {
@@ -41,21 +41,28 @@ function addWordTooltips()
   });
 }
 
-$(document).keyup(function(e) {
-  if (e.keyCode == 27) {
-    closeTooltip();
-  }
-  else if (e.keyCode == 37) {
-    closeTooltip();
-  }
-  else if (e.keyCode == 39) {
-    closeTooltip();
-  }
-});
 
 var ready;
 ready = function() {
   addWordTooltips();
+
+  $(document).keyup(function(e) {
+    var keyCode = (window.event) ? e.which : e.keyCode;
+
+    if (keyCode == 68) { // 'd'
+      goToPreviousSection();
+    }
+    else if (keyCode == 70) { // 'f'
+      goToNextSection();
+    }
+    else if (keyCode == 83) { // 's'
+      playPause();
+    }
+    else if (keyCode == 82) { // 'r'
+      replaySection();
+    }
+
+  });
 };
 
 $(document).ready(ready);
