@@ -22,13 +22,9 @@ class Word::WordCell < Cell::Concept
         $(this).replaceWith('#{j(show)}');
       });
 
-      $('.word[word-id=#{id}]').each(function () {
+      $('.word[word-id=#{id}] .top').each(function () {
         addWordTooltip($(this));
-        addCloseWordTooltipActions(); // TODO: This should only be applied to the new word id.
-        if ('#{status}' == 'learning')
-        {
-          addLearningMouseover($(this));
-        }
+
         $(this).addClass("flash");
       });
     }
