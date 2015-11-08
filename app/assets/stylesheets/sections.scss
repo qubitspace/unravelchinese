@@ -45,8 +45,13 @@
 }
 
 .end-paragraph:after {
-    content: '\A\A\A';
-    white-space: pre;
+  content: "";
+  display: block;
+  height: 30px;
+  margin-bottom: 30px;
+  //border-bottom: 40px solid #fcfcfc;
+  //content: "\00a0";
+  //border-bottom: 5px solid black;
 }
 
 // .end-paragraph {

@@ -46,23 +46,24 @@ var ready;
 ready = function() {
   addWordTooltips();
 
-  $(document).keyup(function(e) {
-    var keyCode = (window.event) ? e.which : e.keyCode;
+  if (window.location.pathname.match(/\/articles\/\d+$/)) {
+    $(document).keyup(function(e) {
+      var keyCode = (window.event) ? e.which : e.keyCode;
 
-    if (keyCode == 68) { // 'd'
-      goToPreviousSection();
-    }
-    else if (keyCode == 70) { // 'f'
-      goToNextSection();
-    }
-    else if (keyCode == 83) { // 's'
-      playPause();
-    }
-    else if (keyCode == 82) { // 'r'
-      replaySection();
-    }
-
-  });
+      if (keyCode == 68) { // 'd'
+        goToPreviousSection();
+      }
+      else if (keyCode == 70) { // 'f'
+        goToNextSection();
+      }
+      else if (keyCode == 83) { // 's'
+        playPause();
+      }
+      else if (keyCode == 82) { // 'r'
+        replaySection();
+      }
+    });
+  }
 };
 
 $(document).ready(ready);
